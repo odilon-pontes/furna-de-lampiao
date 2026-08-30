@@ -1,0 +1,111 @@
+@startuml SystemClassDiagram
+
+class Pessoa {
+    - nome: String
+    - cpf: String
+    - dataNasc: LocalDate
+    - email: String
+    - telefone: String
+    - situacaoAtiva: boolean
+    - endereco: Endereco
+}
+
+class Endereco {
+    - logradouro: String
+    - numero: int
+    - complemento: String
+    - bairro: String
+    - cidade: String
+    - uf: Enum
+    - cep: String
+}
+
+class Pesquisador {
+    - numRegistroInstitucional: int
+    - areaPrincipalPesquisa: String
+    - titulacao: Enum
+    - valorDiarioBolsa: float
+
+}
+
+class GuiaEspeleologico {
+    - numCredenciamento: int
+    - nivelCetificacao: Enum
+    - dataValidadeCertificacao: LocalDate
+    - qtdExpedicoesConcluidas: int
+}
+
+class Caverna {
+    - nomeOficial: String
+    - codCadastroAmbiental: String
+    - municipio: String
+    - uf: Enum
+    - coordenadas: Localizacao
+    - altitude: String
+    - extensao: String
+    - dataUltimaInspecao: LocalDate
+    - indicacaoAcessAtualmentePermitido: String
+    'implicito?
+    - setor: Setor 
+}
+
+class Localizacao {
+    - latitude: String
+    - longitude: String
+    - datumGeodesico: String
+}
+
+class Setor {
+    - denominacao: String
+    - nivelEstimadoDificuldade: Enum
+    - profundidadeMaxima: float
+    - extensaoAproximada: String
+    - descricao: String
+    - riscoInundacao: float
+    - condicaoCorrente: Enum
+}
+
+class Expedicao {
+    - id: String
+    - titulo: String
+    - objetivo: String
+    - dataHoraInicio: TimeStamp
+    - dataHoraTermino: TimeStamp
+    - orcamentoAprovado: boolean
+    - custoRealizado: float
+    - qtdMaxParticipantes: int
+    - situacao: Enum
+    - indicacaoCancelamentoEmergencial: String
+    'implicito?
+    - caverna: Caverna
+    - planoSeguranca: PlanoSeguranca
+    - autorizacaoAmbiental: AutorizacaoAmbiental
+}
+
+class PlanoSeguranca {
+    - ProcedimentosEvacuacao: List<String>
+    - pontoExternoEncontro: Localizacao
+    - tempoMaxSemComunicacao: int
+    - telefoneEmergencia: String
+    - NecessidadeEquipeMedica: String
+    - mapaRota: byte[]
+}
+
+class AutorizacaoAmbiental {
+    - num: int
+    - orgaoEmissor: String
+    - datasEmissao: List<LocalDate>
+    - validade: LocalDate
+    - situacao: Enum
+    - observacoes: String
+    - ArquivoPDFAssinado: byte[]
+}
+
+Pessoa <|-- Pesquisador
+Pessoa <|-- GuiaEspeleologico
+
+Caverna "1" -- "1..*" Setor
+Caverna "1" -- "0..*" Expedicao
+Setor "0..*" -- "0..*" Expedicao
+
+@enduml
