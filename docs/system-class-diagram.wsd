@@ -10,7 +10,7 @@ class Pessoa {
     - endereco: Endereco
 }
 
-class Endereco {
+class Endereco <<Embeddable>> {
     - logradouro: String
     - numero: int
     - complemento: String
@@ -24,7 +24,7 @@ class Pesquisador {
     - numRegistroInstitucional: int
     - areaPrincipalPesquisa: String
     - titulacao: Enum
-    - valorDiarioBolsa: float
+    - valorDiarioBolsa: BigDecimal
 
 }
 
@@ -36,9 +36,10 @@ class GuiaEspeleologico {
 }
 
 class Participacao {
-    - papel: String
+    - id: Long
+    - papel: Enum   
     - dataConfirmacao: LocalDate
-    - valorDiaria: float
+    - valorDiaria: BigDecimal
     - qtdPrevistaDias: int
     - PresencaConfirmada: boolean
     - observacoes: String
@@ -50,17 +51,15 @@ class Caverna {
     - municipio: String
     - uf: Enum
     - coordenadas: Localizacao
-    - altitude: String
-    - extensao: String
+    - altitude: BigDecimal
+    - extensao: BigDecimal
     - dataUltimaInspecao: LocalDate
-    - indicacaoAcessAtualmentePermitido: String
-    'implicito?
-    - setor: Setor 
+    - acessoAtualmentePermitido: boolean
 }
 
-class Localizacao {
-    - latitude: String
-    - longitude: String
+class Localizacao <<Embeddable>> {
+    - latitude: BigDecimal
+    - longitude: BigDecimal
     - datumGeodesico: String
 }
 
@@ -68,35 +67,31 @@ class Setor {
     - denominacao: String
     - nivelEstimadoDificuldade: Enum
     - profundidadeMaxima: float
-    - extensaoAproximada: String
+    - extensaoAproximada: BigDecimal
     - descricao: String
     - riscoInundacao: float
     - condicaoCorrente: Enum
 }
 
 class Expedicao {
-    - id: String
+    - id: Long
     - titulo: String
     - objetivo: String
     - dataHoraInicio: TimeStamp
     - dataHoraTermino: TimeStamp
     - orcamentoAprovado: boolean
-    - custoRealizado: float
+    - custoRealizado: BigDecimal
     - qtdMaxParticipantes: int
     - situacao: Enum
-    - indicacaoCancelamentoEmergencial: String
-    'implicito?
-    - caverna: Caverna
-    - planoSeguranca: PlanoSeguranca
-    - autorizacaoAmbiental: AutorizacaoAmbiental
+    - cancelamentoEmergencial: boolean
 }
 
 class PlanoSeguranca {
-    - ProcedimentosEvacuacao: List<String>
+    - procedimentosEvacuacao: List<String>
     - pontoExternoEncontro: Localizacao
     - tempoMaxSemComunicacao: int
     - telefoneEmergencia: String
-    - NecessidadeEquipeMedica: String
+    - NecessidadeEquipeMedica: boolean
     - mapaRota: byte[]
 }
 
@@ -115,11 +110,11 @@ class Equipamento {
     - nome: String
     - tipo: Enum
     - fabricante: String
-    - valorAquisicao: float
+    - valorAquisicao: BigDecimal
     - dataCompra: LocalDate
     - dataUltimaManutencao: LocalDate
     - situacaoOperacional: Enum
-    - IndicacaoCalibracao: float
+    - IndicacaoCalibracao: boolean
 }
 
 class Movimentacao {
@@ -129,10 +124,11 @@ class Movimentacao {
     - dataDevolucao: LocalDate 
     - estadoSaida: Enum
     - estadoRetorno: Enum
-    - custoAvaria: float
+    - custoAvaria: BigDecimal
 }
 
 class ColetaCientifica {
+    - id: Long
     - setor: Setor
     - pesquisadorResponsavel: Pesquisador
     - dataHora: LocalDateTime
@@ -146,13 +142,14 @@ class ColetaCientifica {
 }
 
 class Amostra {
-    - id: int
+    - id: Long
+    - codCampo: String
     - categoria: Enum
     - volume: float
     - unidadeMedida: Enum
     - dataAcondicionamento: LocalDate
     - condicaoConservacao: Enum
-    - indicacaoMaterialPerigoso: float
+    - indicacaoMaterialPerigoso: boolean
     - fotografia: byte[]
     - observacoes: String
 }
@@ -169,21 +166,21 @@ class Relatorio {
 
 Pessoa <|-- Pesquisador
 Pessoa <|-- GuiaEspeleologico
-Pessoa -- Endereco
+Pessoa "1" *-- "1" Endereco
 
 Pessoa "1" -- "0..*" Participacao
 Expedicao "1" -- "0..*" Participacao
-Caverna "1" -- "1..*" Setor
+Caverna "1" -- "0..*" Setor
 Caverna "1" -- "0..*" Expedicao
-Setor "0..*" -- "0..*" Expedicao
-Expedicao "1" -- "1" AutorizacaoAmbiental
+Setor "0..*" -- "1" Expedicao
+Expedicao "1" -- "0..1" AutorizacaoAmbiental
 Pessoa "1" -- "0..*" Movimentacao
 Movimentacao "0..*" -- "1" Equipamento
 Movimentacao "0..*" -- "1" Expedicao
 Expedicao "1" -- "0..*" ColetaCientifica
 ColetaCientifica "1" -- "1..*" Amostra
-Expedicao -- Relatorio
-Caverna "1..*" -- "1" Localizacao
-Expedicao "1..*" -- "1" PlanoSeguranca
+Expedicao "1" -- "0..1" Relatorio
+Caverna "1" *-- "1" Localizacao
+Expedicao "1" -- "1" PlanoSeguranca
 
 @enduml
