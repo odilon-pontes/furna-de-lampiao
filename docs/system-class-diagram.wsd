@@ -35,6 +35,15 @@ class GuiaEspeleologico {
     - qtdExpedicoesConcluidas: int
 }
 
+class Participacao {
+    - papel: String
+    - dataConfirmacao: LocalDate
+    - valorDiaria: float
+    - qtdPrevistaDias: int
+    - PresencaConfirmada: boolean
+    - observacoes: String
+}
+
 class Caverna {
     - nomeOficial: String
     - codCadastroAmbiental: String
@@ -101,11 +110,80 @@ class AutorizacaoAmbiental {
     - ArquivoPDFAssinado: byte[]
 }
 
+class Equipamento {
+    - codPatrimonial: String
+    - nome: String
+    - tipo: Enum
+    - fabricante: String
+    - valorAquisicao: float
+    - dataCompra: LocalDate
+    - dataUltimaManutencao: LocalDate
+    - situacaoOperacional: Enum
+    - IndicacaoCalibracao: float
+}
+
+class Movimentacao {
+    - responsavelRetirada: Pessoa
+    - datahoraRetirada: LocalDateTime
+    - previsao: LocalDate
+    - dataDevolucao: LocalDate 
+    - estadoSaida: Enum
+    - estadoRetorno: Enum
+    - custoAvaria: float
+}
+
+class ColetaCientifica {
+    - setor: Setor
+    - pesquisadorResponsavel: Pesquisador
+    - dataHora: LocalDateTime
+    - metodoEmpregado: Enum
+    - descricaoPonto: String
+    - temperatura: float
+    - umidadeRelativa: float
+    - profundidade: float
+    - observacoes: String
+    - situacaoValidacao: Enum
+}
+
+class Amostra {
+    - id: int
+    - categoria: Enum
+    - volume: float
+    - unidadeMedida: Enum
+    - dataAcondicionamento: LocalDate
+    - condicaoConservacao: Enum
+    - indicacaoMaterialPerigoso: float
+    - fotografia: byte[]
+    - observacoes: String
+}
+
+class Relatorio {
+    - titulo: String
+    - resumo: String
+    - dataSubmissao: LocalDate
+    - numPaginas: int
+    - situacaoAprovacao: Enum
+    - arquivoCompleto: byte[]
+    - indicacaoPublicacaoAutorizada: String
+}
+
 Pessoa <|-- Pesquisador
 Pessoa <|-- GuiaEspeleologico
+Pessoa -- Endereco
 
+Pessoa "1" -- "0..*" Participacao
+Expedicao "1" -- "0..*" Participacao
 Caverna "1" -- "1..*" Setor
 Caverna "1" -- "0..*" Expedicao
 Setor "0..*" -- "0..*" Expedicao
+Expedicao "1" -- "1" AutorizacaoAmbiental
+Pessoa "1" -- "0..*" Movimentacao
+Movimentacao "0..*" -- "1" Equipamento
+Movimentacao "0..*" -- "1" Expedicao
+Expedicao "1" -- "0..*" ColetaCientifica
+ColetaCientifica "1" -- "1..*" Amostra
+Expedicao -- Relatorio
+Caverna "1..*" -- "1" Localizacao
+Expedicao "1..*" -- "1" PlanoSeguranca
 
 @enduml
