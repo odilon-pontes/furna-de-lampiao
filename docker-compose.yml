@@ -1,4 +1,28 @@
-FROM ubuntu:latest
-LABEL authors="odilo"
+version: '3.8'
 
-ENTRYPOINT ["top", "-b"]
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: furna_postgres
+    environment:
+      POSTGRES_DB: furna_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: furna_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@furna.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
