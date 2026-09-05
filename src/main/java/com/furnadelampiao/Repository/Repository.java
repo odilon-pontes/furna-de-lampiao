@@ -1,0 +1,12 @@
+package com.furnadelampiao.Repository;
+
+import java.util.List;
+
+public interface Repository<T, ID> {
+    void salvar(T entidade);
+    T buscarPorId(ID id);
+    List<T> listarTodos();
+    void atualizar(T entidade);
+    void removerPorId(ID id);
+
+}

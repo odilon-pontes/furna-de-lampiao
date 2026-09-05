@@ -1,5 +1,6 @@
 package com.furnadelampiao.domain;
 
+import com.furnadelampiao.enums.UnidadeFederativa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

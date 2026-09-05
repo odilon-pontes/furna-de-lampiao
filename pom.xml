@@ -15,7 +15,7 @@
     </properties>
 
     <dependencies>
-        <!-- JPA API (Jakarta Persistence) -->
+        <!-- JPA API (javax Persistence) -->
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>

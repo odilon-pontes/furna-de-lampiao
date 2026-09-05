@@ -1,4 +1,4 @@
-package com.furnadelampiao.domain;
+package com.furnadelampiao.enums;
 
 public enum UnidadeFederativa {
     AC, AL, AP, AM, BA, CE, DF, ES, GO, MA,
