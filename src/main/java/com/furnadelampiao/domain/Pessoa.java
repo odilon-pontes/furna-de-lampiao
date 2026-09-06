@@ -1,9 +1,7 @@
 package com.furnadelampiao.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +11,8 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +33,7 @@ public class Pessoa {
     @Column(length = 20)
     private String telefone;
 
+    @Builder.Default
     @Column(name = "situacao_ativa", nullable = false)
     private boolean situacaoAtiva = true;
 
