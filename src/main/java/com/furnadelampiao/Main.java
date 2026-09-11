@@ -10,6 +10,8 @@ import com.furnadelampiao.enums.UnidadeFederativa;
 import com.furnadelampiao.service.GuiaEspeleologicoService;
 import com.furnadelampiao.service.PesquisadorService;
 import com.furnadelampiao.service.PessoaService;
+import com.furnadelampiao.Repository.CavernaRepositoryJpa;
+import com.furnadelampiao.service.CavernaService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,17 +30,21 @@ public class Main {
         PessoaRepository pessoaRepository = new PessoaRepository(em);
         PesquisadorRepositoryJpa pesquisadorRepositoryJpa = new PesquisadorRepositoryJpa(em);
         GuiaEspeleologicoRepositoryJpa guiaEspeleologicoRepositoryJpa = new GuiaEspeleologicoRepositoryJpa(em);
+        CavernaRepositoryJpa cavernaRepositoryJpa = new CavernaRepositoryJpa(em);
 
         PessoaService pessoaService = new PessoaService(pessoaRepository);
         PesquisadorService pesquisadorService = new PesquisadorService(pesquisadorRepositoryJpa);
-        GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(guiaEspeleologicoRepositoryJpa);
+        GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(
+                guiaEspeleologicoRepositoryJpa);
+        CavernaService cavernaService = new CavernaService(cavernaRepositoryJpa);
 
-        Endereco endereco = new Endereco("Av. Dom Pedro II", "003", "casa", "Torre", "João Pessoa", UnidadeFederativa.PB, "54000-000");
+        Endereco endereco = new Endereco("Av. Dom Pedro II", "003", "casa", "Torre", "João Pessoa",
+                UnidadeFederativa.PB, "54000-000");
 
         Pessoa pessoa = Pessoa.builder()
                 .nome("amorin")
                 .cpf("10293847561")
-                .dataNasc(LocalDate.of(2001,01,01))
+                .dataNasc(LocalDate.of(2001, 01, 01))
                 .email("amorin@email.com")
                 .telefone("83998999900")
                 .endereco(endereco)
@@ -69,13 +75,30 @@ public class Main {
                 .dataValidadeCertificacao(LocalDate.of(2027, 12, 31))
                 .build();
 
+        Localizacao localizacao = new Localizacao(
+                new BigDecimal("-7.115900"),
+                new BigDecimal("-34.861100"),
+                "SIRGAS2000");
 
+        Caverna caverna = Caverna.builder()
+                .nomeOficial("Furna de Lampião")
+                .codCadastroAmbiental("CANIE-PB-0001")
+                .municipio("João Pessoa")
+                .uf(UnidadeFederativa.PB)
+                .coordenadas(localizacao)
+                .altitude(new BigDecimal("15.50"))
+                .extensao(new BigDecimal("320.00"))
+                .dataUltimaInspecao(LocalDate.of(2026, 6, 15))
+                .acessoAtualmentePermitido(true)
+                .build();
+
+        
         pessoaService.salvar(pessoa);
         pesquisadorService.cadastrar(pesquisador);
         guiaEspeleologicoService.cadastrar(guia);
+        cavernaService.cadastrar(caverna);
 
         List<Pessoa> pessoas = pessoaService.listarTodos();
-
 
         for (Pessoa p : pessoas) {
             System.out.println(p.getNome());
