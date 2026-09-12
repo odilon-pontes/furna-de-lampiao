@@ -5,16 +5,20 @@ import com.furnadelampiao.Repository.PesquisadorRepositoryJpa;
 import com.furnadelampiao.Repository.PessoaRepository;
 import com.furnadelampiao.Repository.CavernaRepositoryJpa;
 import com.furnadelampiao.Repository.ExpedicaoRepositoryJpa;
+import com.furnadelampiao.Repository.SetorRepositoryJpa;
 import com.furnadelampiao.domain.*;
 import com.furnadelampiao.enums.NivelCertificacao;
 import com.furnadelampiao.enums.Titulacao;
 import com.furnadelampiao.enums.UnidadeFederativa;
 import com.furnadelampiao.enums.SituacaoExpedicao;
+import com.furnadelampiao.enums.CondicaoSetor;
+import com.furnadelampiao.enums.NivelDificuldadeSetor;
 import com.furnadelampiao.service.GuiaEspeleologicoService;
 import com.furnadelampiao.service.PesquisadorService;
 import com.furnadelampiao.service.PessoaService;
 import com.furnadelampiao.service.CavernaService;
 import com.furnadelampiao.service.ExpedicaoService;
+import com.furnadelampiao.service.SetorService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,6 +40,7 @@ public class Main {
                 GuiaEspeleologicoRepositoryJpa guiaEspeleologicoRepositoryJpa = new GuiaEspeleologicoRepositoryJpa(em);
                 CavernaRepositoryJpa cavernaRepositoryJpa = new CavernaRepositoryJpa(em);
                 ExpedicaoRepositoryJpa expedicaoRepositoryJpa = new ExpedicaoRepositoryJpa(em);
+                SetorRepositoryJpa setorRepositoryJpa = new SetorRepositoryJpa(em);
 
                 PessoaService pessoaService = new PessoaService(pessoaRepository);
                 PesquisadorService pesquisadorService = new PesquisadorService(pesquisadorRepositoryJpa);
@@ -43,6 +48,7 @@ public class Main {
                                 guiaEspeleologicoRepositoryJpa);
                 CavernaService cavernaService = new CavernaService(cavernaRepositoryJpa);
                 ExpedicaoService expedicaoService = new ExpedicaoService(expedicaoRepositoryJpa);
+                SetorService setorService = new SetorService(setorRepositoryJpa);
 
                 Endereco endereco = new Endereco("Av. Dom Pedro II", "003", "casa", "Torre", "João Pessoa",
                                 UnidadeFederativa.PB, "54000-000");
@@ -111,11 +117,23 @@ public class Main {
                                 .caverna(caverna)
                                 .build();
 
+                Setor setor = Setor.builder()
+                                .denominacao("Galeria Principal")
+                                .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
+                                .profundidadeMaxima(new BigDecimal("12.00"))
+                                .extensaoAproximada(new BigDecimal("150.00"))
+                                .descricao("Trecho de entrada, com passagem alta e piso irregular")
+                                .riscoInundacao(new BigDecimal("10.00"))
+                                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                                .build();
+
                 pessoaService.salvar(pessoa);
                 pesquisadorService.cadastrar(pesquisador);
                 guiaEspeleologicoService.cadastrar(guia);
                 cavernaService.cadastrar(caverna);
                 expedicaoService.cadastrar(expedicao);
+                caverna.adicionarSetor(setor);
+                setorService.cadastrar(setor);
 
                 List<Pessoa> pessoas = pessoaService.listarTodos();
 
