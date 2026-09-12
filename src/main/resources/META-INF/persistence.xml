@@ -10,6 +10,7 @@
         <class>com.furnadelampiao.domain.Pesquisador</class>
         <class>com.furnadelampiao.domain.GuiaEspeleologico</class>
         <class>com.furnadelampiao.domain.Caverna</class>
+        <class>com.furnadelampiao.domain.Expedicao</class>
 
         <properties>
             <!-- Conexão apontando para o Docker na porta 5432 -->
