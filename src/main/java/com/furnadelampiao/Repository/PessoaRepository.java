@@ -14,9 +14,7 @@ public class PessoaRepository implements Repository<Pessoa, Long> {
 
     @Override
     public void salvar(Pessoa entidade) {
-        entityManager.getTransaction().begin();
         entityManager.persist(entidade);
-        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -33,21 +31,15 @@ public class PessoaRepository implements Repository<Pessoa, Long> {
 
     @Override
     public void atualizar(Pessoa entidade) {
-        entityManager.getTransaction().begin();
         entityManager.merge(entidade);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     public void removerPorId(Long id) {
-        entityManager.getTransaction().begin();
-
         Pessoa p = entityManager.find(Pessoa.class, id);
 
         if (p != null) {
             entityManager.remove(p);
         }
-
-        entityManager.getTransaction().commit();
     }
 }

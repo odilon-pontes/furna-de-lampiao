@@ -7,6 +7,11 @@
     <persistence-unit name="furnaPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.furnadelampiao.domain.Pessoa</class>
+        <class>com.furnadelampiao.domain.Pesquisador</class>
+        <class>com.furnadelampiao.domain.GuiaEspeleologico</class>
+        <class>com.furnadelampiao.domain.Caverna</class>
+        <class>com.furnadelampiao.domain.Expedicao</class>
+        <class>com.furnadelampiao.domain.Setor</class>
 
         <properties>
             <!-- Conexão apontando para o Docker na porta 5432 -->

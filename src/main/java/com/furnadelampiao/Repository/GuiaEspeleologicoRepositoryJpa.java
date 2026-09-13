@@ -6,7 +6,6 @@ import com.furnadelampiao.enums.NivelCertificacao;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-
 public class GuiaEspeleologicoRepositoryJpa
         implements GuiaEspeleologicoRepository {
 
@@ -18,9 +17,7 @@ public class GuiaEspeleologicoRepositoryJpa
 
     @Override
     public void salvar(GuiaEspeleologico guia) {
-        entityManager.getTransaction().begin();
         entityManager.persist(guia);
-        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -33,8 +30,7 @@ public class GuiaEspeleologicoRepositoryJpa
         return entityManager
                 .createQuery(
                         "SELECT g FROM GuiaEspeleologico g",
-                        GuiaEspeleologico.class
-                )
+                        GuiaEspeleologico.class)
                 .getResultList();
     }
 
@@ -46,8 +42,7 @@ public class GuiaEspeleologicoRepositoryJpa
                 .createQuery(
                         "SELECT g FROM GuiaEspeleologico g " +
                                 "WHERE g.nivelCertificacao = :nivel",
-                        GuiaEspeleologico.class
-                )
+                        GuiaEspeleologico.class)
                 .setParameter("nivel", nivel)
                 .getResultList();
     }
@@ -59,28 +54,21 @@ public class GuiaEspeleologicoRepositoryJpa
                 .createQuery(
                         "SELECT g FROM GuiaEspeleologico g " +
                                 "WHERE g.dataValidadeCertificacao < CURRENT_DATE",
-                        GuiaEspeleologico.class
-                )
+                        GuiaEspeleologico.class)
                 .getResultList();
     }
 
     @Override
     public void atualizar(GuiaEspeleologico guia) {
-        entityManager.getTransaction().begin();
         entityManager.merge(guia);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     public void removerPorId(Long id) {
-        entityManager.getTransaction().begin();
-
         GuiaEspeleologico guia = entityManager.find(GuiaEspeleologico.class, id);
 
         if (guia != null) {
             entityManager.remove(guia);
         }
-
-        entityManager.getTransaction().commit();
     }
 }
