@@ -1,23 +1,31 @@
 package com.furnadelampiao.service;
 
+import com.furnadelampiao.Repository.CavernaRepository;
 import com.furnadelampiao.Repository.SetorRepository;
+import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.domain.Setor;
 import com.furnadelampiao.enums.NivelDificuldadeSetor;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 
 public class SetorService {
 
     private final SetorRepository repository;
+    private final CavernaRepository cavernaRepository;
+    private final EntityManager entityManager;
 
-    public SetorService(SetorRepository repository) {
+    public SetorService(SetorRepository repository, CavernaRepository cavernaRepository, EntityManager entityManager) {
         this.repository = repository;
+        this.cavernaRepository = cavernaRepository;
+        this.entityManager = entityManager;
     }
 
     public void cadastrar(Setor setor) {
         validarSetor(setor);
-        repository.salvar(setor);
+        TransacaoExecutor.executar(entityManager, () -> repository.salvar(setor));
     }
 
     public Setor buscarPorId(Long id) {
@@ -52,14 +60,14 @@ public class SetorService {
             throw new IllegalArgumentException(
                     "Setor precisa de ID para ser atualizado.");
         }
-        repository.atualizar(setor);
+        TransacaoExecutor.executar(entityManager, () -> repository.atualizar(setor));
     }
 
     public void removerPorId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("ID não pode ser nulo.");
         }
-        repository.removerPorId(id);
+        TransacaoExecutor.executar(entityManager, () -> repository.removerPorId(id));
     }
 
     private void validarSetor(Setor setor) {
@@ -79,6 +87,13 @@ public class SetorService {
             throw new IllegalArgumentException(
                     "Setor precisa estar associado a uma caverna já cadastrada.");
         }
+
+        Caverna caverna = cavernaRepository.buscarPorId(setor.getCaverna().getId());
+        if (caverna == null) {
+            throw new IllegalArgumentException(
+                    "Caverna associada (id=" + setor.getCaverna().getId() + ") não existe no banco.");
+        }
+
         if (setor.getProfundidadeMaxima() != null
                 && setor.getProfundidadeMaxima().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Profundidade máxima não pode ser negativa.");

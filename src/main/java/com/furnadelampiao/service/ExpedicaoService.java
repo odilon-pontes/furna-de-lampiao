@@ -3,16 +3,20 @@ package com.furnadelampiao.service;
 import com.furnadelampiao.Repository.ExpedicaoRepository;
 import com.furnadelampiao.domain.Expedicao;
 import com.furnadelampiao.enums.SituacaoExpedicao;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 
 public class ExpedicaoService {
 
     private final ExpedicaoRepository repository;
+    private final EntityManager entityManager;
 
-    public ExpedicaoService(ExpedicaoRepository repository) {
+    public ExpedicaoService(ExpedicaoRepository repository, EntityManager entityManager) {
         this.repository = repository;
+        this.entityManager = entityManager;
     }
 
     public void cadastrar(Expedicao expedicao) {
@@ -22,15 +26,14 @@ public class ExpedicaoService {
         if (existente != null) {
             throw new IllegalArgumentException(
                     "Já existe uma expedição cadastrada com o código "
-                            + expedicao.getCodigo()
-            );
+                            + expedicao.getCodigo());
         }
 
         if (expedicao.getSituacao() == null) {
             expedicao.setSituacao(SituacaoExpedicao.PLANEJADA);
         }
 
-        repository.salvar(expedicao);
+        TransacaoExecutor.executar(entityManager, () -> repository.salvar(expedicao));
     }
 
     public Expedicao buscarPorId(Long id) {
@@ -63,17 +66,24 @@ public class ExpedicaoService {
 
         if (expedicao.getId() == null) {
             throw new IllegalArgumentException(
-                    "Expedição precisa de ID para ser atualizada."
-            );
+                    "Expedição precisa de ID para ser atualizada.");
         }
-        repository.atualizar(expedicao);
+
+        Expedicao existente = repository.buscarPorCodigo(expedicao.getCodigo());
+        if (existente != null && !existente.getId().equals(expedicao.getId())) {
+            throw new IllegalArgumentException(
+                    "Já existe outra expedição cadastrada com o código "
+                            + expedicao.getCodigo());
+        }
+
+        TransacaoExecutor.executar(entityManager, () -> repository.atualizar(expedicao));
     }
 
     public void removerPorId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("ID não pode ser nulo.");
         }
-        repository.removerPorId(id);
+        TransacaoExecutor.executar(entityManager, () -> repository.removerPorId(id));
     }
 
     private void validarExpedicao(Expedicao expedicao) {
@@ -94,13 +104,11 @@ public class ExpedicaoService {
         }
         if (!expedicao.getTerminoPrevisto().isAfter(expedicao.getInicioPrevisto())) {
             throw new IllegalArgumentException(
-                    "A data de término prevista deve ser posterior à data de início prevista."
-            );
+                    "A data de término prevista deve ser posterior à data de início prevista.");
         }
         if (expedicao.getQtdMaxParticipantes() <= 0) {
             throw new IllegalArgumentException(
-                    "Quantidade máxima de participantes deve ser maior que zero."
-            );
+                    "Quantidade máxima de participantes deve ser maior que zero.");
         }
         if (expedicao.getOrcamentoAprovado() != null
                 && expedicao.getOrcamentoAprovado().compareTo(BigDecimal.ZERO) < 0) {

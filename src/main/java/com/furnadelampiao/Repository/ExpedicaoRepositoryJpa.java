@@ -17,9 +17,7 @@ public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
 
     @Override
     public void salvar(Expedicao expedicao) {
-        entityManager.getTransaction().begin();
         entityManager.persist(expedicao);
-        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -75,21 +73,15 @@ public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
 
     @Override
     public void atualizar(Expedicao expedicao) {
-        entityManager.getTransaction().begin();
         entityManager.merge(expedicao);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     public void removerPorId(Long id) {
-        entityManager.getTransaction().begin();
-
         Expedicao expedicao = entityManager.find(Expedicao.class, id);
 
         if (expedicao != null) {
             entityManager.remove(expedicao);
         }
-
-        entityManager.getTransaction().commit();
     }
 }

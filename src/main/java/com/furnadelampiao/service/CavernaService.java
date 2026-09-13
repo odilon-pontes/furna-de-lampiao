@@ -3,31 +3,33 @@ package com.furnadelampiao.service;
 import com.furnadelampiao.Repository.CavernaRepository;
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.enums.UnidadeFederativa;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class CavernaService {
 
     private final CavernaRepository repository;
+    private final EntityManager entityManager;
 
-    public CavernaService(CavernaRepository repository) {
+    public CavernaService(CavernaRepository repository, EntityManager entityManager) {
         this.repository = repository;
+        this.entityManager = entityManager;
     }
 
     public void cadastrar(Caverna caverna) {
         validarCaverna(caverna);
 
         Caverna existente = repository.buscarPorCodCadastroAmbiental(
-                caverna.getCodCadastroAmbiental()
-        );
+                caverna.getCodCadastroAmbiental());
         if (existente != null) {
             throw new IllegalArgumentException(
                     "Já existe uma caverna cadastrada com o código ambiental "
-                            + caverna.getCodCadastroAmbiental()
-            );
+                            + caverna.getCodCadastroAmbiental());
         }
 
-        repository.salvar(caverna);
+        TransacaoExecutor.executar(entityManager, () -> repository.salvar(caverna));
     }
 
     public Caverna buscarPorId(Long id) {
@@ -54,17 +56,25 @@ public class CavernaService {
 
         if (caverna.getId() == null) {
             throw new IllegalArgumentException(
-                    "Caverna precisa de ID para ser atualizada."
-            );
+                    "Caverna precisa de ID para ser atualizada.");
         }
-        repository.atualizar(caverna);
+
+        Caverna existente = repository.buscarPorCodCadastroAmbiental(
+                caverna.getCodCadastroAmbiental());
+        if (existente != null && !existente.getId().equals(caverna.getId())) {
+            throw new IllegalArgumentException(
+                    "Já existe outra caverna cadastrada com o código ambiental "
+                            + caverna.getCodCadastroAmbiental());
+        }
+
+        TransacaoExecutor.executar(entityManager, () -> repository.atualizar(caverna));
     }
 
     public void removerPorId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("ID não pode ser nulo.");
         }
-        repository.removerPorId(id);
+        TransacaoExecutor.executar(entityManager, () -> repository.removerPorId(id));
     }
 
     private void validarCaverna(Caverna caverna) {

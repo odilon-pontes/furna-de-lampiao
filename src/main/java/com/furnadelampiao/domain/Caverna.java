@@ -1,6 +1,7 @@
 package com.furnadelampiao.domain;
 
 import com.furnadelampiao.enums.UnidadeFederativa;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -67,16 +68,23 @@ public class Caverna {
         @Column(name = "acesso_atualmente_permitido", nullable = false)
         private boolean acessoAtualmentePermitido = false;
 
+        @Setter(AccessLevel.NONE)
         @Builder.Default
         @OneToMany(mappedBy = "caverna", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
         private List<Setor> setores = new ArrayList<>();
 
         public void adicionarSetor(Setor setor) {
+                if (setor == null) {
+                        throw new IllegalArgumentException("Setor não pode ser nulo.");
+                }
                 setores.add(setor);
                 setor.setCaverna(this);
         }
 
         public void removerSetor(Setor setor) {
+                if (setor == null) {
+                        throw new IllegalArgumentException("Setor não pode ser nulo.");
+                }
                 setores.remove(setor);
                 setor.setCaverna(null);
         }

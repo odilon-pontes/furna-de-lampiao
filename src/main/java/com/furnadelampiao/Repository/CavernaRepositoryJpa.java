@@ -17,9 +17,7 @@ public class CavernaRepositoryJpa implements CavernaRepository {
 
     @Override
     public void salvar(Caverna caverna) {
-        entityManager.getTransaction().begin();
         entityManager.persist(caverna);
-        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -32,8 +30,7 @@ public class CavernaRepositoryJpa implements CavernaRepository {
         return entityManager
                 .createQuery(
                         "SELECT c FROM Caverna c",
-                        Caverna.class
-                )
+                        Caverna.class)
                 .getResultList();
     }
 
@@ -44,8 +41,7 @@ public class CavernaRepositoryJpa implements CavernaRepository {
                     .createQuery(
                             "SELECT c FROM Caverna c " +
                                     "WHERE c.codCadastroAmbiental = :codigo",
-                            Caverna.class
-                    )
+                            Caverna.class)
                     .setParameter("codigo", codCadastroAmbiental)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -58,8 +54,7 @@ public class CavernaRepositoryJpa implements CavernaRepository {
         return entityManager
                 .createQuery(
                         "SELECT c FROM Caverna c WHERE c.uf = :uf",
-                        Caverna.class
-                )
+                        Caverna.class)
                 .setParameter("uf", uf)
                 .getResultList();
     }
@@ -70,28 +65,21 @@ public class CavernaRepositoryJpa implements CavernaRepository {
                 .createQuery(
                         "SELECT c FROM Caverna c " +
                                 "WHERE c.acessoAtualmentePermitido = true",
-                        Caverna.class
-                )
+                        Caverna.class)
                 .getResultList();
     }
 
     @Override
     public void atualizar(Caverna caverna) {
-        entityManager.getTransaction().begin();
         entityManager.merge(caverna);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     public void removerPorId(Long id) {
-        entityManager.getTransaction().begin();
-
         Caverna caverna = entityManager.find(Caverna.class, id);
 
         if (caverna != null) {
             entityManager.remove(caverna);
         }
-
-        entityManager.getTransaction().commit();
     }
 }

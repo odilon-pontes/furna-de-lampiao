@@ -42,13 +42,13 @@ public class Main {
                 ExpedicaoRepositoryJpa expedicaoRepositoryJpa = new ExpedicaoRepositoryJpa(em);
                 SetorRepositoryJpa setorRepositoryJpa = new SetorRepositoryJpa(em);
 
-                PessoaService pessoaService = new PessoaService(pessoaRepository);
-                PesquisadorService pesquisadorService = new PesquisadorService(pesquisadorRepositoryJpa);
+                PessoaService pessoaService = new PessoaService(pessoaRepository, em);
+                PesquisadorService pesquisadorService = new PesquisadorService(pesquisadorRepositoryJpa, em);
                 GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(
-                                guiaEspeleologicoRepositoryJpa);
-                CavernaService cavernaService = new CavernaService(cavernaRepositoryJpa);
-                ExpedicaoService expedicaoService = new ExpedicaoService(expedicaoRepositoryJpa);
-                SetorService setorService = new SetorService(setorRepositoryJpa);
+                                guiaEspeleologicoRepositoryJpa, em);
+                CavernaService cavernaService = new CavernaService(cavernaRepositoryJpa, em);
+                ExpedicaoService expedicaoService = new ExpedicaoService(expedicaoRepositoryJpa, em);
+                SetorService setorService = new SetorService(setorRepositoryJpa, cavernaRepositoryJpa, em);
 
                 Endereco endereco = new Endereco("Av. Dom Pedro II", "003", "casa", "Torre", "João Pessoa",
                                 UnidadeFederativa.PB, "54000-000");

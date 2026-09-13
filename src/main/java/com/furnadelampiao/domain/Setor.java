@@ -2,6 +2,7 @@ package com.furnadelampiao.domain;
 
 import com.furnadelampiao.enums.CondicaoSetor;
 import com.furnadelampiao.enums.NivelDificuldadeSetor;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-
 
 @Entity
 @Table(name = "setor")
@@ -58,6 +58,7 @@ public class Setor {
     @Column(name = "condicao_corrente", nullable = false, length = 20)
     private CondicaoSetor condicaoCorrente;
 
+    @Setter(AccessLevel.PACKAGE)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "caverna_id", nullable = false)
     private Caverna caverna;

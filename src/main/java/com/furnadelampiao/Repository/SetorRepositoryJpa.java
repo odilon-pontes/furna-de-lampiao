@@ -16,9 +16,7 @@ public class SetorRepositoryJpa implements SetorRepository {
 
     @Override
     public void salvar(Setor setor) {
-        entityManager.getTransaction().begin();
         entityManager.persist(setor);
-        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -59,21 +57,15 @@ public class SetorRepositoryJpa implements SetorRepository {
 
     @Override
     public void atualizar(Setor setor) {
-        entityManager.getTransaction().begin();
         entityManager.merge(setor);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     public void removerPorId(Long id) {
-        entityManager.getTransaction().begin();
-
         Setor setor = entityManager.find(Setor.class, id);
 
         if (setor != null) {
             entityManager.remove(setor);
         }
-
-        entityManager.getTransaction().commit();
     }
 }

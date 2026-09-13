@@ -1,20 +1,24 @@
 package com.furnadelampiao.service;
 
-
 import com.furnadelampiao.Repository.PessoaRepository;
 import com.furnadelampiao.domain.Pessoa;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class PessoaService {
     private final PessoaRepository pessoaRepository;
+    private final EntityManager entityManager;
 
-    public PessoaService (PessoaRepository pessoaRepository) {
+    public PessoaService(PessoaRepository pessoaRepository, EntityManager entityManager) {
         this.pessoaRepository = pessoaRepository;
+        this.entityManager = entityManager;
     }
 
     public void salvar(Pessoa p) {
-        pessoaRepository.salvar(p);
+        validarPessoa(p);
+        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.salvar(p));
     }
 
     public Pessoa buscarPorId(Long id) {
@@ -24,7 +28,7 @@ public class PessoaService {
         return pessoaRepository.buscarPorId(id);
     }
 
-    public List<Pessoa> listarTodos(){
+    public List<Pessoa> listarTodos() {
         return pessoaRepository.listarTodos();
     }
 
@@ -33,33 +37,28 @@ public class PessoaService {
 
         if (p.getId() == null) {
             throw new IllegalArgumentException(
-                    "Pessoa precisa de ID para ser atualizada."
-            );
+                    "Pessoa precisa de ID para ser atualizada.");
         }
-        pessoaRepository.atualizar(p);
-
+        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.atualizar(p));
     }
 
     public void removerPorId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException(
-                    "ID não pode ser nulo."
-            );
+                    "ID não pode ser nulo.");
         }
-        pessoaRepository.removerPorId(id);
+        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.removerPorId(id));
     }
 
     private void validarPessoa(Pessoa p) {
         if (p == null) {
             throw new IllegalArgumentException(
-                    "Pessoa não pode ser nula."
-            );
+                    "Pessoa não pode ser nula.");
         }
 
-        if (p.getNome() == null || p.getNome().isBlank()){
+        if (p.getNome() == null || p.getNome().isBlank()) {
             throw new IllegalArgumentException(
-                    "Nome de pessoa é obrigatório."
-            );
+                    "Nome de pessoa é obrigatório.");
         }
     }
 }

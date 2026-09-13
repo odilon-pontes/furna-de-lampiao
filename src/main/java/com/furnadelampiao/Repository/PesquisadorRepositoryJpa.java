@@ -16,9 +16,7 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
 
     @Override
     public void salvar(Pesquisador pesquisador) {
-        entityManager.getTransaction().begin();
         entityManager.persist(pesquisador);
-        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -31,8 +29,7 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
         return entityManager
                 .createQuery(
                         "SELECT p FROM Pesquisador p",
-                        Pesquisador.class
-                )
+                        Pesquisador.class)
                 .getResultList();
     }
 
@@ -42,8 +39,7 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
                 .createQuery(
                         "SELECT p FROM Pesquisador p " +
                                 "WHERE p.titulacao = :titulacao",
-                        Pesquisador.class
-                )
+                        Pesquisador.class)
                 .setParameter("titulacao", titulacao)
                 .getResultList();
     }
@@ -54,30 +50,23 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
                 .createQuery(
                         "SELECT p FROM Pesquisador p " +
                                 "WHERE p.areaPrincipalPesquisa = :area",
-                        Pesquisador.class
-                )
+                        Pesquisador.class)
                 .setParameter("area", area)
                 .getResultList();
     }
 
     @Override
     public void atualizar(Pesquisador pesquisador) {
-        entityManager.getTransaction().begin();
         entityManager.merge(pesquisador);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     public void removerPorId(Long id) {
-        entityManager.getTransaction().begin();
-
         Pesquisador pesquisador = entityManager.find(Pesquisador.class, id);
 
         if (pesquisador != null) {
             entityManager.remove(pesquisador);
         }
-
-        entityManager.getTransaction().commit();
     }
 
 }
