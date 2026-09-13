@@ -7,6 +7,9 @@
     <persistence-unit name="furnaPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.furnadelampiao.domain.Pessoa</class>
+        <class>com.furnadelampiao.domain.Pesquisador</class>
+        <class>com.furnadelampiao.domain.GuiaEspeleologico</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
             <!-- Conexão apontando para o Docker na porta 5432 -->
@@ -17,7 +20,7 @@
 
             <!-- Configurações do Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.jdbc.log.warnings" value="false"/>

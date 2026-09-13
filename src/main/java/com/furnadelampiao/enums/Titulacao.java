@@ -2,7 +2,7 @@ package com.furnadelampiao.enums;
 
 public enum Titulacao {
     GRADUACAO,
-    ESPECIALIZAO,
+    ESPECIALICAO,
     MESTRADO,
     DOUTORADO,
     POS_DOUTORADO

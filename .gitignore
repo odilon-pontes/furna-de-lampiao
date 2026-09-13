@@ -1,0 +1,11 @@
+# Build output
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+out/
+
+# OS
+.DS_Store

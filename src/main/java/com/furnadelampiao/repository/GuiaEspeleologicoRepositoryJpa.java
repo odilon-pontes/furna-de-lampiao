@@ -1,4 +1,4 @@
-package com.furnadelampiao.Repository;
+package com.furnadelampiao.repository;
 
 import com.furnadelampiao.domain.GuiaEspeleologico;
 import com.furnadelampiao.enums.NivelCertificacao;
@@ -18,9 +18,7 @@ public class GuiaEspeleologicoRepositoryJpa
 
     @Override
     public void salvar(GuiaEspeleologico guia) {
-        entityManager.getTransaction().begin();
         entityManager.persist(guia);
-        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -66,9 +64,7 @@ public class GuiaEspeleologicoRepositoryJpa
 
     @Override
     public void atualizar(GuiaEspeleologico guia) {
-        entityManager.getTransaction().begin();
         entityManager.merge(guia);
-        entityManager.getTransaction().commit();
     }
 
     @Override

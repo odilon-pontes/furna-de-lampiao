@@ -1,7 +1,6 @@
-package com.furnadelampiao.Repository;
+package com.furnadelampiao.repository;
 
 import com.furnadelampiao.domain.Pesquisador;
-import com.furnadelampiao.domain.Pessoa;
 import com.furnadelampiao.enums.Titulacao;
 
 import javax.persistence.EntityManager;
@@ -16,9 +15,7 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
 
     @Override
     public void salvar(Pesquisador pesquisador) {
-        entityManager.getTransaction().begin();
         entityManager.persist(pesquisador);
-        entityManager.getTransaction().commit();
     }
 
     @Override
@@ -62,22 +59,16 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
 
     @Override
     public void atualizar(Pesquisador pesquisador) {
-        entityManager.getTransaction().begin();
         entityManager.merge(pesquisador);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     public void removerPorId(Long id) {
-        entityManager.getTransaction().begin();
-
         Pesquisador pesquisador = entityManager.find(Pesquisador.class, id);
 
         if (pesquisador != null) {
             entityManager.remove(pesquisador);
         }
-
-        entityManager.getTransaction().commit();
     }
 
 }

@@ -1,10 +1,7 @@
 package com.furnadelampiao.domain;
 
 import com.furnadelampiao.enums.NivelCertificacao;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -26,4 +23,8 @@ public class GuiaEspeleologico extends Pessoa {
 
     @Column(name = "data_validade_certificacao", nullable = false)
     private LocalDate dataValidadeCertificacao;
+
+    @Builder.Default
+    @Column(name = "qtd_expedicoes_concluidas", nullable = false)
+    private Integer qtdExpedicoesConcluidas = 0;
 }
