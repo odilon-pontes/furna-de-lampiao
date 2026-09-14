@@ -1,9 +1,9 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.repository.CavernaRepository;
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.enums.UnidadeFederativa;
 import com.furnadelampiao.infra.TransacaoExecutor;
+import com.furnadelampiao.repository.CavernaRepository;
 
 import javax.persistence.EntityManager;
 import java.util.List;

@@ -2,10 +2,7 @@ package com.furnadelampiao.domain;
 
 import com.furnadelampiao.enums.MetodoEmpregado;
 import com.furnadelampiao.enums.SituacaoValidacaoColeta;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ColetaCientifica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
