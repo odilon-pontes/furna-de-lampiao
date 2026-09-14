@@ -1,18 +1,14 @@
 package com.furnadelampiao.seed;
 
-import com.furnadelampiao.domain.Endereco;
-import com.furnadelampiao.domain.GuiaEspeleologico;
-import com.furnadelampiao.domain.Pesquisador;
-import com.furnadelampiao.domain.Pessoa;
-import com.furnadelampiao.enums.NivelCertificacao;
-import com.furnadelampiao.enums.Titulacao;
-import com.furnadelampiao.enums.UnidadeFederativa;
-import com.furnadelampiao.service.GuiaEspeleologicoService;
-import com.furnadelampiao.service.PesquisadorService;
-import com.furnadelampiao.service.PessoaService;
+import com.furnadelampiao.domain.*;
+import com.furnadelampiao.enums.*;
+import com.furnadelampiao.service.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Popula o banco com dados de exemplo para desenvolvimento/demonstração.
@@ -22,19 +18,32 @@ public class DatabaseSeeder {
     private final PessoaService pessoaService;
     private final PesquisadorService pesquisadorService;
     private final GuiaEspeleologicoService guiaEspeleologicoService;
+    private final CavernaService cavernaService;
+    private final ExpedicaoService expedicaoService;
+    private final SetorService setorService;
+    private final List<Caverna> cavernas = new ArrayList<>() ;
 
     public DatabaseSeeder(PessoaService pessoaService,
                           PesquisadorService pesquisadorService,
-                          GuiaEspeleologicoService guiaEspeleologicoService) {
+                          GuiaEspeleologicoService guiaEspeleologicoService,
+                          CavernaService cavernaService,
+                          ExpedicaoService expedicaoService,
+                          SetorService setorService) {
         this.pessoaService = pessoaService;
         this.pesquisadorService = pesquisadorService;
         this.guiaEspeleologicoService = guiaEspeleologicoService;
+        this.cavernaService = cavernaService;
+        this.expedicaoService = expedicaoService;
+        this.setorService = setorService;
     }
 
     public void seedAll() {
         seedPessoas();
         seedPesquisadores();
         seedGuiasEspeleologicos();
+        seedCavernas();
+        seedExpedicoes();
+        seedSetores();
     }
 
     private void seedPessoas() {
@@ -147,8 +156,142 @@ public class DatabaseSeeder {
         System.out.println("[seed] 2 registros de GuiaEspeleologico criados.");
     }
 
+    private void seedCavernas() {
+        if (!cavernaService.listarTodos().isEmpty()) {
+            System.out.println("[seed] Expedição já possui registros — pulando.");
+            return;
+        }
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Caverna do Diabo")
+                .codCadastroAmbiental("CAV-001")
+                .municipio("Eldorado")
+                .uf(UnidadeFederativa.SP)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-24.5278"),
+                        new BigDecimal("-48.6986"),
+                        "SIRGAS2000"
+                ))
+                .altitude(new BigDecimal("540.00"))
+                .extensao(new BigDecimal("6320.50"))
+                .dataUltimaInspecao(LocalDate.of(2026, 3, 10))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Caverna Santana")
+                .codCadastroAmbiental("CAV-002")
+                .municipio("Iporanga")
+                .uf(UnidadeFederativa.SP)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-24.5167"),
+                        new BigDecimal("-48.6992"),
+                        "SIRGAS2000"
+                ))
+                .altitude(new BigDecimal("680.00"))
+                .extensao(new BigDecimal("5040.75"))
+                .dataUltimaInspecao(LocalDate.of(2026, 5, 20))
+                .acessoAtualmentePermitido(true)
+                .build());
+        for (Caverna c : cavernas) {
+            cavernaService.cadastrar(c);
+        }
+        System.out.println("[seed] 2 registros de Caverna criados.");
+
+    }
+    private void seedExpedicoes() {
+        if (!expedicaoService.listarTodos().isEmpty()) {
+            System.out.println("[seed] Expedição já possui registros — pulando.");
+            return;
+        }
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-001")
+                .titulo("Mapeamento inicial da Furna de Lampião")
+                .objetivo("Levantamento topográfico e coleta de amostras minerais")
+                .inicioPrevisto(LocalDateTime.of(2026, 10, 1, 8, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 10, 3, 18, 0))
+                .orcamentoAprovado(new BigDecimal("15000.00"))
+                .qtdMaxParticipantes(6)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(0))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-002")
+                .titulo("Exploração da Caverna Santana")
+                .objetivo("Exploração espeleológica e levantamento de novas galerias")
+                .inicioPrevisto(LocalDateTime.of(2026, 11, 10, 7, 30))
+                .terminoPrevisto(LocalDateTime.of(2026, 11, 12, 17, 0))
+                .orcamentoAprovado(new BigDecimal("12000.00"))
+                .qtdMaxParticipantes(8)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(1))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-003")
+                .titulo("Inspeção da Gruta da Pratinha")
+                .objetivo("Avaliação das condições de acesso e levantamento ambiental")
+                .inicioPrevisto(LocalDateTime.of(2026, 12, 5, 9, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 12, 5, 16, 0))
+                .orcamentoAprovado(new BigDecimal("7500.00"))
+                .qtdMaxParticipantes(5)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(0))
+                .build());
+
+        System.out.println("[seed] 3 registros de Expedição criados.");
+
+    }
+    private void seedSetores() {
+        if (!setorService.listarTodos().isEmpty()) {
+            System.out.println("[seed] Expedição já possui registros — pulando.");
+            return;
+        }
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria Principal")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
+                .profundidadeMaxima(new BigDecimal("12.00"))
+                .extensaoAproximada(new BigDecimal("150.00"))
+                .descricao("Trecho de entrada, com passagem alta e piso irregular")
+                .riscoInundacao(new BigDecimal("10.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(0))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria das Águas")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.ALTO)
+                .profundidadeMaxima(new BigDecimal("28.50"))
+                .extensaoAproximada(new BigDecimal("320.00"))
+                .descricao("Galeria com trechos estreitos e presença de fluxo de água")
+                .riscoInundacao(new BigDecimal("35.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(1))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Salão dos Cristais")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.BAIXO)
+                .profundidadeMaxima(new BigDecimal("8.00"))
+                .extensaoAproximada(new BigDecimal("210.00"))
+                .descricao("Salão amplo com formações minerais e acesso facilitado")
+                .riscoInundacao(new BigDecimal("5.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(1))
+                .build());
+
+        System.out.println("[seed] 3 registros de Setor criados.");
+
+    }
     private Endereco endereco(String logradouro, String numero, String complemento,
                               String bairro, String cidade, UnidadeFederativa uf, String cep) {
         return new Endereco(logradouro, numero, complemento, bairro, cidade, uf, cep);
     }
+
+
 }

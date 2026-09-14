@@ -28,8 +28,7 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
         return entityManager
                 .createQuery(
                         "SELECT p FROM Pesquisador p",
-                        Pesquisador.class
-                )
+                        Pesquisador.class)
                 .getResultList();
     }
 
@@ -39,8 +38,7 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
                 .createQuery(
                         "SELECT p FROM Pesquisador p " +
                                 "WHERE p.titulacao = :titulacao",
-                        Pesquisador.class
-                )
+                        Pesquisador.class)
                 .setParameter("titulacao", titulacao)
                 .getResultList();
     }
@@ -51,8 +49,7 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
                 .createQuery(
                         "SELECT p FROM Pesquisador p " +
                                 "WHERE p.areaPrincipalPesquisa = :area",
-                        Pesquisador.class
-                )
+                        Pesquisador.class)
                 .setParameter("area", area)
                 .getResultList();
     }

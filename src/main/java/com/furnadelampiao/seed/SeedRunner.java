@@ -1,11 +1,7 @@
 package com.furnadelampiao.seed;
 
-import com.furnadelampiao.repository.GuiaEspeleologicoRepositoryJpa;
-import com.furnadelampiao.repository.PesquisadorRepositoryJpa;
-import com.furnadelampiao.repository.PessoaRepository;
-import com.furnadelampiao.service.GuiaEspeleologicoService;
-import com.furnadelampiao.service.PesquisadorService;
-import com.furnadelampiao.service.PessoaService;
+import com.furnadelampiao.repository.*;
+import com.furnadelampiao.service.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,12 +17,23 @@ public class SeedRunner {
             PessoaRepository pessoaRepository = new PessoaRepository(em);
             PesquisadorRepositoryJpa pesquisadorRepository = new PesquisadorRepositoryJpa(em);
             GuiaEspeleologicoRepositoryJpa guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
+            ExpedicaoRepositoryJpa expedicaoRepositoryJpa = new ExpedicaoRepositoryJpa(em);
+            SetorRepositoryJpa setorRepositoryJpa = new SetorRepositoryJpa(em);
+            CavernaRepositoryJpa cavernaRepositoryJpa = new CavernaRepositoryJpa(em);
 
             PessoaService pessoaService = new PessoaService(em, pessoaRepository);
             PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
-            GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em, guiaEspeleologicoRepository);
+            GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em,
+                    guiaEspeleologicoRepository);
+            CavernaService cavernaService = new CavernaService(em, cavernaRepositoryJpa);
+            ExpedicaoService expedicaoService= new ExpedicaoService(em, expedicaoRepositoryJpa);
+            SetorService setorService = new SetorService(em, setorRepositoryJpa, cavernaRepositoryJpa);
 
-            DatabaseSeeder seeder = new DatabaseSeeder(pessoaService, pesquisadorService, guiaEspeleologicoService);
+
+            DatabaseSeeder seeder = new DatabaseSeeder(
+                    pessoaService, pesquisadorService, guiaEspeleologicoService,
+                    cavernaService, expedicaoService, setorService
+            );
             seeder.seedAll();
 
             System.out.println("[seed] Concluído.");
