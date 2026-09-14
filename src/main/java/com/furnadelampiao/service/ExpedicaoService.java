@@ -1,6 +1,8 @@
 package com.furnadelampiao.service;
 
+import com.furnadelampiao.repository.CavernaRepositoryJpa;
 import com.furnadelampiao.repository.ExpedicaoRepository;
+import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.domain.Expedicao;
 import com.furnadelampiao.enums.SituacaoExpedicao;
 import com.furnadelampiao.infra.TransacaoExecutor;
@@ -14,10 +16,13 @@ public class ExpedicaoService {
 
     private final EntityManager entityManager;
     private final ExpedicaoRepositoryJpa repository;
+    private final CavernaRepositoryJpa cavernaRepository;
 
-    public ExpedicaoService( EntityManager entityManager, ExpedicaoRepositoryJpa repository) {
+    public ExpedicaoService(EntityManager entityManager, ExpedicaoRepositoryJpa repository,
+            CavernaRepositoryJpa cavernaRepository) {
         this.repository = repository;
         this.entityManager = entityManager;
+        this.cavernaRepository = cavernaRepository;
     }
 
     public void cadastrar(Expedicao expedicao) {
@@ -97,8 +102,14 @@ public class ExpedicaoService {
         if (expedicao.getTitulo() == null || expedicao.getTitulo().isBlank()) {
             throw new IllegalArgumentException("Título da expedição é obrigatório.");
         }
-        if (expedicao.getCaverna() == null) {
-            throw new IllegalArgumentException("Expedição precisa estar associada a uma caverna.");
+        if (expedicao.getCaverna() == null || expedicao.getCaverna().getId() == null) {
+            throw new IllegalArgumentException("Expedição precisa estar associada a uma caverna já cadastrada.");
+        }
+
+        Caverna caverna = cavernaRepository.buscarPorId(expedicao.getCaverna().getId());
+        if (caverna == null) {
+            throw new IllegalArgumentException(
+                    "Caverna associada (id=" + expedicao.getCaverna().getId() + ") não existe no banco.");
         }
         if (expedicao.getInicioPrevisto() == null || expedicao.getTerminoPrevisto() == null) {
             throw new IllegalArgumentException("Datas previstas de início e término são obrigatórias.");

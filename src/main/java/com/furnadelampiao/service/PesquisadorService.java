@@ -29,6 +29,7 @@ public class PesquisadorService {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
+            throw e;
         }
 
     }

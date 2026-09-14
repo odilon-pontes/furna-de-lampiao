@@ -26,14 +26,12 @@ public class SeedRunner {
             GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em,
                     guiaEspeleologicoRepository);
             CavernaService cavernaService = new CavernaService(em, cavernaRepositoryJpa);
-            ExpedicaoService expedicaoService= new ExpedicaoService(em, expedicaoRepositoryJpa);
+            ExpedicaoService expedicaoService = new ExpedicaoService(em, expedicaoRepositoryJpa, cavernaRepositoryJpa);
             SetorService setorService = new SetorService(em, setorRepositoryJpa, cavernaRepositoryJpa);
-
 
             DatabaseSeeder seeder = new DatabaseSeeder(
                     pessoaService, pesquisadorService, guiaEspeleologicoService,
-                    cavernaService, expedicaoService, setorService
-            );
+                    cavernaService, expedicaoService, setorService);
             seeder.seedAll();
 
             System.out.println("[seed] Concluído.");
