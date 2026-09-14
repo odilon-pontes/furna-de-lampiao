@@ -4,7 +4,6 @@ import com.furnadelampiao.repository.CavernaRepository;
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.enums.UnidadeFederativa;
 import com.furnadelampiao.infra.TransacaoExecutor;
-import com.furnadelampiao.repository.CavernaRepositoryJpa;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -12,9 +11,9 @@ import java.util.List;
 public class CavernaService {
 
     private final EntityManager entityManager;
-    private final CavernaRepositoryJpa repository;
+    private final CavernaRepository repository;
 
-    public CavernaService(EntityManager entityManager, CavernaRepositoryJpa repository) {
+    public CavernaService(EntityManager entityManager, CavernaRepository repository) {
         this.entityManager = entityManager;
         this.repository = repository;
     }

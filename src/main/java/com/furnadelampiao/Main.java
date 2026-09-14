@@ -1,9 +1,12 @@
 package com.furnadelampiao;
 
 import com.furnadelampiao.domain.Pessoa;
+import com.furnadelampiao.repository.GuiaEspeleologicoRepository;
 import com.furnadelampiao.repository.GuiaEspeleologicoRepositoryJpa;
+import com.furnadelampiao.repository.PesquisadorRepository;
 import com.furnadelampiao.repository.PesquisadorRepositoryJpa;
 import com.furnadelampiao.repository.PessoaRepository;
+import com.furnadelampiao.repository.PessoaRepositoryJpa;
 import com.furnadelampiao.service.GuiaEspeleologicoService;
 import com.furnadelampiao.service.PesquisadorService;
 import com.furnadelampiao.service.PessoaService;
@@ -20,13 +23,14 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("furnaPU");
         EntityManager em = emf.createEntityManager();
 
-        PessoaRepository pessoaRepository = new PessoaRepository(em);
-        PesquisadorRepositoryJpa pesquisadorRepositoryJpa = new PesquisadorRepositoryJpa(em);
-        GuiaEspeleologicoRepositoryJpa guiaEspeleologicoRepositoryJpa = new GuiaEspeleologicoRepositoryJpa(em);
+        PessoaRepository pessoaRepository = new PessoaRepositoryJpa(em);
+        PesquisadorRepository pesquisadorRepository = new PesquisadorRepositoryJpa(em);
+        GuiaEspeleologicoRepository guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
 
         PessoaService pessoaService = new PessoaService(em, pessoaRepository);
-        PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepositoryJpa);
-        GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em, guiaEspeleologicoRepositoryJpa);
+        PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
+        GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em,
+                guiaEspeleologicoRepository);
 
         List<Pessoa> pessoas = pessoaService.listarTodos();
 

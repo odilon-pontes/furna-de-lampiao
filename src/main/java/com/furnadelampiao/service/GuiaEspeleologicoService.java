@@ -1,17 +1,16 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.domain.Pesquisador;
-import com.furnadelampiao.repository.GuiaEspeleologicoRepositoryJpa;
 import com.furnadelampiao.domain.GuiaEspeleologico;
+import com.furnadelampiao.repository.GuiaEspeleologicoRepository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 public class GuiaEspeleologicoService {
-    private final GuiaEspeleologicoRepositoryJpa repository;
+    private final GuiaEspeleologicoRepository repository;
     private final EntityManager entityManager;
 
-    public GuiaEspeleologicoService(EntityManager entityManager, GuiaEspeleologicoRepositoryJpa repository) {
+    public GuiaEspeleologicoService(EntityManager entityManager, GuiaEspeleologicoRepository repository) {
         this.entityManager = entityManager;
         this.repository = repository;
     }

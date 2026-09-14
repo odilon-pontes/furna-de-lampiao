@@ -1,6 +1,6 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.repository.PesquisadorRepositoryJpa;
+import com.furnadelampiao.repository.PesquisadorRepository;
 import com.furnadelampiao.domain.Pesquisador;
 import com.furnadelampiao.enums.Titulacao;
 
@@ -10,9 +10,9 @@ import java.util.List;
 
 public class PesquisadorService {
     private final EntityManager entityManager;
-    private final PesquisadorRepositoryJpa repository;
+    private final PesquisadorRepository repository;
 
-    public PesquisadorService(EntityManager entityManager, PesquisadorRepositoryJpa repository) {
+    public PesquisadorService(EntityManager entityManager, PesquisadorRepository repository) {
         this.entityManager = entityManager;
         this.repository = repository;
     }

@@ -424,7 +424,7 @@ public class DatabaseSeeder {
 
         guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
                 .nome("Henrique Ramos")
-                .cpf("22233344455")
+                .cpf("44455569677")
                 .dataNasc(LocalDate.of(1986, 3, 15))
                 .email("henrique.ramos@example.com")
                 .telefone("83997788990")
@@ -438,7 +438,7 @@ public class DatabaseSeeder {
 
         guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
                 .nome("Vanessa Oliveira")
-                .cpf("33344455566")
+                .cpf("44556677889")
                 .dataNasc(LocalDate.of(1995, 8, 21))
                 .email("vanessa.oliveira@example.com")
                 .telefone("83998899001")
