@@ -1,21 +1,22 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.Repository.CavernaRepository;
+import com.furnadelampiao.repository.CavernaRepository;
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.enums.UnidadeFederativa;
 import com.furnadelampiao.infra.TransacaoExecutor;
+import com.furnadelampiao.repository.CavernaRepositoryJpa;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 public class CavernaService {
 
-    private final CavernaRepository repository;
     private final EntityManager entityManager;
+    private final CavernaRepositoryJpa repository;
 
-    public CavernaService(CavernaRepository repository, EntityManager entityManager) {
-        this.repository = repository;
+    public CavernaService(EntityManager entityManager, CavernaRepositoryJpa repository) {
         this.entityManager = entityManager;
+        this.repository = repository;
     }
 
     public void cadastrar(Caverna caverna) {

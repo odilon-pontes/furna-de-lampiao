@@ -1,4 +1,4 @@
-package com.furnadelampiao.Repository;
+package com.furnadelampiao.repository;
 
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.enums.UnidadeFederativa;

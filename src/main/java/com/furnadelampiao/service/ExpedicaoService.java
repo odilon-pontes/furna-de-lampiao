@@ -1,9 +1,10 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.Repository.ExpedicaoRepository;
+import com.furnadelampiao.repository.ExpedicaoRepository;
 import com.furnadelampiao.domain.Expedicao;
 import com.furnadelampiao.enums.SituacaoExpedicao;
 import com.furnadelampiao.infra.TransacaoExecutor;
+import com.furnadelampiao.repository.ExpedicaoRepositoryJpa;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -11,10 +12,10 @@ import java.util.List;
 
 public class ExpedicaoService {
 
-    private final ExpedicaoRepository repository;
     private final EntityManager entityManager;
+    private final ExpedicaoRepositoryJpa repository;
 
-    public ExpedicaoService(ExpedicaoRepository repository, EntityManager entityManager) {
+    public ExpedicaoService( EntityManager entityManager, ExpedicaoRepositoryJpa repository) {
         this.repository = repository;
         this.entityManager = entityManager;
     }

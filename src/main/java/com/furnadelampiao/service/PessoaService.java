@@ -1,24 +1,38 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.Repository.PessoaRepository;
+
+import com.furnadelampiao.repository.PessoaRepository;
 import com.furnadelampiao.domain.Pessoa;
-import com.furnadelampiao.infra.TransacaoExecutor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 public class PessoaService {
-    private final PessoaRepository pessoaRepository;
     private final EntityManager entityManager;
+    private final PessoaRepository pessoaRepository;
 
-    public PessoaService(PessoaRepository pessoaRepository, EntityManager entityManager) {
-        this.pessoaRepository = pessoaRepository;
+
+    public PessoaService (EntityManager entityManager, PessoaRepository pessoaRepository) {
         this.entityManager = entityManager;
+        this.pessoaRepository = pessoaRepository;
     }
 
     public void salvar(Pessoa p) {
         validarPessoa(p);
-        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.salvar(p));
+
+        try {
+            entityManager.getTransaction().begin();
+
+            pessoaRepository.salvar(p);
+
+            entityManager.getTransaction().commit();
+        } catch (RuntimeException e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw e;
+        }
+
     }
 
     public Pessoa buscarPorId(Long id) {
@@ -28,7 +42,7 @@ public class PessoaService {
         return pessoaRepository.buscarPorId(id);
     }
 
-    public List<Pessoa> listarTodos() {
+    public List<Pessoa> listarTodos(){
         return pessoaRepository.listarTodos();
     }
 
@@ -37,28 +51,57 @@ public class PessoaService {
 
         if (p.getId() == null) {
             throw new IllegalArgumentException(
-                    "Pessoa precisa de ID para ser atualizada.");
+                    "Pessoa precisa de ID para ser atualizada."
+            );
         }
-        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.atualizar(p));
+
+        try {
+            entityManager.getTransaction().begin();
+
+            pessoaRepository.atualizar(p);
+
+            entityManager.getTransaction().commit();
+        } catch (RuntimeException e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw e;
+        }
+
     }
 
     public void removerPorId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException(
-                    "ID não pode ser nulo.");
+                    "ID não pode ser nulo."
+            );
         }
-        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.removerPorId(id));
+
+        try {
+            entityManager.getTransaction().begin();
+
+            pessoaRepository.removerPorId(id);
+
+            entityManager.getTransaction().commit();
+        } catch (RuntimeException e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw e;
+        }
     }
 
     private void validarPessoa(Pessoa p) {
         if (p == null) {
             throw new IllegalArgumentException(
-                    "Pessoa não pode ser nula.");
+                    "Pessoa não pode ser nula."
+            );
         }
 
-        if (p.getNome() == null || p.getNome().isBlank()) {
+        if (p.getNome() == null || p.getNome().isBlank()){
             throw new IllegalArgumentException(
-                    "Nome de pessoa é obrigatório.");
+                    "Nome de pessoa é obrigatório."
+            );
         }
     }
 }

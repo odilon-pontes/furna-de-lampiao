@@ -1,10 +1,16 @@
 package com.furnadelampiao.domain;
 
 import com.furnadelampiao.enums.Titulacao;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 
 @Entity
@@ -26,7 +32,4 @@ public class Pesquisador extends Pessoa{
 
     @Column(name = "valor_diario_bolsa", precision = 10, scale = 2)
     private BigDecimal valorDiarioBolsa;
-
-    @Column(name = "qtd_expedicoes_concluidas")
-    private Integer qtdExpedicoesConcluidas;
 }

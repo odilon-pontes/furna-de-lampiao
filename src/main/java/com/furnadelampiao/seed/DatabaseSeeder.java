@@ -1,0 +1,893 @@
+package com.furnadelampiao.seed;
+
+import com.furnadelampiao.domain.*;
+import com.furnadelampiao.enums.*;
+import com.furnadelampiao.service.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Popula o banco com dados de exemplo para desenvolvimento/demonstração.
+ */
+public class DatabaseSeeder {
+
+    private final PessoaService pessoaService;
+    private final PesquisadorService pesquisadorService;
+    private final GuiaEspeleologicoService guiaEspeleologicoService;
+    private final CavernaService cavernaService;
+    private final ExpedicaoService expedicaoService;
+    private final SetorService setorService;
+    private final List<Caverna> cavernas = new ArrayList<>() ;
+
+    public DatabaseSeeder(PessoaService pessoaService,
+                          PesquisadorService pesquisadorService,
+                          GuiaEspeleologicoService guiaEspeleologicoService,
+                          CavernaService cavernaService,
+                          ExpedicaoService expedicaoService,
+                          SetorService setorService) {
+        this.pessoaService = pessoaService;
+        this.pesquisadorService = pesquisadorService;
+        this.guiaEspeleologicoService = guiaEspeleologicoService;
+        this.cavernaService = cavernaService;
+        this.expedicaoService = expedicaoService;
+        this.setorService = setorService;
+    }
+
+    public void seedAll() {
+        seedPessoas();
+        seedPesquisadores();
+        seedGuiasEspeleologicos();
+        seedCavernas();
+        seedSetores();
+        seedExpedicoes();
+    }
+
+    private void seedPessoas() {
+        if (!pessoaService.listarTodos().isEmpty()) {
+            System.out.println("[seed] Pessoa já possui registros — pulando.");
+            return;
+        }
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Maria Amorim")
+                .cpf("10293847561")
+                .dataNasc(LocalDate.of(1990, 3, 12))
+                .email("maria.amorim@example.com")
+                .telefone("83998999900")
+                .endereco(endereco("Av. Dom Pedro II", "3", null, "Torre",
+                        "João Pessoa", UnidadeFederativa.PB, "58040-020"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Rafael Nogueira")
+                .cpf("22233344455")
+                .dataNasc(LocalDate.of(1988, 11, 2))
+                .email("rafael.nogueira@example.com")
+                .telefone("83988776655")
+                .endereco(endereco("Rua das Trincheiras", "120", "apto 302",
+                        "Trincheiras", "Campina Grande", UnidadeFederativa.PB, "58400-365"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Lucas Ferreira")
+                .cpf("34567890122")
+                .dataNasc(LocalDate.of(1995, 6, 18))
+                .email("lucas.ferreira@example.com")
+                .telefone("83991234567")
+                .endereco(endereco("Rua Epitácio Pessoa", "250", null,
+                        "Centro", "João Pessoa", UnidadeFederativa.PB, "58013-420"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Ana Beatriz Lima")
+                .cpf("45678901233")
+                .dataNasc(LocalDate.of(1993, 8, 27))
+                .email("ana.lima@example.com")
+                .telefone("83992345678")
+                .endereco(endereco("Rua José Américo", "88", null,
+                        "Bancários", "João Pessoa", UnidadeFederativa.PB, "58051-110"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Pedro Henrique")
+                .cpf("56789012344")
+                .dataNasc(LocalDate.of(1987, 2, 14))
+                .email("pedro.henrique@example.com")
+                .telefone("83993456789")
+                .endereco(endereco("Av. Floriano Peixoto", "410", null,
+                        "Centro", "Campina Grande", UnidadeFederativa.PB, "58400-165"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Juliana Martins")
+                .cpf("67890123455")
+                .dataNasc(LocalDate.of(1991, 10, 9))
+                .email("juliana.martins@example.com")
+                .telefone("83994567890")
+                .endereco(endereco("Rua Manoel Deodato", "155", "casa 2",
+                        "Torre", "João Pessoa", UnidadeFederativa.PB, "58040-180"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("André Oliveira")
+                .cpf("78901234566")
+                .dataNasc(LocalDate.of(1984, 12, 22))
+                .email("andre.oliveira@example.com")
+                .telefone("83995678901")
+                .endereco(endereco("Rua João Machado", "90", null,
+                        "Centro", "João Pessoa", UnidadeFederativa.PB, "58010-250"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Camila Rodrigues")
+                .cpf("89012345677")
+                .dataNasc(LocalDate.of(1996, 5, 3))
+                .email("camila.rodrigues@example.com")
+                .telefone("83996789012")
+                .endereco(endereco("Rua Bancário Sérgio Guerra", "320", null,
+                        "Bancários", "João Pessoa", UnidadeFederativa.PB, "58051-520"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Thiago Almeida")
+                .cpf("90123456788")
+                .dataNasc(LocalDate.of(1989, 9, 16))
+                .email("thiago.almeida@example.com")
+                .telefone("83997890123")
+                .endereco(endereco("Rua Aprígio Veloso", "600", null,
+                        "Universitário", "Campina Grande", UnidadeFederativa.PB, "58429-900"))
+                .build());
+
+        pessoaService.salvar(Pessoa.builder()
+                .nome("Larissa Santos")
+                .cpf("01234567899")
+                .dataNasc(LocalDate.of(1997, 1, 25))
+                .email("larissa.santos@example.com")
+                .telefone("83998901234")
+                .endereco(endereco("Rua Duque de Caxias", "175", null,
+                        "Centro", "João Pessoa", UnidadeFederativa.PB, "58010-821"))
+                .build());
+
+        System.out.println("[seed] 10 registros de Pessoa criados.");
+    }
+
+    private void seedPesquisadores() {
+        if (!pesquisadorService.listarTodos().isEmpty()) {
+            System.out.println("[seed] Pesquisador já possui registros — pulando.");
+            return;
+        }
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("João Silva")
+                .cpf("12345678900")
+                .dataNasc(LocalDate.of(1985, 7, 21))
+                .email("joao.silva@example.com")
+                .telefone("83998999999")
+                .endereco(endereco("Rua João Pessoa", "45", null, "Centro",
+                        "João Pessoa", UnidadeFederativa.PB, "58010-040"))
+                .numRegistroInstitucional("PES-001")
+                .areaPrincipalPesquisa("Espeleologia")
+                .titulacao(Titulacao.DOUTORADO)
+                .valorDiarioBolsa(new BigDecimal("250.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Beatriz Lins")
+                .cpf("33344455566")
+                .dataNasc(LocalDate.of(1992, 4, 9))
+                .email("beatriz.lins@example.com")
+                .telefone("83997665544")
+                .endereco(endereco("Rua Maciel Pinheiro", "210", null, "Varadouro",
+                        "João Pessoa", UnidadeFederativa.PB, "58010-490"))
+                .numRegistroInstitucional("PES-002")
+                .areaPrincipalPesquisa("Biologia de cavernas")
+                .titulacao(Titulacao.MESTRADO)
+                .valorDiarioBolsa(new BigDecimal("180.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Eduardo Farias")
+                .cpf("44455566677")
+                .dataNasc(LocalDate.of(1979, 1, 30))
+                .email("eduardo.farias@example.com")
+                .telefone("83996655443")
+                .endereco(endereco("Av. Epitácio Pessoa", "800", "bloco B",
+                        "Bairro dos Estados", "João Pessoa", UnidadeFederativa.PB, "58030-000"))
+                .numRegistroInstitucional("PES-003")
+                .areaPrincipalPesquisa("Geologia")
+                .titulacao(Titulacao.POS_DOUTORADO)
+                .valorDiarioBolsa(new BigDecimal("320.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Mariana Costa")
+                .cpf("55667788990")
+                .dataNasc(LocalDate.of(1988, 5, 14))
+                .email("mariana.costa@example.com")
+                .telefone("83991112233")
+                .endereco(endereco("Rua das Acácias", "120", null, "Manaíra",
+                        "João Pessoa", UnidadeFederativa.PB, "58038-170"))
+                .numRegistroInstitucional("PES-004")
+                .areaPrincipalPesquisa("Arqueologia")
+                .titulacao(Titulacao.DOUTORADO)
+                .valorDiarioBolsa(new BigDecimal("290.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Felipe Andrade")
+                .cpf("66778899001")
+                .dataNasc(LocalDate.of(1990, 3, 28))
+                .email("felipe.andrade@example.com")
+                .telefone("83992223344")
+                .endereco(endereco("Rua Almeida Barreto", "75", null, "Centro",
+                        "Campina Grande", UnidadeFederativa.PB, "58400-250"))
+                .numRegistroInstitucional("PES-005")
+                .areaPrincipalPesquisa("Geografia")
+                .titulacao(Titulacao.MESTRADO)
+                .valorDiarioBolsa(new BigDecimal("210.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Patrícia Gomes")
+                .cpf("77889900112")
+                .dataNasc(LocalDate.of(1994, 11, 6))
+                .email("patricia.gomes@example.com")
+                .telefone("83993334455")
+                .endereco(endereco("Rua João Cabral", "190", null, "Tambauzinho",
+                        "João Pessoa", UnidadeFederativa.PB, "58042-180"))
+                .numRegistroInstitucional("PES-006")
+                .areaPrincipalPesquisa("Paleontologia")
+                .titulacao(Titulacao.MESTRADO)
+                .valorDiarioBolsa(new BigDecimal("195.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Ricardo Martins")
+                .cpf("88990011223")
+                .dataNasc(LocalDate.of(1982, 8, 19))
+                .email("ricardo.martins@example.com")
+                .telefone("83994445566")
+                .endereco(endereco("Av. Getúlio Vargas", "350", null, "Centro",
+                        "Campina Grande", UnidadeFederativa.PB, "58400-052"))
+                .numRegistroInstitucional("PES-007")
+                .areaPrincipalPesquisa("Geologia ambiental")
+                .titulacao(Titulacao.DOUTORADO)
+                .valorDiarioBolsa(new BigDecimal("275.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Renata Alves")
+                .cpf("99001122334")
+                .dataNasc(LocalDate.of(1993, 2, 11))
+                .email("renata.alves@example.com")
+                .telefone("83995556677")
+                .endereco(endereco("Rua Professora Alice", "64", null, "Bancários",
+                        "João Pessoa", UnidadeFederativa.PB, "58051-400"))
+                .numRegistroInstitucional("PES-008")
+                .areaPrincipalPesquisa("Ecologia")
+                .titulacao(Titulacao.MESTRADO)
+                .valorDiarioBolsa(new BigDecimal("185.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Gustavo Ribeiro")
+                .cpf("10112233445")
+                .dataNasc(LocalDate.of(1986, 6, 24))
+                .email("gustavo.ribeiro@example.com")
+                .telefone("83996667788")
+                .endereco(endereco("Rua Floriano Peixoto", "280", null, "Centro",
+                        "João Pessoa", UnidadeFederativa.PB, "58010-090"))
+                .numRegistroInstitucional("PES-009")
+                .areaPrincipalPesquisa("Cartografia")
+                .titulacao(Titulacao.POS_DOUTORADO)
+                .valorDiarioBolsa(new BigDecimal("350.00"))
+                .build());
+
+        pesquisadorService.cadastrar(Pesquisador.builder()
+                .nome("Aline Carvalho")
+                .cpf("21223344556")
+                .dataNasc(LocalDate.of(1991, 12, 7))
+                .email("aline.carvalho@example.com")
+                .telefone("83997778899")
+                .endereco(endereco("Rua Monsenhor Walfredo", "110", null, "Centro",
+                        "João Pessoa", UnidadeFederativa.PB, "58010-480"))
+                .numRegistroInstitucional("PES-010")
+                .areaPrincipalPesquisa("Conservação ambiental")
+                .titulacao(Titulacao.DOUTORADO)
+                .valorDiarioBolsa(new BigDecimal("300.00"))
+                .build());
+
+        System.out.println("[seed] 10 registros de Pesquisador criados.");
+    }
+
+    private void seedGuiasEspeleologicos() {
+        if (!guiaEspeleologicoService.listarTodos().isEmpty()) {
+            System.out.println("[seed] GuiaEspeleologico já possui registros — pulando.");
+            return;
+        }
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Carlos Eduardo")
+                .cpf("12345678990")
+                .dataNasc(LocalDate.of(1985, 7, 20))
+                .email("carlos.eduardo@example.com")
+                .telefone("83999999999")
+                .endereco(endereco("Rua Diogo Velho", "58", null, "Cruz das Armas",
+                        "João Pessoa", UnidadeFederativa.PB, "58085-020"))
+                .numCredenciamento("GUIA-001")
+                .nivelCertificacao(NivelCertificacao.NIVEL_II)
+                .dataValidadeCertificacao(LocalDate.of(2027, 12, 31))
+                .qtdExpedicoesConcluidas(15)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Fernanda Costa")
+                .cpf("55566677788")
+                .dataNasc(LocalDate.of(1994, 9, 5))
+                .email("fernanda.costa@example.com")
+                .telefone("83995544332")
+                .endereco(endereco("Rua Peregrino de Carvalho", "77", null, "Jaguaribe",
+                        "João Pessoa", UnidadeFederativa.PB, "58015-430"))
+                .numCredenciamento("GUIA-002")
+                .nivelCertificacao(NivelCertificacao.NIVEL_III)
+                .dataValidadeCertificacao(LocalDate.of(2026, 6, 15))
+                .qtdExpedicoesConcluidas(32)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Marcelo Santos")
+                .cpf("66677788899")
+                .dataNasc(LocalDate.of(1987, 4, 17))
+                .email("marcelo.santos@example.com")
+                .telefone("83991122334")
+                .endereco(endereco("Rua da Aurora", "145", null, "Centro",
+                        "João Pessoa", UnidadeFederativa.PB, "58010-190"))
+                .numCredenciamento("GUIA-003")
+                .nivelCertificacao(NivelCertificacao.NIVEL_I)
+                .dataValidadeCertificacao(LocalDate.of(2027, 8, 20))
+                .qtdExpedicoesConcluidas(9)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Juliana Freire")
+                .cpf("77788899900")
+                .dataNasc(LocalDate.of(1991, 1, 29))
+                .email("juliana.freire@example.com")
+                .telefone("83992233445")
+                .endereco(endereco("Rua Beira Rio", "220", null, "Altiplano",
+                        "João Pessoa", UnidadeFederativa.PB, "58046-180"))
+                .numCredenciamento("GUIA-004")
+                .nivelCertificacao(NivelCertificacao.NIVEL_II)
+                .dataValidadeCertificacao(LocalDate.of(2028, 2, 10))
+                .qtdExpedicoesConcluidas(21)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Roberto Lima")
+                .cpf("88899900011")
+                .dataNasc(LocalDate.of(1983, 10, 12))
+                .email("roberto.lima@example.com")
+                .telefone("83993344556")
+                .endereco(endereco("Rua Carlos Gomes", "310", null, "Centro",
+                        "Campina Grande", UnidadeFederativa.PB, "58400-230"))
+                .numCredenciamento("GUIA-005")
+                .nivelCertificacao(NivelCertificacao.NIVEL_III)
+                .dataValidadeCertificacao(LocalDate.of(2028, 5, 18))
+                .qtdExpedicoesConcluidas(45)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Camila Duarte")
+                .cpf("99900011122")
+                .dataNasc(LocalDate.of(1996, 7, 8))
+                .email("camila.duarte@example.com")
+                .telefone("83994455667")
+                .endereco(endereco("Rua das Palmeiras", "90", null, "Manaíra",
+                        "João Pessoa", UnidadeFederativa.PB, "58038-300"))
+                .numCredenciamento("GUIA-006")
+                .nivelCertificacao(NivelCertificacao.NIVEL_I)
+                .dataValidadeCertificacao(LocalDate.of(2027, 11, 5))
+                .qtdExpedicoesConcluidas(7)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Daniel Barbosa")
+                .cpf("00011122233")
+                .dataNasc(LocalDate.of(1989, 5, 23))
+                .email("daniel.barbosa@example.com")
+                .telefone("83995566778")
+                .endereco(endereco("Rua São Miguel", "170", null, "Torre",
+                        "João Pessoa", UnidadeFederativa.PB, "58040-300"))
+                .numCredenciamento("GUIA-007")
+                .nivelCertificacao(NivelCertificacao.NIVEL_II)
+                .dataValidadeCertificacao(LocalDate.of(2028, 1, 15))
+                .qtdExpedicoesConcluidas(27)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Priscila Moura")
+                .cpf("11122233344")
+                .dataNasc(LocalDate.of(1992, 11, 30))
+                .email("priscila.moura@example.com")
+                .telefone("83996677889")
+                .endereco(endereco("Rua do Sol", "210", null, "Centro",
+                        "João Pessoa", UnidadeFederativa.PB, "58010-100"))
+                .numCredenciamento("GUIA-008")
+                .nivelCertificacao(NivelCertificacao.NIVEL_III)
+                .dataValidadeCertificacao(LocalDate.of(2029, 3, 12))
+                .qtdExpedicoesConcluidas(38)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Henrique Ramos")
+                .cpf("22233344455")
+                .dataNasc(LocalDate.of(1986, 3, 15))
+                .email("henrique.ramos@example.com")
+                .telefone("83997788990")
+                .endereco(endereco("Rua das Flores", "130", null, "Centro",
+                        "Iporanga", UnidadeFederativa.SP, "18330-000"))
+                .numCredenciamento("GUIA-009")
+                .nivelCertificacao(NivelCertificacao.NIVEL_II)
+                .dataValidadeCertificacao(LocalDate.of(2028, 9, 30))
+                .qtdExpedicoesConcluidas(29)
+                .build());
+
+        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+                .nome("Vanessa Oliveira")
+                .cpf("33344455566")
+                .dataNasc(LocalDate.of(1995, 8, 21))
+                .email("vanessa.oliveira@example.com")
+                .telefone("83998899001")
+                .endereco(endereco("Rua Principal", "55", null, "Centro",
+                        "Eldorado", UnidadeFederativa.SP, "11960-000"))
+                .numCredenciamento("GUIA-010")
+                .nivelCertificacao(NivelCertificacao.NIVEL_I)
+                .dataValidadeCertificacao(LocalDate.of(2027, 10, 22))
+                .qtdExpedicoesConcluidas(12)
+                .build());
+
+        System.out.println("[seed] 10 registros de GuiaEspeleologico criados.");
+    }
+
+    private void seedCavernas() {
+        if (!cavernaService.listarTodos().isEmpty()) {
+            System.out.println("[seed] Caverna já possui registros — pulando.");
+            return;
+        }
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Caverna do Diabo")
+                .codCadastroAmbiental("CAV-001")
+                .municipio("Eldorado")
+                .uf(UnidadeFederativa.SP)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-24.5278"),
+                        new BigDecimal("-48.6986"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("540.00"))
+                .extensao(new BigDecimal("6320.50"))
+                .dataUltimaInspecao(LocalDate.of(2026, 3, 10))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Caverna Santana")
+                .codCadastroAmbiental("CAV-002")
+                .municipio("Iporanga")
+                .uf(UnidadeFederativa.SP)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-24.5167"),
+                        new BigDecimal("-48.6992"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("680.00"))
+                .extensao(new BigDecimal("5040.75"))
+                .dataUltimaInspecao(LocalDate.of(2026, 5, 20))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Gruta da Pratinha")
+                .codCadastroAmbiental("CAV-003")
+                .municipio("Iraquara")
+                .uf(UnidadeFederativa.BA)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-12.3833"),
+                        new BigDecimal("-41.5667"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("620.00"))
+                .extensao(new BigDecimal("1200.30"))
+                .dataUltimaInspecao(LocalDate.of(2026, 4, 8))
+                .acessoAtualmentePermitido(false)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Gruta Azul")
+                .codCadastroAmbiental("CAV-004")
+                .municipio("Bonito")
+                .uf(UnidadeFederativa.MS)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-21.1261"),
+                        new BigDecimal("-56.4828"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("350.00"))
+                .extensao(new BigDecimal("890.40"))
+                .dataUltimaInspecao(LocalDate.of(2026, 2, 17))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Caverna do Lago Azul")
+                .codCadastroAmbiental("CAV-005")
+                .municipio("Bonito")
+                .uf(UnidadeFederativa.MS)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-21.1378"),
+                        new BigDecimal("-56.5792"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("340.00"))
+                .extensao(new BigDecimal("720.80"))
+                .dataUltimaInspecao(LocalDate.of(2026, 1, 25))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Gruta da Torrinha")
+                .codCadastroAmbiental("CAV-006")
+                .municipio("Iraquara")
+                .uf(UnidadeFederativa.BA)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-12.3167"),
+                        new BigDecimal("-41.6167"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("690.00"))
+                .extensao(new BigDecimal("4100.25"))
+                .dataUltimaInspecao(LocalDate.of(2026, 6, 12))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Gruta Lapa Doce")
+                .codCadastroAmbiental("CAV-007")
+                .municipio("Iraquara")
+                .uf(UnidadeFederativa.BA)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-12.3500"),
+                        new BigDecimal("-41.5667"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("640.00"))
+                .extensao(new BigDecimal("8500.00"))
+                .dataUltimaInspecao(LocalDate.of(2026, 5, 3))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Caverna da Onça")
+                .codCadastroAmbiental("CAV-008")
+                .municipio("Pains")
+                .uf(UnidadeFederativa.MG)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-20.3700"),
+                        new BigDecimal("-45.6700"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("720.00"))
+                .extensao(new BigDecimal("2750.60"))
+                .dataUltimaInspecao(LocalDate.of(2026, 7, 9))
+                .acessoAtualmentePermitido(false)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Gruta do Janelão")
+                .codCadastroAmbiental("CAV-009")
+                .municipio("Januária")
+                .uf(UnidadeFederativa.MG)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-15.4700"),
+                        new BigDecimal("-44.3600"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("510.00"))
+                .extensao(new BigDecimal("4600.90"))
+                .dataUltimaInspecao(LocalDate.of(2026, 6, 28))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        cavernas.add(Caverna.builder()
+                .nomeOficial("Gruta da Mangabeira")
+                .codCadastroAmbiental("CAV-010")
+                .municipio("Ituaçu")
+                .uf(UnidadeFederativa.BA)
+                .coordenadas(new Localizacao(
+                        new BigDecimal("-13.8100"),
+                        new BigDecimal("-41.3000"),
+                        "SIRGAS2000"))
+                .altitude(new BigDecimal("580.00"))
+                .extensao(new BigDecimal("3900.45"))
+                .dataUltimaInspecao(LocalDate.of(2026, 7, 20))
+                .acessoAtualmentePermitido(true)
+                .build());
+
+        for (Caverna caverna : cavernas) {
+            cavernaService.cadastrar(caverna);
+        }
+
+        System.out.println("[seed] 10 registros de Caverna criados.");
+    }
+
+    private void seedSetores() {
+        if (!setorService.listarTodos().isEmpty()) {
+            System.out.println("[seed] Setor já possui registros — pulando.");
+            return;
+        }
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria Principal")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
+                .profundidadeMaxima(new BigDecimal("12.00"))
+                .extensaoAproximada(new BigDecimal("150.00"))
+                .descricao("Trecho de entrada, com passagem alta e piso irregular")
+                .riscoInundacao(new BigDecimal("10.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(0))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria das Águas")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.ALTO)
+                .profundidadeMaxima(new BigDecimal("28.50"))
+                .extensaoAproximada(new BigDecimal("320.00"))
+                .descricao("Galeria com trechos estreitos e presença de fluxo de água")
+                .riscoInundacao(new BigDecimal("35.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(1))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Salão dos Cristais")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.BAIXO)
+                .profundidadeMaxima(new BigDecimal("8.00"))
+                .extensaoAproximada(new BigDecimal("210.00"))
+                .descricao("Salão amplo com formações minerais e acesso facilitado")
+                .riscoInundacao(new BigDecimal("5.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(2))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria Azul")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
+                .profundidadeMaxima(new BigDecimal("18.00"))
+                .extensaoAproximada(new BigDecimal("275.00"))
+                .descricao("Galeria com formações calcárias e trechos parcialmente alagados")
+                .riscoInundacao(new BigDecimal("20.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(3))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Salão Subterrâneo")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.BAIXO)
+                .profundidadeMaxima(new BigDecimal("10.50"))
+                .extensaoAproximada(new BigDecimal("190.00"))
+                .descricao("Área ampla utilizada para observação e estudos ambientais")
+                .riscoInundacao(new BigDecimal("8.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(4))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria Profunda")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.ALTO)
+                .profundidadeMaxima(new BigDecimal("42.00"))
+                .extensaoAproximada(new BigDecimal("480.00"))
+                .descricao("Trecho profundo com passagens estreitas e terreno acidentado")
+                .riscoInundacao(new BigDecimal("40.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(5))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria das Estalactites")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
+                .profundidadeMaxima(new BigDecimal("22.00"))
+                .extensaoAproximada(new BigDecimal("360.00"))
+                .descricao("Galeria com grande concentração de formações minerais")
+                .riscoInundacao(new BigDecimal("15.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(6))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria da Onça")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.ALTO)
+                .profundidadeMaxima(new BigDecimal("35.00"))
+                .extensaoAproximada(new BigDecimal("410.00"))
+                .descricao("Trecho de difícil acesso com piso irregular e baixa iluminação natural")
+                .riscoInundacao(new BigDecimal("30.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(7))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Salão do Janelão")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.BAIXO)
+                .profundidadeMaxima(new BigDecimal("15.00"))
+                .extensaoAproximada(new BigDecimal("520.00"))
+                .descricao("Grande salão com abertura natural e boa circulação de ar")
+                .riscoInundacao(new BigDecimal("7.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(8))
+                .build());
+
+        setorService.cadastrar(Setor.builder()
+                .denominacao("Galeria da Mangabeira")
+                .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
+                .profundidadeMaxima(new BigDecimal("25.00"))
+                .extensaoAproximada(new BigDecimal("390.00"))
+                .descricao("Galeria com trechos inclinados e formações minerais preservadas")
+                .riscoInundacao(new BigDecimal("18.00"))
+                .condicaoCorrente(CondicaoSetor.DISPONIVEL)
+                .caverna(cavernas.get(9))
+                .build());
+
+        System.out.println("[seed] 10 registros de Setor criados.");
+    }
+
+    private void seedExpedicoes() {
+        if (!expedicaoService.listarTodos().isEmpty()) {
+            System.out.println("[seed] Expedição já possui registros — pulando.");
+            return;
+        }
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-001")
+                .custoRealizado(new BigDecimal("15000.00"))
+                .titulo("Mapeamento inicial da Furna de Lampião")
+                .objetivo("Levantamento topográfico e coleta de amostras minerais")
+                .inicioPrevisto(LocalDateTime.of(2026, 10, 1, 8, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 10, 3, 18, 0))
+                .orcamentoAprovado(new BigDecimal("15000.00"))
+                .qtdMaxParticipantes(6)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(0))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-002")
+                .custoRealizado(new BigDecimal("10000.00"))
+                .titulo("Exploração da Caverna Santana")
+                .objetivo("Exploração espeleológica e levantamento de novas galerias")
+                .inicioPrevisto(LocalDateTime.of(2026, 11, 10, 7, 30))
+                .terminoPrevisto(LocalDateTime.of(2026, 11, 12, 17, 0))
+                .orcamentoAprovado(new BigDecimal("12000.00"))
+                .qtdMaxParticipantes(8)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(1))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-003")
+                .custoRealizado(new BigDecimal("7000.00"))
+                .titulo("Inspeção da Gruta da Pratinha")
+                .objetivo("Avaliação das condições de acesso e levantamento ambiental")
+                .inicioPrevisto(LocalDateTime.of(2026, 12, 5, 9, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 12, 5, 16, 0))
+                .orcamentoAprovado(new BigDecimal("7500.00"))
+                .qtdMaxParticipantes(5)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(2))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-004")
+                .custoRealizado(new BigDecimal("8000.00"))
+                .titulo("Estudo da Gruta Azul")
+                .objetivo("Análise geológica e registro fotográfico das formações")
+                .inicioPrevisto(LocalDateTime.of(2026, 10, 15, 8, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 10, 16, 17, 0))
+                .orcamentoAprovado(new BigDecimal("9000.00"))
+                .qtdMaxParticipantes(7)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(3))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-005")
+                .custoRealizado(new BigDecimal("5000.00"))
+                .titulo("Monitoramento do Lago Azul")
+                .objetivo("Monitoramento ambiental e análise da qualidade da água")
+                .inicioPrevisto(LocalDateTime.of(2026, 10, 22, 9, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 10, 23, 16, 0))
+                .orcamentoAprovado(new BigDecimal("6800.00"))
+                .qtdMaxParticipantes(5)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(4))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-006")
+                .custoRealizado(new BigDecimal("18000.00"))
+                .titulo("Levantamento topográfico da Torrinha")
+                .objetivo("Mapeamento das galerias e identificação de novos acessos")
+                .inicioPrevisto(LocalDateTime.of(2026, 11, 3, 7, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 11, 6, 18, 0))
+                .orcamentoAprovado(new BigDecimal("18000.00"))
+                .qtdMaxParticipantes(10)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(5))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-007")
+                .custoRealizado(new BigDecimal("13000.00"))
+                .titulo("Exploração da Lapa Doce")
+                .objetivo("Estudo das formações minerais e levantamento espeleológico")
+                .inicioPrevisto(LocalDateTime.of(2026, 11, 18, 8, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 11, 20, 17, 0))
+                .orcamentoAprovado(new BigDecimal("13500.00"))
+                .qtdMaxParticipantes(8)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(6))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-008")
+                .custoRealizado(new BigDecimal("7500.00"))
+                .titulo("Inspeção da Caverna da Onça")
+                .objetivo("Avaliação estrutural e análise das condições de segurança")
+                .inicioPrevisto(LocalDateTime.of(2026, 12, 1, 8, 30))
+                .terminoPrevisto(LocalDateTime.of(2026, 12, 2, 17, 0))
+                .orcamentoAprovado(new BigDecimal("8200.00"))
+                .qtdMaxParticipantes(6)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(7))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-009")
+                .custoRealizado(new BigDecimal("15000.00"))
+                .titulo("Mapeamento da Gruta do Janelão")
+                .objetivo("Levantamento cartográfico e registro das galerias")
+                .inicioPrevisto(LocalDateTime.of(2026, 12, 8, 7, 30))
+                .terminoPrevisto(LocalDateTime.of(2026, 12, 10, 18, 0))
+                .orcamentoAprovado(new BigDecimal("16000.00"))
+                .qtdMaxParticipantes(9)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(8))
+                .build());
+
+        expedicaoService.cadastrar(Expedicao.builder()
+                .codigo("EXP-2026-010")
+                .custoRealizado(new BigDecimal("10000.00"))
+                .titulo("Avaliação da Gruta da Mangabeira")
+                .objetivo("Inventário ambiental e avaliação das condições de conservação")
+                .inicioPrevisto(LocalDateTime.of(2026, 12, 15, 8, 0))
+                .terminoPrevisto(LocalDateTime.of(2026, 12, 17, 17, 0))
+                .orcamentoAprovado(new BigDecimal("11000.00"))
+                .qtdMaxParticipantes(7)
+                .situacao(SituacaoExpedicao.PLANEJADA)
+                .cancelamentoEmergencial(false)
+                .caverna(cavernas.get(9))
+                .build());
+
+        System.out.println("[seed] 10 registros de Expedição criados.");
+    }
+
+    private Endereco endereco(String logradouro, String numero, String complemento,
+                              String bairro, String cidade, UnidadeFederativa uf, String cep) {
+        return new Endereco(logradouro, numero, complemento, bairro, cidade, uf, cep);
+    }
+
+
+}

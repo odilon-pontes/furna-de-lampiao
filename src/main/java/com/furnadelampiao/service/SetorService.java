@@ -1,11 +1,13 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.Repository.CavernaRepository;
-import com.furnadelampiao.Repository.SetorRepository;
+import com.furnadelampiao.repository.CavernaRepository;
+import com.furnadelampiao.repository.CavernaRepositoryJpa;
+import com.furnadelampiao.repository.SetorRepository;
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.domain.Setor;
 import com.furnadelampiao.enums.NivelDificuldadeSetor;
 import com.furnadelampiao.infra.TransacaoExecutor;
+import com.furnadelampiao.repository.SetorRepositoryJpa;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -13,14 +15,14 @@ import java.util.List;
 
 public class SetorService {
 
-    private final SetorRepository repository;
-    private final CavernaRepository cavernaRepository;
     private final EntityManager entityManager;
+    private final SetorRepositoryJpa repository;
+    private final CavernaRepositoryJpa cavernaRepository;
 
-    public SetorService(SetorRepository repository, CavernaRepository cavernaRepository, EntityManager entityManager) {
+    public SetorService(EntityManager entityManager, SetorRepositoryJpa repository, CavernaRepositoryJpa cavernaRepository) {
+        this.entityManager = entityManager;
         this.repository = repository;
         this.cavernaRepository = cavernaRepository;
-        this.entityManager = entityManager;
     }
 
     public void cadastrar(Setor setor) {

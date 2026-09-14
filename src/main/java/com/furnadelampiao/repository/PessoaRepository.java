@@ -1,4 +1,4 @@
-package com.furnadelampiao.Repository;
+package com.furnadelampiao.repository;
 
 import com.furnadelampiao.domain.Pessoa;
 
@@ -36,6 +36,7 @@ public class PessoaRepository implements Repository<Pessoa, Long> {
 
     @Override
     public void removerPorId(Long id) {
+
         Pessoa p = entityManager.find(Pessoa.class, id);
 
         if (p != null) {

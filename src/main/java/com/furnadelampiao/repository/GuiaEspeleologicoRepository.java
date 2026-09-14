@@ -1,4 +1,4 @@
-package com.furnadelampiao.Repository;
+package com.furnadelampiao.repository;
 
 import com.furnadelampiao.domain.GuiaEspeleologico;
 import com.furnadelampiao.enums.NivelCertificacao;

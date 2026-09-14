@@ -1,4 +1,4 @@
-package com.furnadelampiao.Repository;
+package com.furnadelampiao.repository;
 
 import com.furnadelampiao.domain.Expedicao;
 import com.furnadelampiao.enums.SituacaoExpedicao;
