@@ -743,6 +743,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-001")
+                .custoRealizado(new BigDecimal("15000.00"))
                 .titulo("Mapeamento inicial da Furna de Lampião")
                 .objetivo("Levantamento topográfico e coleta de amostras minerais")
                 .inicioPrevisto(LocalDateTime.of(2026, 10, 1, 8, 0))
@@ -756,6 +757,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-002")
+                .custoRealizado(new BigDecimal("10000.00"))
                 .titulo("Exploração da Caverna Santana")
                 .objetivo("Exploração espeleológica e levantamento de novas galerias")
                 .inicioPrevisto(LocalDateTime.of(2026, 11, 10, 7, 30))
@@ -769,6 +771,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-003")
+                .custoRealizado(new BigDecimal("7000.00"))
                 .titulo("Inspeção da Gruta da Pratinha")
                 .objetivo("Avaliação das condições de acesso e levantamento ambiental")
                 .inicioPrevisto(LocalDateTime.of(2026, 12, 5, 9, 0))
@@ -782,6 +785,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-004")
+                .custoRealizado(new BigDecimal("8000.00"))
                 .titulo("Estudo da Gruta Azul")
                 .objetivo("Análise geológica e registro fotográfico das formações")
                 .inicioPrevisto(LocalDateTime.of(2026, 10, 15, 8, 0))
@@ -795,6 +799,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-005")
+                .custoRealizado(new BigDecimal("5000.00"))
                 .titulo("Monitoramento do Lago Azul")
                 .objetivo("Monitoramento ambiental e análise da qualidade da água")
                 .inicioPrevisto(LocalDateTime.of(2026, 10, 22, 9, 0))
@@ -808,6 +813,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-006")
+                .custoRealizado(new BigDecimal("18000.00"))
                 .titulo("Levantamento topográfico da Torrinha")
                 .objetivo("Mapeamento das galerias e identificação de novos acessos")
                 .inicioPrevisto(LocalDateTime.of(2026, 11, 3, 7, 0))
@@ -821,6 +827,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-007")
+                .custoRealizado(new BigDecimal("13000.00"))
                 .titulo("Exploração da Lapa Doce")
                 .objetivo("Estudo das formações minerais e levantamento espeleológico")
                 .inicioPrevisto(LocalDateTime.of(2026, 11, 18, 8, 0))
@@ -834,6 +841,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-008")
+                .custoRealizado(new BigDecimal("7500.00"))
                 .titulo("Inspeção da Caverna da Onça")
                 .objetivo("Avaliação estrutural e análise das condições de segurança")
                 .inicioPrevisto(LocalDateTime.of(2026, 12, 1, 8, 30))
@@ -847,6 +855,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-009")
+                .custoRealizado(new BigDecimal("15000.00"))
                 .titulo("Mapeamento da Gruta do Janelão")
                 .objetivo("Levantamento cartográfico e registro das galerias")
                 .inicioPrevisto(LocalDateTime.of(2026, 12, 8, 7, 30))
@@ -860,6 +869,7 @@ public class DatabaseSeeder {
 
         expedicaoService.cadastrar(Expedicao.builder()
                 .codigo("EXP-2026-010")
+                .custoRealizado(new BigDecimal("10000.00"))
                 .titulo("Avaliação da Gruta da Mangabeira")
                 .objetivo("Inventário ambiental e avaliação das condições de conservação")
                 .inicioPrevisto(LocalDateTime.of(2026, 12, 15, 8, 0))
