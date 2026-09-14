@@ -1,6 +1,7 @@
 package com.furnadelampiao.seed;
 
 import com.furnadelampiao.repository.*;
+import com.furnadelampiao.repository.CavernaRepositoryJpa;
 import com.furnadelampiao.service.*;
 
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ public class SeedRunner {
             ExpedicaoRepositoryJpa expedicaoRepositoryJpa = new ExpedicaoRepositoryJpa(em);
             SetorRepositoryJpa setorRepositoryJpa = new SetorRepositoryJpa(em);
             CavernaRepositoryJpa cavernaRepositoryJpa = new CavernaRepositoryJpa(em);
+            ParticipacaoRepository participacaoRepository = new ParticipacaoRepositoryJpa(em);
 
             PessoaService pessoaService = new PessoaService(em, pessoaRepository);
             PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
@@ -28,11 +30,13 @@ public class SeedRunner {
             CavernaService cavernaService = new CavernaService(em, cavernaRepositoryJpa);
             ExpedicaoService expedicaoService= new ExpedicaoService(em, expedicaoRepositoryJpa);
             SetorService setorService = new SetorService(em, setorRepositoryJpa, cavernaRepositoryJpa);
+            ParticipacaoService participacaoService = new ParticipacaoService(em, participacaoRepository);
 
 
             DatabaseSeeder seeder = new DatabaseSeeder(
                     pessoaService, pesquisadorService, guiaEspeleologicoService,
-                    cavernaService, expedicaoService, setorService
+                    cavernaService, expedicaoService, setorService,
+                    participacaoService
             );
             seeder.seedAll();
 

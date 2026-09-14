@@ -21,20 +21,29 @@ public class DatabaseSeeder {
     private final CavernaService cavernaService;
     private final ExpedicaoService expedicaoService;
     private final SetorService setorService;
+    private final ParticipacaoService participacaoService;
+    private final List<Pessoa> pessoas = new ArrayList<>();
+    private final List<Pesquisador> pesquisadores = new ArrayList<>();
+    private final List<GuiaEspeleologico> guias = new ArrayList<>();
     private final List<Caverna> cavernas = new ArrayList<>() ;
+    private final List<Setor> setores = new ArrayList<>();
+    private final List<Expedicao> expedicoes = new ArrayList<>();
+    private final List<Participacao> participacoes = new ArrayList<>();
 
     public DatabaseSeeder(PessoaService pessoaService,
                           PesquisadorService pesquisadorService,
                           GuiaEspeleologicoService guiaEspeleologicoService,
                           CavernaService cavernaService,
                           ExpedicaoService expedicaoService,
-                          SetorService setorService) {
+                          SetorService setorService,
+                          ParticipacaoService participacaoService) {
         this.pessoaService = pessoaService;
         this.pesquisadorService = pesquisadorService;
         this.guiaEspeleologicoService = guiaEspeleologicoService;
         this.cavernaService = cavernaService;
         this.expedicaoService = expedicaoService;
         this.setorService = setorService;
+        this.participacaoService = participacaoService;
     }
 
     public void seedAll() {
@@ -44,6 +53,7 @@ public class DatabaseSeeder {
         seedCavernas();
         seedSetores();
         seedExpedicoes();
+        seedParticipacoes();
     }
 
     private void seedPessoas() {
@@ -52,7 +62,7 @@ public class DatabaseSeeder {
             return;
         }
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Maria Amorim")
                 .cpf("10293847561")
                 .dataNasc(LocalDate.of(1990, 3, 12))
@@ -62,7 +72,7 @@ public class DatabaseSeeder {
                         "João Pessoa", UnidadeFederativa.PB, "58040-020"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Rafael Nogueira")
                 .cpf("22233344455")
                 .dataNasc(LocalDate.of(1988, 11, 2))
@@ -72,7 +82,7 @@ public class DatabaseSeeder {
                         "Trincheiras", "Campina Grande", UnidadeFederativa.PB, "58400-365"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Lucas Ferreira")
                 .cpf("34567890122")
                 .dataNasc(LocalDate.of(1995, 6, 18))
@@ -82,7 +92,7 @@ public class DatabaseSeeder {
                         "Centro", "João Pessoa", UnidadeFederativa.PB, "58013-420"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Ana Beatriz Lima")
                 .cpf("45678901233")
                 .dataNasc(LocalDate.of(1993, 8, 27))
@@ -92,7 +102,7 @@ public class DatabaseSeeder {
                         "Bancários", "João Pessoa", UnidadeFederativa.PB, "58051-110"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Pedro Henrique")
                 .cpf("56789012344")
                 .dataNasc(LocalDate.of(1987, 2, 14))
@@ -102,7 +112,7 @@ public class DatabaseSeeder {
                         "Centro", "Campina Grande", UnidadeFederativa.PB, "58400-165"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Juliana Martins")
                 .cpf("67890123455")
                 .dataNasc(LocalDate.of(1991, 10, 9))
@@ -112,7 +122,7 @@ public class DatabaseSeeder {
                         "Torre", "João Pessoa", UnidadeFederativa.PB, "58040-180"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("André Oliveira")
                 .cpf("78901234566")
                 .dataNasc(LocalDate.of(1984, 12, 22))
@@ -122,7 +132,7 @@ public class DatabaseSeeder {
                         "Centro", "João Pessoa", UnidadeFederativa.PB, "58010-250"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Camila Rodrigues")
                 .cpf("89012345677")
                 .dataNasc(LocalDate.of(1996, 5, 3))
@@ -132,7 +142,7 @@ public class DatabaseSeeder {
                         "Bancários", "João Pessoa", UnidadeFederativa.PB, "58051-520"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Thiago Almeida")
                 .cpf("90123456788")
                 .dataNasc(LocalDate.of(1989, 9, 16))
@@ -142,7 +152,7 @@ public class DatabaseSeeder {
                         "Universitário", "Campina Grande", UnidadeFederativa.PB, "58429-900"))
                 .build());
 
-        pessoaService.salvar(Pessoa.builder()
+        pessoas.add(Pessoa.builder()
                 .nome("Larissa Santos")
                 .cpf("01234567899")
                 .dataNasc(LocalDate.of(1997, 1, 25))
@@ -151,7 +161,11 @@ public class DatabaseSeeder {
                 .endereco(endereco("Rua Duque de Caxias", "175", null,
                         "Centro", "João Pessoa", UnidadeFederativa.PB, "58010-821"))
                 .build());
-
+        
+        for (Pessoa p : pessoas) {
+            pessoaService.salvar(p);
+        }
+        
         System.out.println("[seed] 10 registros de Pessoa criados.");
     }
 
@@ -161,7 +175,7 @@ public class DatabaseSeeder {
             return;
         }
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("João Silva")
                 .cpf("12345678900")
                 .dataNasc(LocalDate.of(1985, 7, 21))
@@ -175,7 +189,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("250.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Beatriz Lins")
                 .cpf("33344455566")
                 .dataNasc(LocalDate.of(1992, 4, 9))
@@ -189,7 +203,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("180.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Eduardo Farias")
                 .cpf("44455566677")
                 .dataNasc(LocalDate.of(1979, 1, 30))
@@ -203,7 +217,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("320.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Mariana Costa")
                 .cpf("55667788990")
                 .dataNasc(LocalDate.of(1988, 5, 14))
@@ -217,7 +231,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("290.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Felipe Andrade")
                 .cpf("66778899001")
                 .dataNasc(LocalDate.of(1990, 3, 28))
@@ -231,7 +245,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("210.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Patrícia Gomes")
                 .cpf("77889900112")
                 .dataNasc(LocalDate.of(1994, 11, 6))
@@ -245,7 +259,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("195.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Ricardo Martins")
                 .cpf("88990011223")
                 .dataNasc(LocalDate.of(1982, 8, 19))
@@ -259,7 +273,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("275.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Renata Alves")
                 .cpf("99001122334")
                 .dataNasc(LocalDate.of(1993, 2, 11))
@@ -273,7 +287,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("185.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Gustavo Ribeiro")
                 .cpf("10112233445")
                 .dataNasc(LocalDate.of(1986, 6, 24))
@@ -287,7 +301,7 @@ public class DatabaseSeeder {
                 .valorDiarioBolsa(new BigDecimal("350.00"))
                 .build());
 
-        pesquisadorService.cadastrar(Pesquisador.builder()
+        pesquisadores.add(Pesquisador.builder()
                 .nome("Aline Carvalho")
                 .cpf("21223344556")
                 .dataNasc(LocalDate.of(1991, 12, 7))
@@ -300,6 +314,10 @@ public class DatabaseSeeder {
                 .titulacao(Titulacao.DOUTORADO)
                 .valorDiarioBolsa(new BigDecimal("300.00"))
                 .build());
+        
+        for (Pesquisador p : pesquisadores) {
+            pesquisadorService.cadastrar(p);
+        }
 
         System.out.println("[seed] 10 registros de Pesquisador criados.");
     }
@@ -310,7 +328,7 @@ public class DatabaseSeeder {
             return;
         }
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Carlos Eduardo")
                 .cpf("12345678990")
                 .dataNasc(LocalDate.of(1985, 7, 20))
@@ -324,7 +342,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(15)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Fernanda Costa")
                 .cpf("55566677788")
                 .dataNasc(LocalDate.of(1994, 9, 5))
@@ -338,7 +356,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(32)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Marcelo Santos")
                 .cpf("66677788899")
                 .dataNasc(LocalDate.of(1987, 4, 17))
@@ -352,7 +370,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(9)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Juliana Freire")
                 .cpf("77788899900")
                 .dataNasc(LocalDate.of(1991, 1, 29))
@@ -366,7 +384,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(21)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Roberto Lima")
                 .cpf("88899900011")
                 .dataNasc(LocalDate.of(1983, 10, 12))
@@ -380,7 +398,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(45)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Camila Duarte")
                 .cpf("99900011122")
                 .dataNasc(LocalDate.of(1996, 7, 8))
@@ -394,7 +412,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(7)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Daniel Barbosa")
                 .cpf("00011122233")
                 .dataNasc(LocalDate.of(1989, 5, 23))
@@ -408,7 +426,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(27)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Priscila Moura")
                 .cpf("11122233344")
                 .dataNasc(LocalDate.of(1992, 11, 30))
@@ -422,7 +440,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(38)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Henrique Ramos")
                 .cpf("22233344455")
                 .dataNasc(LocalDate.of(1986, 3, 15))
@@ -436,7 +454,7 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(29)
                 .build());
 
-        guiaEspeleologicoService.cadastrar(GuiaEspeleologico.builder()
+        guias.add(GuiaEspeleologico.builder()
                 .nome("Vanessa Oliveira")
                 .cpf("33344455566")
                 .dataNasc(LocalDate.of(1995, 8, 21))
@@ -450,6 +468,10 @@ public class DatabaseSeeder {
                 .qtdExpedicoesConcluidas(12)
                 .build());
 
+        for (GuiaEspeleologico g : guias) {
+            guiaEspeleologicoService.cadastrar(g);
+        }
+        
         System.out.println("[seed] 10 registros de GuiaEspeleologico criados.");
     }
 
@@ -622,7 +644,7 @@ public class DatabaseSeeder {
             return;
         }
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Galeria Principal")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
                 .profundidadeMaxima(new BigDecimal("12.00"))
@@ -633,7 +655,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(0))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Galeria das Águas")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.ALTO)
                 .profundidadeMaxima(new BigDecimal("28.50"))
@@ -644,7 +666,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(1))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Salão dos Cristais")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.BAIXO)
                 .profundidadeMaxima(new BigDecimal("8.00"))
@@ -655,7 +677,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(2))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Galeria Azul")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
                 .profundidadeMaxima(new BigDecimal("18.00"))
@@ -666,7 +688,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(3))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Salão Subterrâneo")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.BAIXO)
                 .profundidadeMaxima(new BigDecimal("10.50"))
@@ -677,7 +699,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(4))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Galeria Profunda")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.ALTO)
                 .profundidadeMaxima(new BigDecimal("42.00"))
@@ -688,7 +710,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(5))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Galeria das Estalactites")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
                 .profundidadeMaxima(new BigDecimal("22.00"))
@@ -699,7 +721,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(6))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Galeria da Onça")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.ALTO)
                 .profundidadeMaxima(new BigDecimal("35.00"))
@@ -710,7 +732,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(7))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Salão do Janelão")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.BAIXO)
                 .profundidadeMaxima(new BigDecimal("15.00"))
@@ -721,7 +743,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(8))
                 .build());
 
-        setorService.cadastrar(Setor.builder()
+        setores.add(Setor.builder()
                 .denominacao("Galeria da Mangabeira")
                 .nivelEstimadoDificuldade(NivelDificuldadeSetor.MODERADO)
                 .profundidadeMaxima(new BigDecimal("25.00"))
@@ -731,6 +753,10 @@ public class DatabaseSeeder {
                 .condicaoCorrente(CondicaoSetor.DISPONIVEL)
                 .caverna(cavernas.get(9))
                 .build());
+        
+        for (Setor s : setores) {
+            setorService.cadastrar(s);
+        }
 
         System.out.println("[seed] 10 registros de Setor criados.");
     }
@@ -741,7 +767,7 @@ public class DatabaseSeeder {
             return;
         }
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-001")
                 .custoRealizado(new BigDecimal("15000.00"))
                 .titulo("Mapeamento inicial da Furna de Lampião")
@@ -755,7 +781,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(0))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-002")
                 .custoRealizado(new BigDecimal("10000.00"))
                 .titulo("Exploração da Caverna Santana")
@@ -769,7 +795,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(1))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-003")
                 .custoRealizado(new BigDecimal("7000.00"))
                 .titulo("Inspeção da Gruta da Pratinha")
@@ -783,7 +809,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(2))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-004")
                 .custoRealizado(new BigDecimal("8000.00"))
                 .titulo("Estudo da Gruta Azul")
@@ -797,7 +823,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(3))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-005")
                 .custoRealizado(new BigDecimal("5000.00"))
                 .titulo("Monitoramento do Lago Azul")
@@ -811,7 +837,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(4))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-006")
                 .custoRealizado(new BigDecimal("18000.00"))
                 .titulo("Levantamento topográfico da Torrinha")
@@ -825,7 +851,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(5))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-007")
                 .custoRealizado(new BigDecimal("13000.00"))
                 .titulo("Exploração da Lapa Doce")
@@ -839,7 +865,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(6))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-008")
                 .custoRealizado(new BigDecimal("7500.00"))
                 .titulo("Inspeção da Caverna da Onça")
@@ -853,7 +879,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(7))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-009")
                 .custoRealizado(new BigDecimal("15000.00"))
                 .titulo("Mapeamento da Gruta do Janelão")
@@ -867,7 +893,7 @@ public class DatabaseSeeder {
                 .caverna(cavernas.get(8))
                 .build());
 
-        expedicaoService.cadastrar(Expedicao.builder()
+        expedicoes.add(Expedicao.builder()
                 .codigo("EXP-2026-010")
                 .custoRealizado(new BigDecimal("10000.00"))
                 .titulo("Avaliação da Gruta da Mangabeira")
@@ -880,8 +906,148 @@ public class DatabaseSeeder {
                 .cancelamentoEmergencial(false)
                 .caverna(cavernas.get(9))
                 .build());
+        
+        for (Expedicao e : expedicoes) {
+            expedicaoService.cadastrar(e);
+        }
 
         System.out.println("[seed] 10 registros de Expedição criados.");
+    }
+
+    private void seedParticipacoes() {
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(0))
+                        .expedicao(expedicoes.get(0))
+                        .papelParticipante(PapelParticipante.PESQUISADOR)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 1))
+                        .valorDiaria(new BigDecimal("350.00"))
+                        .qtdPrevistaDias(3)
+                        .presencaConfirmada(true)
+                        .observacoes("Participação confirmada para levantamento ambiental.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(1))
+                        .expedicao(expedicoes.get(0))
+                        .papelParticipante(PapelParticipante.GUIA_ESPELEOLOGICO)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 2))
+                        .valorDiaria(new BigDecimal("280.00"))
+                        .qtdPrevistaDias(3)
+                        .presencaConfirmada(true)
+                        .observacoes("Guia responsável pelo acesso à caverna.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(2))
+                        .expedicao(expedicoes.get(1))
+                        .papelParticipante(PapelParticipante.PESQUISADOR)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 5))
+                        .valorDiaria(new BigDecimal("400.00"))
+                        .qtdPrevistaDias(4)
+                        .presencaConfirmada(true)
+                        .observacoes("Responsável pela análise geológica.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(3))
+                        .expedicao(expedicoes.get(1))
+                        .papelParticipante(PapelParticipante.GUIA_ESPELEOLOGICO)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 6))
+                        .valorDiaria(new BigDecimal("300.00"))
+                        .qtdPrevistaDias(4)
+                        .presencaConfirmada(false)
+                        .observacoes("Aguardando confirmação da presença.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(4))
+                        .expedicao(expedicoes.get(2))
+                        .papelParticipante(PapelParticipante.PESQUISADOR)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 10))
+                        .valorDiaria(new BigDecimal("375.00"))
+                        .qtdPrevistaDias(5)
+                        .presencaConfirmada(true)
+                        .observacoes("Pesquisador responsável pelo inventário da fauna.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(5))
+                        .expedicao(expedicoes.get(3))
+                        .papelParticipante(PapelParticipante.AUXILIAR)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 12))
+                        .valorDiaria(new BigDecimal("275.00"))
+                        .qtdPrevistaDias(2)
+                        .presencaConfirmada(true)
+                        .observacoes("Experiência prévia na região da expedição.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(6))
+                        .expedicao(expedicoes.get(4))
+                        .papelParticipante(PapelParticipante.COORDENADOR)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 15))
+                        .valorDiaria(new BigDecimal("420.00"))
+                        .qtdPrevistaDias(6)
+                        .presencaConfirmada(false)
+                        .observacoes("Participação condicionada à confirmação do cronograma.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(7))
+                        .expedicao(expedicoes.get(5))
+                        .papelParticipante(PapelParticipante.FOTOGRAFO)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 18))
+                        .valorDiaria(new BigDecimal("290.00"))
+                        .qtdPrevistaDias(3)
+                        .presencaConfirmada(true)
+                        .observacoes("Responsável pela orientação durante a exploração.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(8))
+                        .expedicao(expedicoes.get(6))
+                        .papelParticipante(PapelParticipante.TECNICO)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 20))
+                        .valorDiaria(new BigDecimal("390.00"))
+                        .qtdPrevistaDias(4)
+                        .presencaConfirmada(true)
+                        .observacoes("Responsável pela coleta de amostras.")
+                        .build()
+        );
+
+        participacoes.add(
+                Participacao.builder()
+                        .pessoa(pessoas.get(9))
+                        .expedicao(expedicoes.get(7))
+                        .papelParticipante(PapelParticipante.TECNICO)
+                        .dataConfirmacao(LocalDate.of(2026, 10, 22))
+                        .valorDiaria(new BigDecimal("310.00"))
+                        .qtdPrevistaDias(5)
+                        .presencaConfirmada(false)
+                        .observacoes("Participante aguardando confirmação logística.")
+                        .build()
+        );
+
+        for (Participacao p : participacoes) {
+            participacaoService.cadastrar(p);
+        }
     }
 
     private Endereco endereco(String logradouro, String numero, String complemento,

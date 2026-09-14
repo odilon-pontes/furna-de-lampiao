@@ -1,6 +1,5 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.repository.CavernaRepository;
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.enums.UnidadeFederativa;
 import com.furnadelampiao.infra.TransacaoExecutor;

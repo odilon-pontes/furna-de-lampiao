@@ -1,8 +1,6 @@
 package com.furnadelampiao.service;
 
-import com.furnadelampiao.repository.CavernaRepository;
 import com.furnadelampiao.repository.CavernaRepositoryJpa;
-import com.furnadelampiao.repository.SetorRepository;
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.domain.Setor;
 import com.furnadelampiao.enums.NivelDificuldadeSetor;
