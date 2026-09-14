@@ -1,47 +1,44 @@
 package com.furnadelampiao;
 
-import com.furnadelampiao.domain.Endereco;
 import com.furnadelampiao.domain.Pessoa;
-import com.furnadelampiao.domain.UnidadeFederativa;
+import com.furnadelampiao.repository.GuiaEspeleologicoRepository;
+import com.furnadelampiao.repository.GuiaEspeleologicoRepositoryJpa;
+import com.furnadelampiao.repository.PesquisadorRepository;
+import com.furnadelampiao.repository.PesquisadorRepositoryJpa;
+import com.furnadelampiao.repository.PessoaRepository;
+import com.furnadelampiao.repository.PessoaRepositoryJpa;
+import com.furnadelampiao.service.GuiaEspeleologicoService;
+import com.furnadelampiao.service.PesquisadorService;
+import com.furnadelampiao.service.PessoaService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.time.LocalDate;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("furnaPU");
         EntityManager em = emf.createEntityManager();
-        try  {
 
-            Endereco endereco = new Endereco("Rua das Aroeiras", "100","casa", "centro", "Eldorado", UnidadeFederativa.PE, "50000000");
+        PessoaRepository pessoaRepository = new PessoaRepositoryJpa(em);
+        PesquisadorRepository pesquisadorRepository = new PesquisadorRepositoryJpa(em);
+        GuiaEspeleologicoRepository guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
 
-            Pessoa pessoa = new Pessoa();
-            pessoa.setNome("Lampião");
-            pessoa.setCpf("12345678901");
-            pessoa.setEmail("lampiao@furna.com");
-            pessoa.setTelefone("81999998888");
-            pessoa.setDataNasc(LocalDate.of(1897, 6, 4));
-            pessoa.setSituacaoAtiva(true);
-            pessoa.setEndereco(endereco);
+        PessoaService pessoaService = new PessoaService(em, pessoaRepository);
+        PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
+        GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em,
+                guiaEspeleologicoRepository);
 
-            em.getTransaction().begin();
-            em.persist(pessoa);
-            em.getTransaction().commit();
+        List<Pessoa> pessoas = pessoaService.listarTodos();
 
-            System.out.println("Pessoa salva com sucesso! ID gerado: " + pessoa.getId());
-
-
-            Pessoa pessoaBuscada = em.find(Pessoa.class, pessoa.getId());
-            System.out.println("Pessoa buscada do banco: " + pessoaBuscada.getNome() + " - UF: " + pessoaBuscada.getEndereco().getUf());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            em.close();
-            emf.close();
+        for (Pessoa p : pessoas) {
+            System.out.println(p.getNome());
         }
+
+        em.close();
+        emf.close();
     }
 }
