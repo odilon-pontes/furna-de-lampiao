@@ -22,6 +22,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class Participacao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,13 +36,18 @@ public class Participacao {
     private Expedicao expedicao;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "papel_participante", nullable = false)
+    @Column(name = "papel_participante", nullable = false, length = 30)
     private PapelParticipante papelParticipante;
 
     @Column(name = "data_confirmacao", nullable = false)
     private LocalDate dataConfirmacao;
 
-    @Column(name = "valor_diaria", nullable = false, precision = 12, scale = 2)
+    @Column(
+            name = "valor_diaria",
+            nullable = false,
+            precision = 12,
+            scale = 2
+    )
     private BigDecimal valorDiaria;
 
     @Column(name = "qtd_prevista_dias", nullable = false)
@@ -51,5 +57,6 @@ public class Participacao {
     @Column(name = "presenca_confirmada", nullable = false)
     private boolean presencaConfirmada = false;
 
+    @Column(name = "observacoes", length = 500)
     private String observacoes;
 }
