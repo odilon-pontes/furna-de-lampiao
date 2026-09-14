@@ -21,7 +21,7 @@ public class DatabaseSeeder {
     private final CavernaService cavernaService;
     private final ExpedicaoService expedicaoService;
     private final SetorService setorService;
-    private final List<Caverna> cavernas = new ArrayList<>() ;
+    private final List<Caverna> cavernas = new ArrayList<>();
 
     public DatabaseSeeder(PessoaService pessoaService,
                           PesquisadorService pesquisadorService,
