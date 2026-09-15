@@ -1,7 +1,6 @@
 package com.furnadelampiao.seed;
 
 import com.furnadelampiao.repository.*;
-import com.furnadelampiao.repository.CavernaRepositoryJpa;
 import com.furnadelampiao.service.*;
 
 import javax.persistence.EntityManager;
@@ -23,23 +22,24 @@ public class SeedRunner {
             CavernaRepository cavernaRepository = new CavernaRepositoryJpa(em);
             ParticipacaoRepository participacaoRepository = new ParticipacaoRepositoryJpa(em);
             ColetaCientificaRepository coletaCientificaRepository = new ColetaCientificaRepositoryJpa(em);
+            EquipamentoRepository equipamentoRepository = new EquipamentoRepositoryJpa(em);
 
             PessoaService pessoaService = new PessoaService(em, pessoaRepository);
             PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
             GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em,
                     guiaEspeleologicoRepository);
             CavernaService cavernaService = new CavernaService(em, cavernaRepository);
-            ExpedicaoService expedicaoService= new ExpedicaoService(em, expedicaoRepository, cavernaRepository);
+            ExpedicaoService expedicaoService = new ExpedicaoService(em, expedicaoRepository, cavernaRepository);
             SetorService setorService = new SetorService(em, setorRepository, cavernaRepository);
             ParticipacaoService participacaoService = new ParticipacaoService(em, participacaoRepository);
-            ColetaCientificaService coletaCientificaService = new ColetaCientificaService(em, coletaCientificaRepository);
-
+            ColetaCientificaService coletaCientificaService = new ColetaCientificaService(em,
+                    coletaCientificaRepository);
+            EquipamentoService equipamentoService = new EquipamentoService(em, equipamentoRepository);
 
             DatabaseSeeder seeder = new DatabaseSeeder(
                     pessoaService, pesquisadorService, guiaEspeleologicoService,
                     cavernaService, expedicaoService, setorService,
-                    participacaoService, coletaCientificaService
-            );
+                    participacaoService, coletaCientificaService, equipamentoService);
             seeder.seedAll();
 
             System.out.println("[seed] Concluído.");
