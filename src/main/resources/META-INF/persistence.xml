@@ -12,6 +12,7 @@
         <class>com.furnadelampiao.domain.Caverna</class>
         <class>com.furnadelampiao.domain.Expedicao</class>
         <class>com.furnadelampiao.domain.Setor</class>
+        <class>com.furnadelampiao.domain.Equipamento</class>
 
         <properties>
             <!-- Conexão apontando para o Docker na porta 5432 -->
