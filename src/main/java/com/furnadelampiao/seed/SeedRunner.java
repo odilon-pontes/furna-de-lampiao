@@ -1,6 +1,7 @@
 package com.furnadelampiao.seed;
 
 import com.furnadelampiao.repository.*;
+import com.furnadelampiao.repository.CavernaRepositoryJpa;
 import com.furnadelampiao.service.*;
 
 import javax.persistence.EntityManager;
@@ -15,39 +16,30 @@ public class SeedRunner {
 
         try {
             PessoaRepository pessoaRepository = new PessoaRepositoryJpa(em);
-            PesquisadorRepository pesquisadorRepository =
-                    new PesquisadorRepositoryJpa(em);
-            GuiaEspeleologicoRepository guiaEspeleologicoRepository =
-                    new GuiaEspeleologicoRepositoryJpa(em);
-            ExpedicaoRepository expedicaoRepository =
-                    new ExpedicaoRepositoryJpa(em);
-            SetorRepository setorRepository =
-                    new SetorRepositoryJpa(em);
-            CavernaRepository cavernaRepository =
-                    new CavernaRepositoryJpa(em);
+            PesquisadorRepository pesquisadorRepository = new PesquisadorRepositoryJpa(em);
+            GuiaEspeleologicoRepository guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
+            ExpedicaoRepository expedicaoRepository = new ExpedicaoRepositoryJpa(em);
+            SetorRepository setorRepository = new SetorRepositoryJpa(em);
+            CavernaRepository cavernaRepository = new CavernaRepositoryJpa(em);
+            ParticipacaoRepository participacaoRepository = new ParticipacaoRepositoryJpa(em);
+            ColetaCientificaRepository coletaCientificaRepository = new ColetaCientificaRepositoryJpa(em);
 
-            PessoaService pessoaService =
-                    new PessoaService(em, pessoaRepository);
-            PesquisadorService pesquisadorService =
-                    new PesquisadorService(em, pesquisadorRepository);
-            GuiaEspeleologicoService guiaEspeleologicoService =
-                    new GuiaEspeleologicoService(em, guiaEspeleologicoRepository);
-            CavernaService cavernaService =
-                    new CavernaService(em, cavernaRepository);
-            ExpedicaoService expedicaoService =
-                    new ExpedicaoService(em, expedicaoRepository, cavernaRepository);
-            SetorService setorService =
-                    new SetorService(em, setorRepository, cavernaRepository);
+            PessoaService pessoaService = new PessoaService(em, pessoaRepository);
+            PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
+            GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em,
+                    guiaEspeleologicoRepository);
+            CavernaService cavernaService = new CavernaService(em, cavernaRepository);
+            ExpedicaoService expedicaoService= new ExpedicaoService(em, expedicaoRepository, cavernaRepository);
+            SetorService setorService = new SetorService(em, setorRepository, cavernaRepository);
+            ParticipacaoService participacaoService = new ParticipacaoService(em, participacaoRepository);
+            ColetaCientificaService coletaCientificaService = new ColetaCientificaService(em, coletaCientificaRepository);
+
 
             DatabaseSeeder seeder = new DatabaseSeeder(
-                    pessoaService,
-                    pesquisadorService,
-                    guiaEspeleologicoService,
-                    cavernaService,
-                    expedicaoService,
-                    setorService
+                    pessoaService, pesquisadorService, guiaEspeleologicoService,
+                    cavernaService, expedicaoService, setorService,
+                    participacaoService, coletaCientificaService
             );
-
             seeder.seedAll();
 
             System.out.println("[seed] Concluído.");
