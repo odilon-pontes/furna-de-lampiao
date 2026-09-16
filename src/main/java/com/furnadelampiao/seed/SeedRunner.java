@@ -1,7 +1,6 @@
 package com.furnadelampiao.seed;
 
 import com.furnadelampiao.repository.*;
-import com.furnadelampiao.repository.CavernaRepositoryJpa;
 import com.furnadelampiao.service.*;
 
 import javax.persistence.EntityManager;
@@ -15,7 +14,7 @@ public class SeedRunner {
         EntityManager em = emf.createEntityManager();
 
         try {
-            PessoaRepository pessoaRepository = new PessoaRepository(em);
+            PessoaRepository pessoaRepository = new PessoaRepositoryJpa(em);
             PesquisadorRepositoryJpa pesquisadorRepository = new PesquisadorRepositoryJpa(em);
             GuiaEspeleologicoRepositoryJpa guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
             ExpedicaoRepositoryJpa expedicaoRepositoryJpa = new ExpedicaoRepositoryJpa(em);
