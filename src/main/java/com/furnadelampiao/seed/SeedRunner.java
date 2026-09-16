@@ -15,39 +15,28 @@ public class SeedRunner {
 
         try {
             PessoaRepository pessoaRepository = new PessoaRepositoryJpa(em);
-            PesquisadorRepository pesquisadorRepository =
-                    new PesquisadorRepositoryJpa(em);
-            GuiaEspeleologicoRepository guiaEspeleologicoRepository =
-                    new GuiaEspeleologicoRepositoryJpa(em);
-            ExpedicaoRepository expedicaoRepository =
-                    new ExpedicaoRepositoryJpa(em);
-            SetorRepository setorRepository =
-                    new SetorRepositoryJpa(em);
-            CavernaRepository cavernaRepository =
-                    new CavernaRepositoryJpa(em);
+            PesquisadorRepositoryJpa pesquisadorRepository = new PesquisadorRepositoryJpa(em);
+            GuiaEspeleologicoRepositoryJpa guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
+            ExpedicaoRepositoryJpa expedicaoRepositoryJpa = new ExpedicaoRepositoryJpa(em);
+            SetorRepositoryJpa setorRepositoryJpa = new SetorRepositoryJpa(em);
+            CavernaRepositoryJpa cavernaRepositoryJpa = new CavernaRepositoryJpa(em);
+            ParticipacaoRepository participacaoRepository = new ParticipacaoRepositoryJpa(em);
 
-            PessoaService pessoaService =
-                    new PessoaService(em, pessoaRepository);
-            PesquisadorService pesquisadorService =
-                    new PesquisadorService(em, pesquisadorRepository);
-            GuiaEspeleologicoService guiaEspeleologicoService =
-                    new GuiaEspeleologicoService(em, guiaEspeleologicoRepository);
-            CavernaService cavernaService =
-                    new CavernaService(em, cavernaRepository);
-            ExpedicaoService expedicaoService =
-                    new ExpedicaoService(em, expedicaoRepository, cavernaRepository);
-            SetorService setorService =
-                    new SetorService(em, setorRepository, cavernaRepository);
+            PessoaService pessoaService = new PessoaService(em, pessoaRepository);
+            PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
+            GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em,
+                    guiaEspeleologicoRepository);
+            CavernaService cavernaService = new CavernaService(em, cavernaRepositoryJpa);
+            ExpedicaoService expedicaoService= new ExpedicaoService(em, expedicaoRepositoryJpa);
+            SetorService setorService = new SetorService(em, setorRepositoryJpa, cavernaRepositoryJpa);
+            ParticipacaoService participacaoService = new ParticipacaoService(em, participacaoRepository);
+
 
             DatabaseSeeder seeder = new DatabaseSeeder(
-                    pessoaService,
-                    pesquisadorService,
-                    guiaEspeleologicoService,
-                    cavernaService,
-                    expedicaoService,
-                    setorService
+                    pessoaService, pesquisadorService, guiaEspeleologicoService,
+                    cavernaService, expedicaoService, setorService,
+                    participacaoService
             );
-
             seeder.seedAll();
 
             System.out.println("[seed] Concluído.");
