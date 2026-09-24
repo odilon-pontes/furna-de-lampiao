@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "autorizacao_ambiental")
+@Table(name = "tb_autorizacao_ambiental")
 @Getter
 @Setter
 @NoArgsConstructor
