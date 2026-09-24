@@ -23,6 +23,7 @@ public class SeedRunner {
             ParticipacaoRepository participacaoRepository = new ParticipacaoRepositoryJpa(em);
             ColetaCientificaRepository coletaCientificaRepository = new ColetaCientificaRepositoryJpa(em);
             EquipamentoRepository equipamentoRepository = new EquipamentoRepositoryJpa(em);
+            MovimentacaoRepository movimentacaoRepository = new MovimentacaoRepositoryJpa(em);
 
             PessoaService pessoaService = new PessoaService(em, pessoaRepository);
             PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
@@ -35,11 +36,14 @@ public class SeedRunner {
             ColetaCientificaService coletaCientificaService = new ColetaCientificaService(em,
                     coletaCientificaRepository);
             EquipamentoService equipamentoService = new EquipamentoService(em, equipamentoRepository);
+            MovimentacaoService movimentacaoService = new MovimentacaoService(em, movimentacaoRepository);
 
             DatabaseSeeder seeder = new DatabaseSeeder(
                     pessoaService, pesquisadorService, guiaEspeleologicoService,
                     cavernaService, expedicaoService, setorService,
-                    participacaoService, coletaCientificaService, equipamentoService);
+                    participacaoService, coletaCientificaService, equipamentoService,
+                    movimentacaoService
+            );
             seeder.seedAll();
 
             System.out.println("[seed] Concluído.");
