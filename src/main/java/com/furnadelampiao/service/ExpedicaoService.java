@@ -2,8 +2,10 @@ package com.furnadelampiao.service;
 
 import com.furnadelampiao.repository.CavernaRepository;
 import com.furnadelampiao.repository.ExpedicaoRepository;
+import com.furnadelampiao.repository.PlanoSegurancaRepository;
 import com.furnadelampiao.domain.Caverna;
 import com.furnadelampiao.domain.Expedicao;
+import com.furnadelampiao.domain.PlanoSeguranca;
 import com.furnadelampiao.enums.SituacaoExpedicao;
 import com.furnadelampiao.infra.TransacaoExecutor;
 
@@ -16,12 +18,18 @@ public class ExpedicaoService {
     private final EntityManager entityManager;
     private final ExpedicaoRepository repository;
     private final CavernaRepository cavernaRepository;
+    private final PlanoSegurancaRepository planoSegurancaRepository;
 
-    public ExpedicaoService(EntityManager entityManager, ExpedicaoRepository repository,
-            CavernaRepository cavernaRepository) {
+    public ExpedicaoService(
+            EntityManager entityManager,
+            ExpedicaoRepository repository,
+            CavernaRepository cavernaRepository,
+            PlanoSegurancaRepository planoSegurancaRepository) {
+
         this.repository = repository;
         this.entityManager = entityManager;
         this.cavernaRepository = cavernaRepository;
+        this.planoSegurancaRepository = planoSegurancaRepository;
     }
 
     public void cadastrar(Expedicao expedicao) {
@@ -95,39 +103,70 @@ public class ExpedicaoService {
         if (expedicao == null) {
             throw new IllegalArgumentException("Expedição não pode ser nula.");
         }
+
         if (expedicao.getCodigo() == null || expedicao.getCodigo().isBlank()) {
             throw new IllegalArgumentException("Código da expedição é obrigatório.");
         }
+
         if (expedicao.getTitulo() == null || expedicao.getTitulo().isBlank()) {
             throw new IllegalArgumentException("Título da expedição é obrigatório.");
         }
+
         if (expedicao.getCaverna() == null || expedicao.getCaverna().getId() == null) {
-            throw new IllegalArgumentException("Expedição precisa estar associada a uma caverna já cadastrada.");
+            throw new IllegalArgumentException(
+                    "Expedição precisa estar associada a uma caverna já cadastrada.");
         }
 
         Caverna caverna = cavernaRepository.buscarPorId(expedicao.getCaverna().getId());
         if (caverna == null) {
             throw new IllegalArgumentException(
-                    "Caverna associada (id=" + expedicao.getCaverna().getId() + ") não existe no banco.");
+                    "Caverna associada (id="
+                            + expedicao.getCaverna().getId()
+                            + ") não existe no banco.");
         }
-        if (expedicao.getInicioPrevisto() == null || expedicao.getTerminoPrevisto() == null) {
-            throw new IllegalArgumentException("Datas previstas de início e término são obrigatórias.");
+
+        if (expedicao.getPlanoSeguranca() == null
+                || expedicao.getPlanoSeguranca().getId() == null) {
+            throw new IllegalArgumentException(
+                    "Expedição precisa estar associada a um plano de segurança já cadastrado.");
         }
+
+        PlanoSeguranca planoSeguranca = planoSegurancaRepository.buscarPorId(
+                expedicao.getPlanoSeguranca().getId());
+
+        if (planoSeguranca == null) {
+            throw new IllegalArgumentException(
+                    "Plano de segurança associado (id="
+                            + expedicao.getPlanoSeguranca().getId()
+                            + ") não existe no banco.");
+        }
+
+        if (expedicao.getInicioPrevisto() == null
+                || expedicao.getTerminoPrevisto() == null) {
+            throw new IllegalArgumentException(
+                    "Datas previstas de início e término são obrigatórias.");
+        }
+
         if (!expedicao.getTerminoPrevisto().isAfter(expedicao.getInicioPrevisto())) {
             throw new IllegalArgumentException(
                     "A data de término prevista deve ser posterior à data de início prevista.");
         }
+
         if (expedicao.getQtdMaxParticipantes() <= 0) {
             throw new IllegalArgumentException(
                     "Quantidade máxima de participantes deve ser maior que zero.");
         }
+
         if (expedicao.getOrcamentoAprovado() != null
                 && expedicao.getOrcamentoAprovado().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Orçamento aprovado não pode ser negativo.");
+            throw new IllegalArgumentException(
+                    "Orçamento aprovado não pode ser negativo.");
         }
+
         if (expedicao.getCustoRealizado() != null
                 && expedicao.getCustoRealizado().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Custo realizado não pode ser negativo.");
+            throw new IllegalArgumentException(
+                    "Custo realizado não pode ser negativo.");
         }
     }
 }

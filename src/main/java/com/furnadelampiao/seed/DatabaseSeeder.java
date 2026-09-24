@@ -24,6 +24,7 @@ public class DatabaseSeeder {
         private final ParticipacaoService participacaoService;
         private final ColetaCientificaService coletaCientificaService;
         private final EquipamentoService equipamentoService;
+        private final PlanoSegurancaService planoSegurancaService;
 
         private final List<Pessoa> pessoas = new ArrayList<>();
         private final List<Pesquisador> pesquisadores = new ArrayList<>();
@@ -34,6 +35,7 @@ public class DatabaseSeeder {
         private final List<Participacao> participacoes = new ArrayList<>();
         private final List<ColetaCientifica> coletas = new ArrayList<>();
         private final List<Equipamento> equipamentos = new ArrayList<>();
+        private final List<PlanoSeguranca> planosSeguranca = new ArrayList<>();
 
         public DatabaseSeeder(PessoaService pessoaService,
                         PesquisadorService pesquisadorService,
@@ -43,7 +45,8 @@ public class DatabaseSeeder {
                         SetorService setorService,
                         ParticipacaoService participacaoService,
                         ColetaCientificaService coletaCientificaService,
-                        EquipamentoService equipamentoService) {
+                        EquipamentoService equipamentoService,
+                        PlanoSegurancaService planoSegurancaService) {
                 this.pessoaService = pessoaService;
                 this.pesquisadorService = pesquisadorService;
                 this.guiaEspeleologicoService = guiaEspeleologicoService;
@@ -53,6 +56,7 @@ public class DatabaseSeeder {
                 this.participacaoService = participacaoService;
                 this.coletaCientificaService = coletaCientificaService;
                 this.equipamentoService = equipamentoService;
+                this.planoSegurancaService = planoSegurancaService;
         }
 
         public void seedAll() {
@@ -61,6 +65,7 @@ public class DatabaseSeeder {
                 seedGuiasEspeleologicos();
                 seedCavernas();
                 seedSetores();
+                seedPlanosSeguranca();
                 seedExpedicoes();
                 seedParticipacoes();
                 seedColetas();
@@ -772,6 +777,159 @@ public class DatabaseSeeder {
                 System.out.println("[seed] 10 registros de Setor criados.");
         }
 
+        private void seedPlanosSeguranca() {
+                if (!planoSegurancaService.listarTodos().isEmpty()) {
+                        System.out.println("[seed] Plano de Segurança já possui registros — pulando.");
+                        return;
+                }
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Evacuar pela entrada principal da caverna.",
+                                                "Manter o grupo reunido durante a evacuação.",
+                                                "Comunicar a equipe de apoio."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-7.1195"),
+                                                new BigDecimal("-34.8450"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(30)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(false)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Retornar pela rota previamente mapeada.",
+                                                "Realizar conferência dos participantes.",
+                                                "Acionar equipe de emergência se necessário."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-7.2300"),
+                                                new BigDecimal("-35.8800"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(20)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(true)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Interromper imediatamente a atividade.",
+                                                "Retornar pelo acesso sinalizado.",
+                                                "Informar qualquer ocorrência ao responsável."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-12.3830"),
+                                                new BigDecimal("-41.5660"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(30)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(false)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Abandonar a área de pesquisa.",
+                                                "Seguir a rota de saída indicada.",
+                                                "Reunir todos os participantes no ponto externo."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-21.1260"),
+                                                new BigDecimal("-56.4820"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(15)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(true)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Suspender a atividade.",
+                                                "Retornar pela rota de acesso.",
+                                                "Realizar conferência da equipe."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-21.1370"),
+                                                new BigDecimal("-56.5790"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(20)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(false)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Retornar imediatamente pela galeria principal.",
+                                                "Manter comunicação entre os integrantes.",
+                                                "Acionar equipe externa em caso de emergência."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-12.3160"),
+                                                new BigDecimal("-41.6160"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(15)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(true)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Interromper o levantamento.",
+                                                "Seguir a sinalização de saída.",
+                                                "Reunir a equipe no ponto externo."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-12.3500"),
+                                                new BigDecimal("-41.5660"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(25)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(false)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Suspender imediatamente a atividade.",
+                                                "Retornar pela rota segura.",
+                                                "Solicitar apoio da equipe de emergência."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-20.3700"),
+                                                new BigDecimal("-45.6700"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(15)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(true)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Retornar pela rota principal.",
+                                                "Verificar a presença de todos os participantes.",
+                                                "Comunicar o encerramento da atividade."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-15.4700"),
+                                                new BigDecimal("-44.3600"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(30)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(false)
+                                .build());
+
+                planosSeguranca.add(PlanoSeguranca.builder()
+                                .procedimentosEvacuacao(List.of(
+                                                "Interromper a atividade.",
+                                                "Seguir a rota de saída indicada.",
+                                                "Comunicar qualquer ocorrência à coordenação."))
+                                .pontoExternoEncontro(new Localizacao(
+                                                new BigDecimal("-13.8100"),
+                                                new BigDecimal("-41.3000"),
+                                                "SIRGAS2000"))
+                                .tempoMaxSemComunicacao(25)
+                                .telefoneEmergencia("193")
+                                .necessidadeEquipeMedica(false)
+                                .build());
+
+                for (PlanoSeguranca plano : planosSeguranca) {
+                        planoSegurancaService.cadastrar(plano);
+                }
+
+                System.out.println("[seed] 10 registros de Plano de Segurança criados.");
+        }
+
         private void seedExpedicoes() {
                 if (!expedicaoService.listarTodos().isEmpty()) {
                         System.out.println("[seed] Expedição já possui registros — pulando.");
@@ -790,6 +948,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(0))
+                                .planoSeguranca(planosSeguranca.get(0))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -804,6 +963,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(1))
+                                .planoSeguranca(planosSeguranca.get(1))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -818,6 +978,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(2))
+                                .planoSeguranca(planosSeguranca.get(2))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -832,6 +993,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(3))
+                                .planoSeguranca(planosSeguranca.get(3))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -846,6 +1008,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(4))
+                                .planoSeguranca(planosSeguranca.get(4))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -860,6 +1023,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(5))
+                                .planoSeguranca(planosSeguranca.get(5))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -874,6 +1038,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(6))
+                                .planoSeguranca(planosSeguranca.get(6))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -888,6 +1053,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(7))
+                                .planoSeguranca(planosSeguranca.get(7))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -902,6 +1068,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(8))
+                                .planoSeguranca(planosSeguranca.get(8))
                                 .build());
 
                 expedicoes.add(Expedicao.builder()
@@ -916,6 +1083,7 @@ public class DatabaseSeeder {
                                 .situacao(SituacaoExpedicao.PLANEJADA)
                                 .cancelamentoEmergencial(false)
                                 .caverna(cavernas.get(9))
+                                .planoSeguranca(planosSeguranca.get(9))
                                 .build());
 
                 for (Expedicao e : expedicoes) {
