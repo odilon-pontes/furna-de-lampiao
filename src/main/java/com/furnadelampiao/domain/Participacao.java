@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(
+        name = "tb_participacao",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "uk_participacao_pessoa_expedicao",

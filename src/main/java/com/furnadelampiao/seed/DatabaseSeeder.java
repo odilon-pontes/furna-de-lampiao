@@ -25,6 +25,7 @@ public class DatabaseSeeder {
         private final ColetaCientificaService coletaCientificaService;
         private final EquipamentoService equipamentoService;
         private final PlanoSegurancaService planoSegurancaService;
+        private final MovimentacaoService movimentacaoService;
 
         private final List<Pessoa> pessoas = new ArrayList<>();
         private final List<Pesquisador> pesquisadores = new ArrayList<>();
@@ -36,6 +37,7 @@ public class DatabaseSeeder {
         private final List<ColetaCientifica> coletas = new ArrayList<>();
         private final List<Equipamento> equipamentos = new ArrayList<>();
         private final List<PlanoSeguranca> planosSeguranca = new ArrayList<>();
+        private final List<Movimentacao> movimentacoes = new ArrayList<>();
 
         public DatabaseSeeder(PessoaService pessoaService,
                         PesquisadorService pesquisadorService,
@@ -46,7 +48,9 @@ public class DatabaseSeeder {
                         ParticipacaoService participacaoService,
                         ColetaCientificaService coletaCientificaService,
                         EquipamentoService equipamentoService,
-                        PlanoSegurancaService planoSegurancaService) {
+                        PlanoSegurancaService planoSegurancaService, 
+                        MovimentacaoService movimentacaoService
+                ) {
                 this.pessoaService = pessoaService;
                 this.pesquisadorService = pesquisadorService;
                 this.guiaEspeleologicoService = guiaEspeleologicoService;
@@ -57,6 +61,7 @@ public class DatabaseSeeder {
                 this.coletaCientificaService = coletaCientificaService;
                 this.equipamentoService = equipamentoService;
                 this.planoSegurancaService = planoSegurancaService;
+                this.movimentacaoService = movimentacaoService;
         }
 
         public void seedAll() {
@@ -70,6 +75,7 @@ public class DatabaseSeeder {
                 seedParticipacoes();
                 seedColetas();
                 seedEquipamentos();
+                seedMovimentacoes();
         }
 
         private void seedPessoas() {
@@ -1456,11 +1462,190 @@ public class DatabaseSeeder {
                                 .indicacaoCalibracao(false)
                                 .build());
 
+                equipamentos.add(Equipamento.builder()
+                        .codPatrimonial("EQP-007")
+                        .nome("Lanterna solar")
+                        .tipo(TipoEquipamento.LANTERNA)
+                        .fabricante("Fenix")
+                        .valorAquisicao(new BigDecimal("280.00"))
+                        .dataCompra(LocalDate.of(2025, 4, 18))
+                        .dataUltimaManutencao(null)
+                        .situacaoOperacional(SituacaoOperacional.DANIFICADO)
+                        .indicacaoCalibracao(false)
+                        .build());
+
+                equipamentos.add(Equipamento.builder()
+                        .codPatrimonial("EQP-008")
+                        .nome("Câmera de ação noturna")
+                        .tipo(TipoEquipamento.CAMERA)
+                        .fabricante("GoPro")
+                        .valorAquisicao(new BigDecimal("2800.00"))
+                        .dataCompra(LocalDate.of(2025, 4, 18))
+                        .dataUltimaManutencao(null)
+                        .situacaoOperacional(SituacaoOperacional.DISPONIVEL)
+                        .indicacaoCalibracao(false)
+                        .build());
+
+                equipamentos.add(Equipamento.builder()
+                        .codPatrimonial("EQP-009")
+                        .nome("GPS de navegação subaquática")
+                        .tipo(TipoEquipamento.GPS)
+                        .fabricante("Garmin")
+                        .valorAquisicao(new BigDecimal("1350.00"))
+                        .dataCompra(LocalDate.of(2022, 9, 30))
+                        .dataUltimaManutencao(LocalDate.of(2026, 4, 10))
+                        .situacaoOperacional(SituacaoOperacional.DISPONIVEL)
+                        .indicacaoCalibracao(true)
+                        .build());
+
+                equipamentos.add(Equipamento.builder()
+                        .codPatrimonial("EQP-010")
+                        .nome("Capacete de proteção")
+                        .tipo(TipoEquipamento.GPS)
+                        .fabricante("Garmin")
+                        .valorAquisicao(new BigDecimal("1350.00"))
+                        .dataCompra(LocalDate.of(2022, 9, 30))
+                        .dataUltimaManutencao(LocalDate.of(2026, 4, 10))
+                        .situacaoOperacional(SituacaoOperacional.DISPONIVEL)
+                        .indicacaoCalibracao(true)
+                        .build());
+
                 for (Equipamento e : equipamentos) {
                         equipamentoService.cadastrar(e);
                 }
 
-                System.out.println("[seed] 6 registros de Equipamento criados.");
+                System.out.println("[seed] 10 registros de Equipamento criados.");
+        }
+
+        private void seedMovimentacoes() {
+                if (!movimentacaoService.listarTodos().isEmpty()) {
+                        System.out.println("[seed] Movimentação já possui registros — pulando.");
+                        return;
+                }
+                EstadoSaida estadoSaida = EstadoSaida.PENDENTE;
+                EstadoRetorno estadoRetorno = EstadoRetorno.PENDENTE;
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 8, 1, 8, 30))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 8, 5))
+                        .dataDevolucao(LocalDate.of(2026, 8, 5))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(estadoRetorno)
+                        .custoAvaria(new BigDecimal("0.00"))
+                        .expedicao(expedicoes.get(0))
+                        .equipamento(equipamentos.get(0))
+                        .pessoa(pessoas.get(0))
+                        .build());
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 8, 3, 9, 0))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 8, 8))
+                        .dataDevolucao(LocalDate.of(2026, 8, 8))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(estadoRetorno)
+                        .custoAvaria(new BigDecimal("150.00"))
+                        .expedicao(expedicoes.get(1))
+                        .equipamento(equipamentos.get(1))
+                        .pessoa(pessoas.get(1))
+                        .build());
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 8, 10, 7, 45))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 8, 15))
+                        .dataDevolucao(LocalDate.of(2026, 8, 14))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(estadoRetorno)
+                        .custoAvaria(new BigDecimal("0.00"))
+                        .expedicao(expedicoes.get(2))
+                        .equipamento(equipamentos.get(2))
+                        .pessoa(pessoas.get(2))
+                        .build());
+
+                movimentacoes.add( Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 8, 12, 10, 15))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 8, 18))
+                        .dataDevolucao(LocalDate.of(2026, 8, 18))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(estadoRetorno)
+                        .custoAvaria(new BigDecimal("75.50"))
+                        .expedicao(expedicoes.get(3))
+                        .equipamento(equipamentos.get(3))
+                        .pessoa(pessoas.get(3))
+                        .build());
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 8, 20, 8, 0))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 8, 25))
+                        .dataDevolucao(LocalDate.of(2026, 8, 24))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(estadoRetorno)
+                        .custoAvaria(new BigDecimal("0.00"))
+                        .expedicao(expedicoes.get(4))
+                        .equipamento(equipamentos.get(4))
+                        .pessoa(pessoas.get(4))
+                        .build());
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 9, 1, 9, 30))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 9, 7))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(null)
+                        .custoAvaria(null)
+                        .expedicao(expedicoes.get(0))
+                        .equipamento(equipamentos.get(5))
+                        .pessoa(pessoas.get(5))
+                        .build());
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 9, 3, 8, 45))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 9, 10))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(null)
+                        .custoAvaria(null)
+                        .expedicao(expedicoes.get(1))
+                        .equipamento(equipamentos.get(6))
+                        .pessoa(pessoas.get(6))
+                        .build());
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 9, 5, 10, 0))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 9, 12))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(null)
+                        .custoAvaria(null)
+                        .expedicao(expedicoes.get(2))
+                        .equipamento(equipamentos.get(7))
+                        .pessoa(pessoas.get(7))
+                        .build());
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 9, 8, 7, 30))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 9, 15))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(null)
+                        .custoAvaria(null)
+                        .expedicao(expedicoes.get(3))
+                        .equipamento(equipamentos.get(8))
+                        .pessoa(pessoas.get(8))
+                        .build());
+
+                movimentacoes.add(Movimentacao.builder()
+                        .dataHoraRetirada(LocalDateTime.of(2026, 9, 10, 9, 15))
+                        .dataPrevisaoDevolucao(LocalDate.of(2026, 9, 17))
+                        .estadoSaida(estadoSaida)
+                        .estadoRetorno(null)
+                        .custoAvaria(null)
+                        .expedicao(expedicoes.get(4))
+                        .equipamento(equipamentos.get(9))
+                        .pessoa(pessoas.get(9))
+                        .build());
+
+                for (Movimentacao movimentacao : movimentacoes) {
+                        movimentacaoService.cadastrar(movimentacao);
+                }
+
+                System.out.println("[seed] 10 registros de Equipamento criados.");
+
         }
 
         private Endereco endereco(String logradouro, String numero, String complemento,

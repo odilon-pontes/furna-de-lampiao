@@ -24,46 +24,28 @@ public class SeedRunner {
             ColetaCientificaRepository coletaCientificaRepository = new ColetaCientificaRepositoryJpa(em);
             EquipamentoRepository equipamentoRepository = new EquipamentoRepositoryJpa(em);
             PlanoSegurancaRepository planoSegurancaRepository = new PlanoSegurancaRepositoryJpa(em);
+            MovimentacaoRepository movimentacaoRepository = new MovimentacaoRepositoryJpa(em);
 
             PessoaService pessoaService = new PessoaService(em, pessoaRepository);
             PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
             GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(
                     em, guiaEspeleologicoRepository);
             CavernaService cavernaService = new CavernaService(em, cavernaRepository);
-
-            PlanoSegurancaService planoSegurancaService = new PlanoSegurancaService(
-                    em, planoSegurancaRepository);
-
-            ExpedicaoService expedicaoService = new ExpedicaoService(
-                    em,
-                    expedicaoRepository,
-                    cavernaRepository,
-                    planoSegurancaRepository);
-
-            SetorService setorService = new SetorService(
-                    em, setorRepository, cavernaRepository);
-
-            ParticipacaoService participacaoService = new ParticipacaoService(
-                    em, participacaoRepository);
-
-            ColetaCientificaService coletaCientificaService = new ColetaCientificaService(
-                    em, coletaCientificaRepository);
-
-            EquipamentoService equipamentoService = new EquipamentoService(
-                    em, equipamentoRepository);
+            ExpedicaoService expedicaoService = new ExpedicaoService(em, expedicaoRepository, cavernaRepository);
+            SetorService setorService = new SetorService(em, setorRepository, cavernaRepository);
+            ParticipacaoService participacaoService = new ParticipacaoService(em, participacaoRepository);
+            ColetaCientificaService coletaCientificaService = new ColetaCientificaService(em,
+                    coletaCientificaRepository);
+            EquipamentoService equipamentoService = new EquipamentoService(em, equipamentoRepository);
+            MovimentacaoService movimentacaoService = new MovimentacaoService(em, movimentacaoRepository);
+            PlanoSegurancaService planoSegurancaService = new PlanoSegurancaService(em, planoSegurancaRepository);
 
             DatabaseSeeder seeder = new DatabaseSeeder(
-                    pessoaService,
-                    pesquisadorService,
-                    guiaEspeleologicoService,
-                    cavernaService,
-                    expedicaoService,
-                    setorService,
-                    participacaoService,
-                    coletaCientificaService,
-                    equipamentoService,
-                    planoSegurancaService);
-
+                    pessoaService, pesquisadorService, guiaEspeleologicoService,
+                    cavernaService, expedicaoService, setorService,
+                    participacaoService, coletaCientificaService, equipamentoService,
+                    planoSegurancaService, movimentacaoService
+            );
             seeder.seedAll();
 
             System.out.println("[seed] Concluído.");

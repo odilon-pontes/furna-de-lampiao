@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "tb_coleta_cientifica")
 @Setter
 @Getter
 @NoArgsConstructor

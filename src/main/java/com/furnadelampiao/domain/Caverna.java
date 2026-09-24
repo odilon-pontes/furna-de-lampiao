@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "caverna", uniqueConstraints = @UniqueConstraint(name = "uk_caverna_cod_cadastro_ambiental", columnNames = "cod_cadastro_ambiental"))
+@Table(name = "tb_caverna", uniqueConstraints = @UniqueConstraint(name = "uk_caverna_cod_cadastro_ambiental", columnNames = "cod_cadastro_ambiental"))
 @Getter
 @Setter
 @NoArgsConstructor
