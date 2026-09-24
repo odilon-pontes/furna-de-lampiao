@@ -25,6 +25,7 @@ public class SeedRunner {
             EquipamentoRepository equipamentoRepository = new EquipamentoRepositoryJpa(em);
             PlanoSegurancaRepository planoSegurancaRepository = new PlanoSegurancaRepositoryJpa(em);
             MovimentacaoRepository movimentacaoRepository = new MovimentacaoRepositoryJpa(em);
+            AmostraRepository amostraRepository = new AmostraRepositoryJpa(em);
 
             PessoaService pessoaService = new PessoaService(em, pessoaRepository);
             PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
@@ -39,12 +40,13 @@ public class SeedRunner {
             EquipamentoService equipamentoService = new EquipamentoService(em, equipamentoRepository);
             MovimentacaoService movimentacaoService = new MovimentacaoService(em, movimentacaoRepository);
             PlanoSegurancaService planoSegurancaService = new PlanoSegurancaService(em, planoSegurancaRepository);
+            AmostraService amostraService = new AmostraService(em, amostraRepository);
 
             DatabaseSeeder seeder = new DatabaseSeeder(
                     pessoaService, pesquisadorService, guiaEspeleologicoService,
                     cavernaService, expedicaoService, setorService,
                     participacaoService, coletaCientificaService, equipamentoService,
-                    planoSegurancaService, movimentacaoService
+                    planoSegurancaService, movimentacaoService, amostraService
             );
             seeder.seedAll();
 

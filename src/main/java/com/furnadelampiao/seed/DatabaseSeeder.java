@@ -26,6 +26,7 @@ public class DatabaseSeeder {
         private final EquipamentoService equipamentoService;
         private final PlanoSegurancaService planoSegurancaService;
         private final MovimentacaoService movimentacaoService;
+        private final AmostraService amostraService;
 
         private final List<Pessoa> pessoas = new ArrayList<>();
         private final List<Pesquisador> pesquisadores = new ArrayList<>();
@@ -38,6 +39,7 @@ public class DatabaseSeeder {
         private final List<Equipamento> equipamentos = new ArrayList<>();
         private final List<PlanoSeguranca> planosSeguranca = new ArrayList<>();
         private final List<Movimentacao> movimentacoes = new ArrayList<>();
+        private final List<Amostra> amostras = new ArrayList<>();
 
         public DatabaseSeeder(PessoaService pessoaService,
                         PesquisadorService pesquisadorService,
@@ -49,7 +51,8 @@ public class DatabaseSeeder {
                         ColetaCientificaService coletaCientificaService,
                         EquipamentoService equipamentoService,
                         PlanoSegurancaService planoSegurancaService, 
-                        MovimentacaoService movimentacaoService
+                        MovimentacaoService movimentacaoService,
+                        AmostraService amostraService
                 ) {
                 this.pessoaService = pessoaService;
                 this.pesquisadorService = pesquisadorService;
@@ -62,6 +65,7 @@ public class DatabaseSeeder {
                 this.equipamentoService = equipamentoService;
                 this.planoSegurancaService = planoSegurancaService;
                 this.movimentacaoService = movimentacaoService;
+                this.amostraService = amostraService;
         }
 
         public void seedAll() {
@@ -76,6 +80,7 @@ public class DatabaseSeeder {
                 seedColetas();
                 seedEquipamentos();
                 seedMovimentacoes();
+                seedAmostras();
         }
 
         private void seedPessoas() {
@@ -1646,6 +1651,172 @@ public class DatabaseSeeder {
 
                 System.out.println("[seed] 10 registros de Equipamento criados.");
 
+        }
+
+        private void seedAmostras() {
+
+                if (!amostraService.listarTodos().isEmpty()) {
+                        System.out.println(
+                                "[seed] Amostra já possui registros — pulando."
+                        );
+                        return;
+                }
+
+                if (coletas.isEmpty()) {
+                        throw new IllegalStateException(
+                                "Não existem coletas científicas para associar às amostras."
+                        );
+                }
+
+
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-001")
+                        .categoriaAmostra(CategoriaAmostra.GEOLOGICA)
+                        .volume(new BigDecimal("250.00"))
+                        .unidadeMedida(UnidadeMedida.MILILITRO)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 1, 9, 0
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra de água coletada na entrada da caverna.")
+                        .coletaCientifica(coletas.get(0))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-002")
+                        .categoriaAmostra(CategoriaAmostra.MINERAL)
+                        .volume(new BigDecimal("500.00"))
+                        .unidadeMedida(UnidadeMedida.MILILITRO)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 1, 9, 30
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.REGULAR)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra de água coletada em região subterrânea.")
+                        .coletaCientifica(coletas.get(0))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-003")
+                        .categoriaAmostra(CategoriaAmostra.ARQUEOLOGICA)
+                        .volume(new BigDecimal("150.00"))
+                        .unidadeMedida(UnidadeMedida.UNIDADE)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 2, 10, 0
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.DANIFICADA)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra de sedimento do interior da caverna.")
+                        .coletaCientifica(coletas.get(1))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-004")
+                        .categoriaAmostra(CategoriaAmostra.GEOLOGICA)
+                        .volume(new BigDecimal("75.00"))
+                        .unidadeMedida(UnidadeMedida.LITRO)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 2, 10, 30
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra de solo para análise laboratorial.")
+                        .coletaCientifica(coletas.get(1))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-005")
+                        .categoriaAmostra(CategoriaAmostra.OUTRA)
+                        .volume(new BigDecimal("100.00"))
+                        .unidadeMedida(UnidadeMedida.MILILITRO)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 3, 8, 0
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.REGULAR)
+                        .indicacaoMaterailPerigoso(true)
+                        .observacoes("Amostra identificada com possível material perigoso.")
+                        .coletaCientifica(coletas.get(2))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-006")
+                        .categoriaAmostra(CategoriaAmostra.BIOLOGICA)
+                        .volume(new BigDecimal("300.00"))
+                        .unidadeMedida(UnidadeMedida.MILILITRO)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 3, 8, 30
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.BOA)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra de água para análise química.")
+                        .coletaCientifica(coletas.get(2))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-007")
+                        .categoriaAmostra(CategoriaAmostra.OUTRA)
+                        .volume(new BigDecimal("200.00"))
+                        .unidadeMedida(UnidadeMedida.QUILOGRAMA)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 4, 11, 0
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.DANIFICADA)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra mineral coletada em formação rochosa.")
+                        .coletaCientifica(coletas.get(3))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-008")
+                        .categoriaAmostra(CategoriaAmostra.ARQUEOLOGICA)
+                        .volume(new BigDecimal("50.00"))
+                        .unidadeMedida(UnidadeMedida.MILILITRO)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 4, 11, 30
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra líquida para avaliação microbiológica.")
+                        .coletaCientifica(coletas.get(3))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-009")
+                        .categoriaAmostra(CategoriaAmostra.MINERAL)
+                        .volume(new BigDecimal("125.00"))
+                        .unidadeMedida(UnidadeMedida.METRO)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 5, 13, 0
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.RUIM)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra de material orgânico.")
+                        .coletaCientifica(coletas.get(4))
+                        .build());
+
+                amostras.add(Amostra.builder()
+                        .codCampo("AM-010")
+                        .categoriaAmostra(CategoriaAmostra.BIOLOGICA)
+                        .volume(new BigDecimal("400.00"))
+                        .unidadeMedida(UnidadeMedida.MILILITRO)
+                        .dataAcondicionamento(LocalDateTime.of(
+                                2026, 8, 5, 13, 30
+                        ))
+                        .condicaoAmostra(CondicaoConservacaoAmostra.BOA)
+                        .indicacaoMaterailPerigoso(false)
+                        .observacoes("Amostra de água coletada para comparação.")
+                        .coletaCientifica(coletas.get(4))
+                        .build());
+
+                for (Amostra amostra : amostras) {
+                        amostraService.cadastrar(amostra);
+                }
+
+                System.out.println(
+                        "[seed] " + amostras.size() + " registros de Amostra criados."
+                );
         }
 
         private Endereco endereco(String logradouro, String numero, String complemento,
