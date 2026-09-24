@@ -56,4 +56,8 @@ public class Expedicao {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "caverna_id", nullable = false)
     private Caverna caverna;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "plano_seguranca_id", nullable = false, unique = true)
+    private PlanoSeguranca planoSeguranca;
 }
