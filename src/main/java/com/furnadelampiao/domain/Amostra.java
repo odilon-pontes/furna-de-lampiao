@@ -46,6 +46,7 @@ public class Amostra {
     @Column(name = "indicacao_material_perigoso", nullable = false)
     private Boolean indicacaoMaterailPerigoso = false;
 
+    @Lob
     private byte[] fotografia;
 
     @Column(columnDefinition = "TEXT")
