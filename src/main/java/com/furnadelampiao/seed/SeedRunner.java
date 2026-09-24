@@ -31,7 +31,7 @@ public class SeedRunner {
             GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(
                     em, guiaEspeleologicoRepository);
             CavernaService cavernaService = new CavernaService(em, cavernaRepository);
-            ExpedicaoService expedicaoService = new ExpedicaoService(em, expedicaoRepository, cavernaRepository);
+            ExpedicaoService expedicaoService = new ExpedicaoService(em, expedicaoRepository, cavernaRepository, planoSegurancaRepository);
             SetorService setorService = new SetorService(em, setorRepository, cavernaRepository);
             ParticipacaoService participacaoService = new ParticipacaoService(em, participacaoRepository);
             ColetaCientificaService coletaCientificaService = new ColetaCientificaService(em,
