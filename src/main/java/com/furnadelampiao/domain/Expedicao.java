@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_expedicao", uniqueConstraints = @UniqueConstraint(name = "uk_expedicao_codigo", columnNames = "codigo"))
@@ -60,4 +61,7 @@ public class Expedicao {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "plano_seguranca_id", nullable = false, unique = true)
     private PlanoSeguranca planoSeguranca;
+
+    @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY)
+    private List<AutorizacaoAmbiental> autorizacoesAmbientais;
 }
