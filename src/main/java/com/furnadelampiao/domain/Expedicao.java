@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -62,6 +63,12 @@ public class Expedicao {
     @JoinColumn(name = "plano_seguranca_id", nullable = false, unique = true)
     private PlanoSeguranca planoSeguranca;
 
+    @Builder.Default
     @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY)
-    private List<AutorizacaoAmbiental> autorizacoesAmbientais;
+    private List<AutorizacaoAmbiental> autorizacoesAmbientais = new ArrayList<>();
+
+    @Builder.Default
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tb_expedicao_setor", joinColumns = @JoinColumn(name = "expedicao_id"), inverseJoinColumns = @JoinColumn(name = "setor_id"))
+    private List<Setor> setoresVisitados = new ArrayList<>();
 }

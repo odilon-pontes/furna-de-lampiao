@@ -75,6 +75,7 @@ public class DatabaseSeeder {
                 seedSetores();
                 seedPlanosSeguranca();
                 seedExpedicoes();
+                seedExpedicaoSetores();
                 seedAutorizacoesAmbientais();
                 seedParticipacoes();
                 seedColetas();
@@ -1103,6 +1104,16 @@ public class DatabaseSeeder {
                 System.out.println("[seed] 10 registros de Expedição criados.");
         }
 
+        private void seedExpedicaoSetores() {
+                for (int i = 0; i < expedicoes.size() && i < setores.size(); i++) {
+                        expedicaoService.associarSetor(
+                                        expedicoes.get(i).getId(),
+                                        setores.get(i).getId());
+                }
+
+                System.out.println("[seed] Associações Expedição-Setor criadas.");
+        }
+
         private void seedAutorizacoesAmbientais() {
                 if (!autorizacaoAmbientalService.listarTodos().isEmpty()) {
                         System.out.println("[seed] Autorização Ambiental já possui registros — pulando.");
@@ -1364,6 +1375,7 @@ public class DatabaseSeeder {
                                                 .expedicao(expedicoes.get(1))
                                                 .setor(setores.get(3))
                                                 .build());
+
                 coletas.add(
                                 ColetaCientifica.builder()
                                                 .dataHoraColeta(LocalDateTime.of(2026, 8, 22, 10, 0))
@@ -1599,6 +1611,7 @@ public class DatabaseSeeder {
                         System.out.println("[seed] Movimentação já possui registros — pulando.");
                         return;
                 }
+
                 EstadoSaida estadoSaida = EstadoSaida.PENDENTE;
                 EstadoRetorno estadoRetorno = EstadoRetorno.PENDENTE;
 
@@ -1722,7 +1735,6 @@ public class DatabaseSeeder {
                 }
 
                 System.out.println("[seed] 10 registros de Equipamento criados.");
-
         }
 
         private Endereco endereco(String logradouro, String numero, String complemento,
