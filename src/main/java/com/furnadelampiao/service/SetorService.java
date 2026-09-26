@@ -6,7 +6,6 @@ import com.furnadelampiao.domain.Setor;
 import com.furnadelampiao.enums.NivelDificuldadeSetor;
 import com.furnadelampiao.infra.TransacaoExecutor;
 import com.furnadelampiao.repository.SetorRepository;
-import com.furnadelampiao.repository.SetorRepositoryJpa;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
