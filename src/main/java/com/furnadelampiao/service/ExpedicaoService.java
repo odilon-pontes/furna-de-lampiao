@@ -232,7 +232,7 @@ public class ExpedicaoService {
                     "A data de término prevista deve ser posterior à data de início prevista.");
         }
 
-        if (expedicao.getQtdMaxParticipantes() <= 0) {
+        if (expedicao.getQtdMaxParticipantes() == null || expedicao.getQtdMaxParticipantes() <= 0) { 
             throw new IllegalArgumentException(
                     "Quantidade máxima de participantes deve ser maior que zero.");
         }

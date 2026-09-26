@@ -20,7 +20,7 @@ public class AutorizacaoAmbiental {
     private Long id;
 
     @Column(name = "num", nullable = false)
-    private int num;
+    private Integer num;
 
     @Column(name = "orgao_emissor", nullable = false, length = 200)
     private String orgaoEmissor;

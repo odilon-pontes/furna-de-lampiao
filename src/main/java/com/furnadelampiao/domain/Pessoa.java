@@ -25,7 +25,7 @@ public class Pessoa {
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @Column(name = "data_nascimento")
+    @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNasc;
 
     @Column(nullable = false, unique = true, length = 150)
