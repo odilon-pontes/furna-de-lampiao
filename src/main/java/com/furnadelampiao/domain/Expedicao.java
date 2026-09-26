@@ -65,6 +65,12 @@ private PlanoSeguranca planoSeguranca;
 
     @Builder.Default
     @OneToMany(mappedBy = "expedicao", fetch = FetchType.LAZY)
+    private List<AutorizacaoAmbiental> autorizacoesAmbientais = new ArrayList<>();
+
+    @Builder.Default
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tb_expedicao_setor", joinColumns = @JoinColumn(name = "expedicao_id"), inverseJoinColumns = @JoinColumn(name = "setor_id"))
+    private List<Setor> setoresVisitados = new ArrayList<>();
 private List<AutorizacaoAmbiental> autorizacoesAmbientais = new ArrayList<>();
 
     @Builder.Default

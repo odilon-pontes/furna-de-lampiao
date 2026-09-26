@@ -22,7 +22,7 @@ public class PlanoSeguranca {
     @Builder.Default
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
-            name = "plano_seguranca_procedimento_evacuacao",
+            name = "tb_plano_seguranca_procedimento_evacuacao",
             joinColumns = @JoinColumn(name = "plano_seguranca_id"))
     @OrderColumn(name = "ordem")
     @Column(name = "procedimento", nullable = false, length = 500)
