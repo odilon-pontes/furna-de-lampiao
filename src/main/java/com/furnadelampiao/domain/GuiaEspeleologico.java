@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @SuperBuilder
 public class GuiaEspeleologico extends Pessoa {
-    @Column(name = "num_credenciamento", nullable = false, unique = true)
+    @Column(name = "num_credenciamento", nullable = false, unique = true, length = 30)
     private String numCredenciamento;
 
     @Enumerated(EnumType.STRING)

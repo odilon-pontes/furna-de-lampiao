@@ -18,10 +18,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @SuperBuilder
 public class Pesquisador extends Pessoa {
-    @Column(name = "num_registro_institucional", nullable = false, unique = true)
+    @Column(name = "num_registro_institucional", nullable = false, unique = true, length = 30)
     private String numRegistroInstitucional;
 
-    @Column(name = "area_principal_pesquisa", nullable = false)
+    @Column(name = "area_principal_pesquisa", nullable = false, length = 50)
     private String areaPrincipalPesquisa;
 
     @Enumerated(EnumType.STRING)

@@ -21,7 +21,7 @@ public class Amostra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cod_campo", nullable = false, unique = true)
+    @Column(name = "cod_campo", nullable = false, unique = true, length = 30)
     private String codCampo;
 
     @Enumerated(EnumType.STRING)
