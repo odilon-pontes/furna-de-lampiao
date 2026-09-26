@@ -4,13 +4,11 @@ import com.furnadelampiao.enums.NivelCertificacao;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "tb_guia_espeleologico")
 @Getter
 @Setter
 @NoArgsConstructor

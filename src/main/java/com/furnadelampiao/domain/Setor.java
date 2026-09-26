@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "setor")
+@Table(name = "tb_setor")
 @Getter
 @Setter
 @NoArgsConstructor

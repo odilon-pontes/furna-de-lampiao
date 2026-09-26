@@ -21,15 +21,21 @@ public class Main {
     public static void main(String[] args) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("furnaPU");
+
         EntityManager em = emf.createEntityManager();
 
         PessoaRepository pessoaRepository = new PessoaRepositoryJpa(em);
+
         PesquisadorRepository pesquisadorRepository = new PesquisadorRepositoryJpa(em);
+
         GuiaEspeleologicoRepository guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
 
         PessoaService pessoaService = new PessoaService(em, pessoaRepository);
+
         PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
-        GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(em,
+
+        GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(
+                em,
                 guiaEspeleologicoRepository);
 
         List<Pessoa> pessoas = pessoaService.listarTodos();

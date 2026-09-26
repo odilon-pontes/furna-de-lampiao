@@ -60,6 +60,10 @@ public class PesquisadorService {
         return repository.listarTodos();
     }
 
+    public List<Pesquisador> buscarPorAreaPesquisa(String area) {
+        return repository.buscarPorAreaPesquisa(area);
+    }
+
     public List<Pesquisador> buscarPorTitulacao(Titulacao titulacao) {
         return repository.buscarPorTitulacao(titulacao);
     }

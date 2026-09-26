@@ -67,6 +67,16 @@ public class ParticipacaoService {
     }
 
     public void remover(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(
+                    "id não pode ser nulo."
+            );
+        }
+        Participacao participacao = entityManager.find(Participacao.class, id);
+
+        if (participacao != null) {
+            entityManager.remove(participacao);
+        }
 
     }
     private void validarParticipacao(Participacao participacao) {

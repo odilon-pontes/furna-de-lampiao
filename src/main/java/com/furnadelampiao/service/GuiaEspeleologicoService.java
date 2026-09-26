@@ -1,6 +1,7 @@
 package com.furnadelampiao.service;
 
 import com.furnadelampiao.domain.GuiaEspeleologico;
+import com.furnadelampiao.enums.NivelCertificacao;
 import com.furnadelampiao.repository.GuiaEspeleologicoRepository;
 
 import javax.persistence.EntityManager;
@@ -57,6 +58,15 @@ public class GuiaEspeleologicoService {
     public List<GuiaEspeleologico> listarTodos() {
         return repository.listarTodos();
     }
+
+    public List<GuiaEspeleologico> buscarPorNivelCertificacao(NivelCertificacao nivelCertificacao) {
+        return repository.buscarPorNivelCertificacao(nivelCertificacao);
+    }
+
+    public List<GuiaEspeleologico> listarCertificacoesVencidas() {
+        return repository.listarCertificacoesVencidas();
+    }
+
 
     private void validarGuia(GuiaEspeleologico guia) {
         if (guia == null) {
