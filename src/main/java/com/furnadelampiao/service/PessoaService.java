@@ -1,6 +1,5 @@
 package com.furnadelampiao.service;
 
-
 import com.furnadelampiao.repository.PessoaRepository;
 import com.furnadelampiao.domain.Pessoa;
 
@@ -11,8 +10,7 @@ public class PessoaService {
     private final EntityManager entityManager;
     private final PessoaRepository pessoaRepository;
 
-
-    public PessoaService (EntityManager entityManager, PessoaRepository pessoaRepository) {
+    public PessoaService(EntityManager entityManager, PessoaRepository pessoaRepository) {
         this.entityManager = entityManager;
         this.pessoaRepository = pessoaRepository;
     }
@@ -42,7 +40,7 @@ public class PessoaService {
         return pessoaRepository.buscarPorId(id);
     }
 
-    public List<Pessoa> listarTodos(){
+    public List<Pessoa> listarTodos() {
         return pessoaRepository.listarTodos();
     }
 
@@ -51,8 +49,7 @@ public class PessoaService {
 
         if (p.getId() == null) {
             throw new IllegalArgumentException(
-                    "Pessoa precisa de ID para ser atualizada."
-            );
+                    "Pessoa precisa de ID para ser atualizada.");
         }
 
         try {
@@ -73,8 +70,7 @@ public class PessoaService {
     public void removerPorId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException(
-                    "ID não pode ser nulo."
-            );
+                    "ID não pode ser nulo.");
         }
 
         try {
@@ -94,14 +90,16 @@ public class PessoaService {
     private void validarPessoa(Pessoa p) {
         if (p == null) {
             throw new IllegalArgumentException(
-                    "Pessoa não pode ser nula."
-            );
+                    "Pessoa não pode ser nula.");
         }
 
-        if (p.getNome() == null || p.getNome().isBlank()){
+        if (p.getNome() == null || p.getNome().isBlank()) {
             throw new IllegalArgumentException(
-                    "Nome de pessoa é obrigatório."
-            );
+                    "Nome de pessoa é obrigatório.");
+        }
+
+        if (p.getSituacaoAtiva() == null) {
+            p.setSituacaoAtiva(true);
         }
     }
 }

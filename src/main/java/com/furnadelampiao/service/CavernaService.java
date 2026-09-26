@@ -90,5 +90,9 @@ public class CavernaService {
         if (caverna.getUf() == null) {
             throw new IllegalArgumentException("UF da caverna é obrigatória.");
         }
+
+        if (caverna.getAcessoAtualmentePermitido() == null) {
+            caverna.setAcessoAtualmentePermitido(false);
+        }
     }
 }

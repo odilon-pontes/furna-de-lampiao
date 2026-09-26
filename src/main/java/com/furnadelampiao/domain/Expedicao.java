@@ -45,7 +45,7 @@ public class Expedicao {
     private BigDecimal custoRealizado;
 
     @Column(name = "qtd_max_participantes", nullable = false)
-    private int qtdMaxParticipantes;
+    private Integer qtdMaxParticipantes;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "situacao", nullable = false, length = 20)
@@ -53,7 +53,7 @@ public class Expedicao {
 
     @Builder.Default
     @Column(name = "cancelamento_emergencial", nullable = false)
-    private boolean cancelamentoEmergencial = false;
+    private Boolean cancelamentoEmergencial = false;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "caverna_id", nullable = false)

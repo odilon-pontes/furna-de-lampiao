@@ -248,5 +248,9 @@ public class ExpedicaoService {
             throw new IllegalArgumentException(
                     "Custo realizado não pode ser negativo.");
         }
+
+        if (expedicao.getCancelamentoEmergencial() == null) {
+            expedicao.setCancelamentoEmergencial(false);
+        }
     }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Column;
 
 @Embeddable
 @Getter
@@ -21,6 +22,8 @@ public class Endereco {
     private String cidade;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "uf", length = 2)
     private UnidadeFederativa uf;
+
     private String cep;
 }

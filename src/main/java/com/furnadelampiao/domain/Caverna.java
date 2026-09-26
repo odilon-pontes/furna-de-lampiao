@@ -49,7 +49,7 @@ public class Caverna {
 
         @Builder.Default
         @Column(name = "acesso_atualmente_permitido", nullable = false)
-        private boolean acessoAtualmentePermitido = false;
+        private Boolean acessoAtualmentePermitido = false;
 
         @Setter(AccessLevel.NONE)
         @Builder.Default

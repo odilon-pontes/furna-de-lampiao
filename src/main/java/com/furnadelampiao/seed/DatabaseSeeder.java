@@ -1763,7 +1763,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 1, 9, 0))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra de água coletada na entrada da caverna.")
                                 .coletaCientifica(coletas.get(0))
                                 .build());
@@ -1776,7 +1776,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 1, 9, 30))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.REGULAR)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra de água coletada em região subterrânea.")
                                 .coletaCientifica(coletas.get(0))
                                 .build());
@@ -1789,7 +1789,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 2, 10, 0))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.DANIFICADA)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra de sedimento do interior da caverna.")
                                 .coletaCientifica(coletas.get(1))
                                 .build());
@@ -1802,7 +1802,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 2, 10, 30))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra de solo para análise laboratorial.")
                                 .coletaCientifica(coletas.get(1))
                                 .build());
@@ -1815,7 +1815,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 3, 8, 0))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.REGULAR)
-                                .indicacaoMaterailPerigoso(true)
+                                .indicacaoMaterialPerigoso(true)
                                 .observacoes("Amostra identificada com possível material perigoso.")
                                 .coletaCientifica(coletas.get(2))
                                 .build());
@@ -1828,7 +1828,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 3, 8, 30))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.BOA)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra de água para análise química.")
                                 .coletaCientifica(coletas.get(2))
                                 .build());
@@ -1841,7 +1841,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 4, 11, 0))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.DANIFICADA)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra mineral coletada em formação rochosa.")
                                 .coletaCientifica(coletas.get(3))
                                 .build());
@@ -1854,7 +1854,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 4, 11, 30))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra líquida para avaliação microbiológica.")
                                 .coletaCientifica(coletas.get(3))
                                 .build());
@@ -1867,7 +1867,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 5, 13, 0))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.RUIM)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra de material orgânico.")
                                 .coletaCientifica(coletas.get(4))
                                 .build());
@@ -1880,7 +1880,7 @@ public class DatabaseSeeder {
                                 .dataAcondicionamento(LocalDateTime.of(
                                                 2026, 8, 5, 13, 30))
                                 .condicaoAmostra(CondicaoConservacaoAmostra.BOA)
-                                .indicacaoMaterailPerigoso(false)
+                                .indicacaoMaterialPerigoso(false)
                                 .observacoes("Amostra de água coletada para comparação.")
                                 .coletaCientifica(coletas.get(4))
                                 .build());

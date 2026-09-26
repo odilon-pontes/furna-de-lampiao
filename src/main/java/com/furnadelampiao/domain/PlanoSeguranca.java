@@ -39,7 +39,7 @@ public class PlanoSeguranca {
 
     @Builder.Default
     @Column(name = "necessidade_equipe_medica", nullable = false)
-    private boolean necessidadeEquipeMedica = false;
+    private Boolean necessidadeEquipeMedica = false;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)

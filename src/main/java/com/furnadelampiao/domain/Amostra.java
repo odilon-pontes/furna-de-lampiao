@@ -44,9 +44,11 @@ public class Amostra {
 
     @Builder.Default
     @Column(name = "indicacao_material_perigoso", nullable = false)
-    private Boolean indicacaoMaterailPerigoso = false;
+    private Boolean indicacaoMaterialPerigoso = false;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "fotografia")
     private byte[] fotografia;
 
     @Column(columnDefinition = "TEXT")

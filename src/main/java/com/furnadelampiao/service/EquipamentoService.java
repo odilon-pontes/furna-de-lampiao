@@ -116,5 +116,9 @@ public class EquipamentoService {
                 && equipamento.getValorAquisicao().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Valor de aquisição não pode ser negativo.");
         }
+
+        if (equipamento.getIndicacaoCalibracao() == null) {
+            equipamento.setIndicacaoCalibracao(false);
+        }
     }
 }

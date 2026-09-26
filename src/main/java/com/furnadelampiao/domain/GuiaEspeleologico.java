@@ -19,7 +19,7 @@ public class GuiaEspeleologico extends Pessoa {
     private String numCredenciamento;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "nivel_certificacao", nullable = false)
+    @Column(name = "nivel_certificacao", nullable = false, length = 20)
     private NivelCertificacao nivelCertificacao;
 
     @Column(name = "data_validade_certificacao", nullable = false)
