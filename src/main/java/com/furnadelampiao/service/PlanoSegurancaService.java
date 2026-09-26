@@ -80,5 +80,9 @@ public class PlanoSegurancaService {
             throw new IllegalArgumentException(
                     "Telefone de emergência é obrigatório.");
         }
+
+        if (planoSeguranca.getNecessidadeEquipeMedica() == null) {
+            planoSeguranca.setNecessidadeEquipeMedica(false);
+        }
     }
 }

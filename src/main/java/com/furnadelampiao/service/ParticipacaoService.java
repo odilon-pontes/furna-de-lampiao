@@ -69,8 +69,7 @@ public class ParticipacaoService {
     public void remover(Long id) {
         if (id == null) {
             throw new IllegalArgumentException(
-                    "id não pode ser nulo."
-            );
+                    "id não pode ser nulo.");
         }
         Participacao participacao = entityManager.find(Participacao.class, id);
 
@@ -79,23 +78,21 @@ public class ParticipacaoService {
         }
 
     }
+
     private void validarParticipacao(Participacao participacao) {
         if (participacao == null) {
             throw new IllegalArgumentException(
-                    "Participacao não pode ser nulo."
-            );
+                    "Participacao não pode ser nulo.");
         }
 
         if (participacao.getPessoa() == null) {
             throw new IllegalArgumentException(
-                    "Pessoa não pode ser nulo."
-            );
+                    "Pessoa não pode ser nulo.");
         }
 
         if (participacao.getExpedicao() == null) {
             throw new IllegalArgumentException(
-                    "Expedição não pode ser nulo."
-            );
+                    "Expedição não pode ser nulo.");
         }
 
         if (participacao.getDataConfirmacao() == null ||
@@ -110,7 +107,6 @@ public class ParticipacaoService {
                     "Papel do participante é obrigatória");
         }
 
-
         if (participacao.getValorDiaria() != null &&
                 participacao.getValorDiaria().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException(
@@ -118,9 +114,13 @@ public class ParticipacaoService {
         }
 
         if (participacao.getQtdPrevistaDias() != null &&
-                participacao.getQtdPrevistaDias()  < 0) {
+                participacao.getQtdPrevistaDias() < 0) {
             throw new IllegalArgumentException(
                     "Quantidade prevista em dias não pode ser negativo");
+        }
+
+        if (participacao.getPresencaConfirmada() == null) {
+            participacao.setPresencaConfirmada(false);
         }
     }
 }

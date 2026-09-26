@@ -36,7 +36,7 @@ public class Pessoa {
 
     @Builder.Default
     @Column(name = "situacao_ativa", nullable = false)
-    private boolean situacaoAtiva = true;
+    private Boolean situacaoAtiva = true;
 
     @Embedded
     private Endereco endereco;

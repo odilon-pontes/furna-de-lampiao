@@ -49,5 +49,5 @@ public class Equipamento {
 
     @Builder.Default
     @Column(name = "indicacao_calibracao", nullable = false)
-    private boolean indicacaoCalibracao = false;
+    private Boolean indicacaoCalibracao = false;
 }
