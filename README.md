@@ -20,7 +20,7 @@ Sistema para gerenciamento de cavernas, setores, expedições e profissionais en
 │   ├── main
 │   │   ├── java/com
 │   │   │   └── furnadelampiao
-│   │   │        ├── entity
+│   │   │        ├── domain
 │   │   │        ├── enums
 │   │   │        ├── repository
 │   │   │        ├── service
@@ -42,14 +42,18 @@ Sistema para gerenciamento de cavernas, setores, expedições e profissionais en
 ```bash
 mvn compile exec:java "-Dexec.mainClass=com.furnadelampiao.seed.SeedRunner"
 ```
+ou 
+```bash
+make seed
+```
 
 ## Docker
 desenvolvimento
 ```bash
-docker compose up -d
+make db-up
 ```
 ```bash
-docker compose down -v
+make db-down
 ```
 
 

@@ -1,6 +1,7 @@
 @startuml SystemClassDiagram
 
 class Pessoa {
+    - id: Long
     - nome: String
     - cpf: String
     - dataNasc: LocalDate
@@ -21,31 +22,31 @@ class Endereco <<Embeddable>> {
 }
 
 class Pesquisador {
-    - numRegistroInstitucional: int
+    - numRegistroInstitucional: String
     - areaPrincipalPesquisa: String
     - titulacao: Enum
     - valorDiarioBolsa: BigDecimal
-
 }
 
 class GuiaEspeleologico {
-    - numCredenciamento: int
-    - nivelCetificacao: Enum
+    - numCredenciamento: String
+    - nivelCertificacao: Enum
     - dataValidadeCertificacao: LocalDate
     - qtdExpedicoesConcluidas: int
 }
 
 class Participacao {
     - id: Long
-    - papel: Enum   
+    - papel: PapelParticipante
     - dataConfirmacao: LocalDate
     - valorDiaria: BigDecimal
     - qtdPrevistaDias: int
-    - PresencaConfirmada: boolean
+    - presencaConfirmada: boolean
     - observacoes: String
 }
 
 class Caverna {
+    - id: Long
     - nomeOficial: String
     - codCadastroAmbiental: String
     - municipio: String
@@ -64,64 +65,69 @@ class Localizacao <<Embeddable>> {
 }
 
 class Setor {
+    - id: Long
     - denominacao: String
-    - nivelEstimadoDificuldade: Enum
-    - profundidadeMaxima: float
+    - nivelEstimadoDificuldade: NivelDificuldadeSetor
+    - profundidadeMaxima: BigDecimal
     - extensaoAproximada: BigDecimal
     - descricao: String
-    - riscoInundacao: float
+    - riscoInundacao: BigDecimal
     - condicaoCorrente: Enum
 }
 
 class Expedicao {
     - id: Long
+    - codigo: String
     - titulo: String
     - objetivo: String
-    - dataHoraInicio: TimeStamp
-    - dataHoraTermino: TimeStamp
-    - orcamentoAprovado: boolean
+    - inicioPrevisto: LocalDateTime
+    - terminoPrevisto: LocalDateTime
+    - orcamentoAprovado: BigDecimal
     - custoRealizado: BigDecimal
     - qtdMaxParticipantes: int
-    - situacao: Enum
+    - situacao: SituacaoExpedicao
     - cancelamentoEmergencial: boolean
 }
 
 class PlanoSeguranca {
+    - id: Long
     - procedimentosEvacuacao: List<String>
     - pontoExternoEncontro: Localizacao
     - tempoMaxSemComunicacao: int
     - telefoneEmergencia: String
-    - NecessidadeEquipeMedica: boolean
+    - necessidadeEquipeMedica: boolean
     - mapaRota: byte[]
 }
 
 class AutorizacaoAmbiental {
+    - id: Long
     - num: int
     - orgaoEmissor: String
-    - datasEmissao: List<LocalDate>
+    - dataEmissao: LocalDate
     - validade: LocalDate
-    - situacao: Enum
+    - situacao: SituacaoAutorizacao
     - observacoes: String
-    - ArquivoPDFAssinado: byte[]
+    - arquivoPdfAssinado: byte[]
 }
 
 class Equipamento {
+    - id: Long
     - codPatrimonial: String
     - nome: String
-    - tipo: Enum
+    - tipo: TipoEquipamento
     - fabricante: String
     - valorAquisicao: BigDecimal
     - dataCompra: LocalDate
     - dataUltimaManutencao: LocalDate
-    - situacaoOperacional: Enum
-    - IndicacaoCalibracao: boolean
+    - situacaoOperacional: SituacaoOperacionalEquipamento
+    - indicacaoCalibracao: boolean
 }
 
 class Movimentacao {
-    - responsavelRetirada: Pessoa
+    - id: Long
     - datahoraRetirada: LocalDateTime
     - previsao: LocalDate
-    - dataDevolucao: LocalDate 
+    - dataDevolucao: LocalDate
     - estadoSaida: Enum
     - estadoRetorno: Enum
     - custoAvaria: BigDecimal
@@ -129,58 +135,140 @@ class Movimentacao {
 
 class ColetaCientifica {
     - id: Long
-    - setor: Setor
-    - pesquisadorResponsavel: Pesquisador
     - dataHora: LocalDateTime
     - metodoEmpregado: Enum
     - descricaoPonto: String
-    - temperatura: float
-    - umidadeRelativa: float
-    - profundidade: float
+    - temperatura: BigDecimal
+    - umidadeRelativa: BigDecimal
+    - profundidade: BigDecimal
     - observacoes: String
-    - situacaoValidacao: Enum
+    - situacaoValidacao: SituacaoValidacaoColeta
 }
 
 class Amostra {
     - id: Long
     - codCampo: String
-    - categoria: Enum
-    - volume: float
+    - categoria: CategoriaAmostra
+    - volume: BigDecimal
     - unidadeMedida: Enum
     - dataAcondicionamento: LocalDate
-    - condicaoConservacao: Enum
+    - condicaoConservacao: CondicaoConservacao
     - indicacaoMaterialPerigoso: boolean
     - fotografia: byte[]
     - observacoes: String
 }
 
 class Relatorio {
+    - id: Long
     - titulo: String
     - resumo: String
     - dataSubmissao: LocalDate
     - numPaginas: int
-    - situacaoAprovacao: Enum
+    - situacaoAprovacao: SituacaoRelatorio
     - arquivoCompleto: byte[]
-    - indicacaoPublicacaoAutorizada: String
+    - indicacaoPublicacaoAutorizada: boolean
+}
+
+enum SituacaoExpedicao {
+    PLANEJADA
+    AUTORIZADA
+    EM_ANDAMENTO
+    CONCLUIDA
+    CANCELADA
+}
+
+enum NivelDificuldadeSetor {
+    BAIXO
+    MODERADO
+    ALTO
+    EXTREMO
+}
+
+enum PapelParticipante {
+    COORDENADOR
+    PESQUISADOR
+    GUIA
+    APOIO_LOGISTICO
+}
+
+enum SituacaoAutorizacao {
+    PENDENTE
+    VIGENTE
+    EXPIRADA
+    NEGADA
+}
+
+enum SituacaoOperacionalEquipamento {
+    DISPONIVEL
+    EM_USO
+    EM_MANUTENCAO
+    INATIVO
+}
+
+enum TipoEquipamento {
+    ILUMINACAO
+    PROTECAO
+    MEDICAO
+    COMUNICACAO
+    COLETA
+}
+
+enum SituacaoValidacaoColeta {
+    PENDENTE
+    VALIDADA
+    REJEITADA
+}
+
+enum CategoriaAmostra {
+    ROCHA
+    AGUA
+    SEDIMENTO
+    BIOLOGICA
+}
+
+enum CondicaoConservacao {
+    ADEQUADA
+    COMPROMETIDA
+    DESCARTADA
+}
+
+enum SituacaoRelatorio {
+    EM_ELABORACAO
+    SUBMETIDO
+    APROVADO
+    REJEITADO
 }
 
 Pessoa <|-- Pesquisador
 Pessoa <|-- GuiaEspeleologico
 Pessoa "1" *-- "1" Endereco
 
-Pessoa "1" -- "0..*" Participacao
-Expedicao "1" -- "0..*" Participacao
-Caverna "1" -- "0..*" Setor
-Caverna "1" -- "0..*" Expedicao
-Setor "0..*" -- "1" Expedicao
-Expedicao "1" -- "0..1" AutorizacaoAmbiental
-Pessoa "1" -- "0..*" Movimentacao
-Movimentacao "0..*" -- "1" Equipamento
-Movimentacao "0..*" -- "1" Expedicao
-Expedicao "1" -- "0..*" ColetaCientifica
-ColetaCientifica "1" -- "1..*" Amostra
-Expedicao "1" -- "0..1" Relatorio
+Pessoa "1" --> "0..*" Participacao
+Expedicao "1" --> "0..*" Participacao
+Caverna "1" *-- "0..*" Setor
+Caverna "1" --> "0..*" Expedicao
+Expedicao "0..*" --> "0..*" Setor : visita >
+Expedicao "1" *-- "1" PlanoSeguranca
+Expedicao "1" --> "0..*" AutorizacaoAmbiental : histórico >
+Pessoa "1" --> "0..*" Movimentacao : responsável retirada >
+Equipamento "1" --> "0..*" Movimentacao
+Expedicao "1" --> "0..*" Movimentacao
+Expedicao "1" --> "0..*" ColetaCientifica
+Setor "1" --> "0..*" ColetaCientifica
+Pesquisador "1" --> "0..*" ColetaCientifica : responsável >
+ColetaCientifica "1" --> "0..*" Amostra
+Expedicao "1" --> "0..1" Relatorio
 Caverna "1" *-- "1" Localizacao
-Expedicao "1" -- "1" PlanoSeguranca
+
+Setor --> NivelDificuldadeSetor
+Expedicao --> SituacaoExpedicao
+AutorizacaoAmbiental --> SituacaoAutorizacao
+Participacao --> PapelParticipante
+Equipamento --> TipoEquipamento
+Equipamento --> SituacaoOperacionalEquipamento
+ColetaCientifica --> SituacaoValidacaoColeta
+Amostra --> CategoriaAmostra
+Amostra --> CondicaoConservacao
+Relatorio --> SituacaoRelatorio
 
 @enduml

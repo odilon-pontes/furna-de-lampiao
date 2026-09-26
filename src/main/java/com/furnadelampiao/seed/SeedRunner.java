@@ -203,7 +203,8 @@ public class SeedRunner {
                             em,
                             expedicaoRepository,
                             cavernaRepository,
-                            planoSegurancaRepository);
+                            planoSegurancaRepository,
+                            setorRepository);
 
             SetorService setorService =
                     new SetorService(
