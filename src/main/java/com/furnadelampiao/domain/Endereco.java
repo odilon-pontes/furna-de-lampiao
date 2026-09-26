@@ -4,6 +4,8 @@ import com.furnadelampiao.enums.UnidadeFederativa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -12,6 +14,7 @@ import javax.persistence.Column;
 
 @Embeddable
 @Getter
+@Setter 
 @NoArgsConstructor
 @AllArgsConstructor
 public class Endereco {
