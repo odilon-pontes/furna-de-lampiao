@@ -81,6 +81,10 @@ public class PlanoSegurancaService {
                     "Telefone de emergência é obrigatório.");
         }
 
+        if (planoSeguranca.getPontoExternoEncontro() == null) {
+            throw new IllegalArgumentException("Ponto externo de encontro é obrigatório.");
+        }
+
         if (planoSeguranca.getNecessidadeEquipeMedica() == null) {
             planoSeguranca.setNecessidadeEquipeMedica(false);
         }
