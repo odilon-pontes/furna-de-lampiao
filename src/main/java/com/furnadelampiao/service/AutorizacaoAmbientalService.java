@@ -96,6 +96,10 @@ public class AutorizacaoAmbientalService {
                     "Órgão emissor é obrigatório.");
         }
 
+        if (autorizacao.getNum() == null) {
+            throw new IllegalArgumentException("Número da autorização é obrigatório.");
+        }
+
         if (autorizacao.getDataEmissao() == null) {
             throw new IllegalArgumentException(
                     "Data de emissão é obrigatória.");
