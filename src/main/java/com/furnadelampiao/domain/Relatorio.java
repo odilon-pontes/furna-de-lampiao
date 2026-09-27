@@ -24,7 +24,7 @@ public class Relatorio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false, length = 50)
     private String titulo;
 
     @Column(columnDefinition = "TEXT")
