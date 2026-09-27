@@ -10,10 +10,12 @@ import com.furnadelampiao.domain.PlanoSeguranca;
 import com.furnadelampiao.domain.Setor;
 import com.furnadelampiao.enums.SituacaoExpedicao;
 import com.furnadelampiao.infra.TransacaoExecutor;
+import com.furnadelampiao.dto.ExpedicaoResumoDTO;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
+import java.time.LocalDate;
 
 public class ExpedicaoService {
 
@@ -77,6 +79,22 @@ public class ExpedicaoService {
             throw new IllegalArgumentException("Situação não pode ser nula.");
         }
         return repository.listarPorSituacao(situacao);
+    }
+
+    public List<ExpedicaoResumoDTO> listarResumoPorPeriodoESituacao(
+            LocalDate inicio, LocalDate fim, SituacaoExpedicao situacao) {
+
+        if (inicio == null || fim == null) {
+            throw new IllegalArgumentException("Período (início e fim) é obrigatório.");
+        }
+        if (fim.isBefore(inicio)) {
+            throw new IllegalArgumentException("Data final do período não pode ser anterior à inicial.");
+        }
+        if (situacao == null) {
+            throw new IllegalArgumentException("Situação é obrigatória.");
+        }
+
+        return repository.listarResumoPorPeriodoESituacao(inicio, fim, situacao);
     }
 
     public void atualizar(Expedicao expedicao) {
