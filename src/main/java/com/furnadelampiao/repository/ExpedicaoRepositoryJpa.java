@@ -2,10 +2,14 @@ package com.furnadelampiao.repository;
 
 import com.furnadelampiao.domain.Expedicao;
 import com.furnadelampiao.enums.SituacaoExpedicao;
+import com.furnadelampiao.dto.ExpedicaoResumoDTO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
 
@@ -83,5 +87,29 @@ public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
         if (expedicao != null) {
             entityManager.remove(expedicao);
         }
+    }
+
+    @Override
+    public List<ExpedicaoResumoDTO> listarResumoPorPeriodoESituacao(
+            LocalDate inicio, LocalDate fim, SituacaoExpedicao situacao) {
+
+        LocalDateTime inicioDoDia = inicio.atStartOfDay();
+        LocalDateTime fimDoDia = fim.atTime(LocalTime.MAX);
+
+        return entityManager
+                .createQuery(
+                        "SELECT new com.furnadelampiao.dto.ExpedicaoResumoDTO(" +
+                                "e.codigo, e.titulo, e.caverna.nomeOficial, " +
+                                "e.inicioPrevisto, e.terminoPrevisto, e.situacao) " +
+                                "FROM Expedicao e " +
+                                "WHERE e.inicioPrevisto <= :fimDoDia " +
+                                "AND e.terminoPrevisto >= :inicioDoDia " +
+                                "AND e.situacao = :situacao " +
+                                "ORDER BY e.inicioPrevisto",
+                        ExpedicaoResumoDTO.class)
+                .setParameter("inicioDoDia", inicioDoDia)
+                .setParameter("fimDoDia", fimDoDia)
+                .setParameter("situacao", situacao)
+                .getResultList();
     }
 }
