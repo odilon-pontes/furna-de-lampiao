@@ -4,6 +4,7 @@ import com.furnadelampiao.domain.ColetaCientifica;
 import com.furnadelampiao.enums.MetodoEmpregado;
 import com.furnadelampiao.enums.SituacaoValidacaoColeta;
 import com.furnadelampiao.repository.ColetaCientificaRepository;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -25,46 +26,15 @@ public class ColetaCientificaService {
 
     public void cadastrar(ColetaCientifica coleta) {
         validarColetaCientifica(coleta);
-
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.salvar(coleta);
-
-            entityManager.getTransaction().commit();
-
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> repository.salvar(coleta));
     }
 
     public void atualizar(ColetaCientifica coleta) {
         validarColetaCientifica(coleta);
-
         if (coleta.getId() == null) {
-            throw new IllegalArgumentException(
-                    "Coleta deve possuir ID para ser atualizada."
-            );
+            throw new IllegalArgumentException("Coleta deve possuir ID para ser atualizada.");
         }
-
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.atualizar(coleta);
-
-            entityManager.getTransaction().commit();
-
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> repository.atualizar(coleta));
     }
 
     public List<ColetaCientifica> listarTodos() {
@@ -74,8 +44,7 @@ public class ColetaCientificaService {
     public List<ColetaCientifica> buscarPorExpedicaoId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException(
-                    "ID da expedição não pode ser nulo."
-            );
+                    "ID da expedição não pode ser nulo.");
         }
 
         return repository.buscarPorExpedicaoId(id);
@@ -84,8 +53,7 @@ public class ColetaCientificaService {
     public List<ColetaCientifica> buscarPorSetorId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException(
-                    "ID do setor não pode ser nulo."
-            );
+                    "ID do setor não pode ser nulo.");
         }
 
         return repository.buscarPorSetorId(id);
@@ -94,8 +62,7 @@ public class ColetaCientificaService {
     public List<ColetaCientifica> buscarPorPesquisadorId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException(
-                    "ID do pesquisador não pode ser nulo."
-            );
+                    "ID do pesquisador não pode ser nulo.");
         }
 
         return repository.buscarPorPesquisadorId(id);
@@ -107,14 +74,12 @@ public class ColetaCientificaService {
 
         if (inicio == null || fim == null) {
             throw new IllegalArgumentException(
-                    "Data inicial e final são obrigatórias."
-            );
+                    "Data inicial e final são obrigatórias.");
         }
 
         if (inicio.isAfter(fim)) {
             throw new IllegalArgumentException(
-                    "A data inicial não pode ser posterior à data final."
-            );
+                    "A data inicial não pode ser posterior à data final.");
         }
 
         return repository.buscarPorPeriodo(inicio, fim);
@@ -125,8 +90,7 @@ public class ColetaCientificaService {
 
         if (metodo == null) {
             throw new IllegalArgumentException(
-                    "Método empregado não pode ser nulo."
-            );
+                    "Método empregado não pode ser nulo.");
         }
 
         return repository.buscarPorMetodoEmpregado(metodo);
@@ -137,8 +101,7 @@ public class ColetaCientificaService {
 
         if (situacao == null) {
             throw new IllegalArgumentException(
-                    "Situação de validação não pode ser nula."
-            );
+                    "Situação de validação não pode ser nula.");
         }
 
         return repository.buscarPorSituacaoValidacao(situacao);
@@ -148,56 +111,47 @@ public class ColetaCientificaService {
 
         if (coleta == null) {
             throw new IllegalArgumentException(
-                    "Coleta não pode ser nula."
-            );
+                    "Coleta não pode ser nula.");
         }
 
         if (coleta.getDataHoraColeta() == null) {
             throw new IllegalArgumentException(
-                    "Data e hora da coleta são obrigatórias."
-            );
+                    "Data e hora da coleta são obrigatórias.");
         }
 
         if (coleta.getDataHoraColeta().isAfter(LocalDateTime.now())) {
             throw new IllegalArgumentException(
-                    "Data e hora da coleta não podem ser futuras."
-            );
+                    "Data e hora da coleta não podem ser futuras.");
         }
 
         if (coleta.getMetodoEmpregado() == null) {
             throw new IllegalArgumentException(
-                    "Método empregado é obrigatório."
-            );
+                    "Método empregado é obrigatório.");
         }
 
         if (coleta.getExpedicao() == null) {
             throw new IllegalArgumentException(
-                    "Expedição é obrigatória."
-            );
+                    "Expedição é obrigatória.");
         }
 
         if (coleta.getPesquisador() == null) {
             throw new IllegalArgumentException(
-                    "Pesquisador é obrigatório."
-            );
+                    "Pesquisador é obrigatório.");
         }
 
         if (coleta.getSetor() == null) {
             throw new IllegalArgumentException(
-                    "Setor é obrigatório."
-            );
+                    "Setor é obrigatório.");
         }
 
         if (coleta.getTemperatura() == null) {
             throw new IllegalArgumentException(
-                    "Temperatura é obrigatória."
-            );
+                    "Temperatura é obrigatória.");
         }
 
         if (coleta.getUmidadeRelativa() == null) {
             throw new IllegalArgumentException(
-                    "Umidade relativa é obrigatória."
-            );
+                    "Umidade relativa é obrigatória.");
         }
 
         if (coleta.getUmidadeRelativa().compareTo(BigDecimal.ZERO) < 0 ||
@@ -205,26 +159,22 @@ public class ColetaCientificaService {
                         new BigDecimal("100")) > 0) {
 
             throw new IllegalArgumentException(
-                    "Umidade relativa deve estar entre 0 e 100."
-            );
+                    "Umidade relativa deve estar entre 0 e 100.");
         }
 
         if (coleta.getProfundidade() == null) {
             throw new IllegalArgumentException(
-                    "Profundidade é obrigatória."
-            );
+                    "Profundidade é obrigatória.");
         }
 
         if (coleta.getProfundidade().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException(
-                    "Profundidade não pode ser negativa."
-            );
+                    "Profundidade não pode ser negativa.");
         }
 
         if (coleta.getSituacaoValidacao() == null) {
             throw new IllegalArgumentException(
-                    "Situação de validação é obrigatória."
-            );
+                    "Situação de validação é obrigatória.");
         }
     }
 }

@@ -4,7 +4,8 @@ import com.furnadelampiao.domain.Amostra;
 import com.furnadelampiao.repository.AmostraRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+
+import com.furnadelampiao.infra.TransacaoExecutor;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -34,23 +35,7 @@ public class AmostraService {
                             + amostra.getCodCampo());
         }
 
-        EntityTransaction transaction = entityManager.getTransaction();
-
-        try {
-            transaction.begin();
-
-            amostraRepository.salvar(amostra);
-
-            transaction.commit();
-
-        } catch (RuntimeException e) {
-
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> amostraRepository.salvar(amostra));
     }
 
     public Amostra buscarPorId(Long id) {
@@ -110,23 +95,7 @@ public class AmostraService {
                             + amostra.getCodCampo());
         }
 
-        EntityTransaction transaction = entityManager.getTransaction();
-
-        try {
-            transaction.begin();
-
-            amostraRepository.atualizar(amostra);
-
-            transaction.commit();
-
-        } catch (RuntimeException e) {
-
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> amostraRepository.atualizar(amostra));
     }
 
     public void removerPorId(Long id) {
@@ -138,23 +107,7 @@ public class AmostraService {
                     "Amostra não encontrada para o ID: " + id);
         }
 
-        EntityTransaction transaction = entityManager.getTransaction();
-
-        try {
-            transaction.begin();
-
-            amostraRepository.removerPorId(id);
-
-            transaction.commit();
-
-        } catch (RuntimeException e) {
-
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> amostraRepository.removerPorId(id));
     }
 
     private void validarAmostra(Amostra amostra) {

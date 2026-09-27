@@ -2,6 +2,7 @@ package com.furnadelampiao.service;
 
 import com.furnadelampiao.domain.Movimentacao;
 import com.furnadelampiao.repository.MovimentacaoRepository;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -16,41 +17,22 @@ public class MovimentacaoService {
 
     public MovimentacaoService(
             EntityManager entityManager,
-            MovimentacaoRepository repository
-    ) {
+            MovimentacaoRepository repository) {
         this.entityManager = entityManager;
         this.repository = repository;
     }
 
     public void cadastrar(Movimentacao movimentacao) {
-
         validarMovimentacao(movimentacao);
-
         verificarDisponibilidadeEquipamento(movimentacao);
-
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.salvar(movimentacao);
-
-            entityManager.getTransaction().commit();
-
-        } catch (RuntimeException e) {
-
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> repository.salvar(movimentacao));
     }
 
     public Movimentacao buscarPorId(Long id) {
 
         if (id == null) {
             throw new IllegalArgumentException(
-                    "ID da movimentação não pode ser nulo."
-            );
+                    "ID da movimentação não pode ser nulo.");
         }
 
         return repository.buscarPorId(id);
@@ -64,8 +46,7 @@ public class MovimentacaoService {
 
         if (pessoaId == null) {
             throw new IllegalArgumentException(
-                    "ID da pessoa não pode ser nulo."
-            );
+                    "ID da pessoa não pode ser nulo.");
         }
 
         return repository.buscarPorPessoaId(pessoaId);
@@ -75,8 +56,7 @@ public class MovimentacaoService {
 
         if (expedicaoId == null) {
             throw new IllegalArgumentException(
-                    "ID da expedição não pode ser nulo."
-            );
+                    "ID da expedição não pode ser nulo.");
         }
 
         return repository.buscarPorExpedicaoId(expedicaoId);
@@ -86,8 +66,7 @@ public class MovimentacaoService {
 
         if (equipamentoId == null) {
             throw new IllegalArgumentException(
-                    "ID do equipamento não pode ser nulo."
-            );
+                    "ID do equipamento não pode ser nulo.");
         }
 
         return repository.buscarPorEquipamentoId(equipamentoId);
@@ -97,44 +76,37 @@ public class MovimentacaoService {
 
         if (movimentacao == null) {
             throw new IllegalArgumentException(
-                    "Movimentação não pode ser nula."
-            );
+                    "Movimentação não pode ser nula.");
         }
 
         if (movimentacao.getDataHoraRetirada() == null) {
             throw new IllegalArgumentException(
-                    "Data e hora da retirada são obrigatórias."
-            );
+                    "Data e hora da retirada são obrigatórias.");
         }
 
         if (movimentacao.getDataPrevisaoDevolucao() == null) {
             throw new IllegalArgumentException(
-                    "Data prevista de devolução é obrigatória."
-            );
+                    "Data prevista de devolução é obrigatória.");
         }
 
         if (movimentacao.getEstadoSaida() == null) {
             throw new IllegalArgumentException(
-                    "Estado de saída é obrigatório."
-            );
+                    "Estado de saída é obrigatório.");
         }
 
         if (movimentacao.getExpedicao() == null) {
             throw new IllegalArgumentException(
-                    "Expedição é obrigatória."
-            );
+                    "Expedição é obrigatória.");
         }
 
         if (movimentacao.getEquipamento() == null) {
             throw new IllegalArgumentException(
-                    "Equipamento é obrigatório."
-            );
+                    "Equipamento é obrigatório.");
         }
 
         if (movimentacao.getPessoa() == null) {
             throw new IllegalArgumentException(
-                    "Pessoa responsável é obrigatória."
-            );
+                    "Pessoa responsável é obrigatória.");
         }
 
         validarDatas(movimentacao);
@@ -144,30 +116,24 @@ public class MovimentacaoService {
 
     private void validarDatas(Movimentacao movimentacao) {
 
-        LocalDateTime dataHoraRetirada =
-                movimentacao.getDataHoraRetirada();
+        LocalDateTime dataHoraRetirada = movimentacao.getDataHoraRetirada();
 
-        LocalDate dataPrevisaoDevolucao =
-                movimentacao.getDataPrevisaoDevolucao();
+        LocalDate dataPrevisaoDevolucao = movimentacao.getDataPrevisaoDevolucao();
 
-        LocalDate dataDevolucao =
-                movimentacao.getDataDevolucao();
+        LocalDate dataDevolucao = movimentacao.getDataDevolucao();
 
-        LocalDate dataRetirada =
-                dataHoraRetirada.toLocalDate();
+        LocalDate dataRetirada = dataHoraRetirada.toLocalDate();
 
         if (dataPrevisaoDevolucao.isBefore(dataRetirada)) {
             throw new IllegalArgumentException(
-                    "A previsão de devolução não pode ser anterior à retirada."
-            );
+                    "A previsão de devolução não pode ser anterior à retirada.");
         }
 
         if (dataDevolucao != null &&
                 dataDevolucao.isBefore(dataRetirada)) {
 
             throw new IllegalArgumentException(
-                    "A devolução não pode ser anterior à retirada."
-            );
+                    "A devolução não pode ser anterior à retirada.");
         }
     }
 
@@ -179,33 +145,26 @@ public class MovimentacaoService {
                 custoAvaria.compareTo(BigDecimal.ZERO) < 0) {
 
             throw new IllegalArgumentException(
-                    "Custo da avaria não pode ser negativo."
-            );
+                    "Custo da avaria não pode ser negativo.");
         }
     }
 
     private void verificarDisponibilidadeEquipamento(
-            Movimentacao movimentacao
-    ) {
+            Movimentacao movimentacao) {
 
-        Long equipamentoId =
-                movimentacao.getEquipamento().getId();
+        Long equipamentoId = movimentacao.getEquipamento().getId();
 
         if (equipamentoId == null) {
             throw new IllegalArgumentException(
-                    "O equipamento deve possuir ID."
-            );
+                    "O equipamento deve possuir ID.");
         }
 
-        boolean possuiMovimentacaoAtiva =
-                repository.existeMovimentacaoAtivaPorEquipamentoId(
-                        equipamentoId
-                );
+        boolean possuiMovimentacaoAtiva = repository.existeMovimentacaoAtivaPorEquipamentoId(
+                equipamentoId);
 
         if (possuiMovimentacaoAtiva) {
             throw new IllegalArgumentException(
-                    "O equipamento já está associado a uma movimentação ativa."
-            );
+                    "O equipamento já está associado a uma movimentação ativa.");
         }
     }
 }

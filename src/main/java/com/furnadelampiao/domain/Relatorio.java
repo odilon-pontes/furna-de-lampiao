@@ -7,12 +7,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(
-        name = "tb_relatorio",
-        uniqueConstraints = {
+@Table(name = "tb_relatorio", uniqueConstraints = {
                 @UniqueConstraint(columnNames = "expedicao_id")
-        }
-)
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,39 +17,36 @@ import java.time.LocalDateTime;
 @Builder
 public class Relatorio {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String titulo;
+        @Column(nullable = false, length = 50)
+        private String titulo;
 
-    @Column(columnDefinition = "TEXT")
-    private String resumo;
+        @Column(columnDefinition = "TEXT")
+        private String resumo;
 
-    @Column(name = "dt_submissao", nullable = false)
-    private LocalDateTime dataSubmissao;
+        @Column(name = "dt_submissao", nullable = false)
+        private LocalDateTime dataSubmissao;
 
-    @Column(name = "numero_paginas", nullable = false)
-    private Integer numeroTotalPaginas;
+        @Column(name = "numero_paginas", nullable = false)
+        private Integer numeroTotalPaginas;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "situacao", nullable = false, length = 30)
-    private SituacaoRelatorioFinal situacaoRelatorioFinal;
+        @Enumerated(EnumType.STRING)
+        @Column(name = "situacao", nullable = false, length = 30)
+        private SituacaoRelatorioFinal situacaoRelatorioFinal;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "arquivo_completo", nullable = false)
-    private byte[] arquivoCompleto;
+        @Lob
+        @Basic(fetch = FetchType.LAZY)
+        @Column(name = "arquivo_completo", nullable = false)
+        private byte[] arquivoCompleto;
 
-    @Column(name = "publicacao_autorizada", nullable = false)
-    private Boolean publicacaoAutorizada = false;
+        @Builder.Default
+        @Column(name = "publicacao_autorizada", nullable = false)
+        private Boolean publicacaoAutorizada = false;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "expedicao_id",
-            nullable = false,
-            unique = true
-    )
-    private Expedicao expedicao;
+        @OneToOne(fetch = FetchType.LAZY, optional = false)
+        @JoinColumn(name = "expedicao_id", nullable = false, unique = true)
+        private Expedicao expedicao;
 }

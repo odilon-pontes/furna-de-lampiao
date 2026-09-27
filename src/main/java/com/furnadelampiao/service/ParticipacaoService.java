@@ -2,6 +2,7 @@ package com.furnadelampiao.service;
 
 import com.furnadelampiao.domain.Participacao;
 import com.furnadelampiao.repository.ParticipacaoRepository;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -18,40 +19,27 @@ public class ParticipacaoService {
 
     public void cadastrar(Participacao participacao) {
         validarParticipacao(participacao);
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.salvar(participacao);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-        }
-
+        TransacaoExecutor.executar(entityManager, () -> repository.salvar(participacao));
     }
 
     public void atualizar(Participacao participacao) {
         validarParticipacao(participacao);
-
         if (participacao.getId() == null) {
-            throw new IllegalArgumentException(
-                    "participacao deve possuir ID para ser atualizado");
+            throw new IllegalArgumentException("participacao deve possuir ID para ser atualizado");
         }
+        TransacaoExecutor.executar(entityManager, () -> repository.atualizar(participacao));
+    }
 
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.atualizar(participacao);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
+    public void remover(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id não pode ser nulo.");
+        }
+        TransacaoExecutor.executar(entityManager, () -> {
+            Participacao participacao = entityManager.find(Participacao.class, id);
+            if (participacao != null) {
+                entityManager.remove(participacao);
             }
-            throw e;
-        }
+        });
     }
 
     public List<Participacao> listarTodos() {
@@ -64,19 +52,6 @@ public class ParticipacaoService {
 
     public List<Participacao> buscarPorExpedicaoId(Long id) {
         return repository.buscarPorExpedicaoId(id);
-    }
-
-    public void remover(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException(
-                    "id não pode ser nulo.");
-        }
-        Participacao participacao = entityManager.find(Participacao.class, id);
-
-        if (participacao != null) {
-            entityManager.remove(participacao);
-        }
-
     }
 
     private void validarParticipacao(Participacao participacao) {

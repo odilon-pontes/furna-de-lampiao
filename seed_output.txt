@@ -1,0 +1,594 @@
+mvn compile exec:java "-Dexec.mainClass=com.furnadelampiao.seed.SeedRunner"
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/usr/share/maven/lib/guava.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m----------------< [0;36mcom.furnadelampiao:furna-de-lampiao[0;1m >-----------------[m
+[[1;34mINFO[m] [1mBuilding furna-de-lampiao 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:2.6:resources[m [1m(default-resources)[m @ [36mfurna-de-lampiao[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Copying 1 resource
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:compile[m [1m(default-compile)[m @ [36mfurna-de-lampiao[0;1m ---[m
+[[1;34mINFO[m] Nothing to compile - all classes are up to date.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.6.4:java[m [1m(default-cli)[m @ [36mfurna-de-lampiao[0;1m ---[m
+set. 27, 2026 8:44:25 PM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
+INFO: HHH000204: Processing PersistenceUnitInfo [name: furnaPU]
+set. 27, 2026 8:44:25 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate ORM core version 5.6.15.Final
+set. 27, 2026 8:44:25 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+set. 27, 2026 8:44:25 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+set. 27, 2026 8:44:25 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/furna_db]
+set. 27, 2026 8:44:25 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {user=postgres, password=****}
+set. 27, 2026 8:44:25 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+set. 27, 2026 8:44:25 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+set. 27, 2026 8:44:25 PM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+set. 27, 2026 8:44:26 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@11ed35ad] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+set. 27, 2026 8:44:26 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Hibernate: 
+    select
+        pessoa0_.id as id1_11_,
+        pessoa0_.cpf as cpf2_11_,
+        pessoa0_.data_nascimento as data_nas3_11_,
+        pessoa0_.email as email4_11_,
+        pessoa0_.bairro as bairro5_11_,
+        pessoa0_.cep as cep6_11_,
+        pessoa0_.cidade as cidade7_11_,
+        pessoa0_.complemento as compleme8_11_,
+        pessoa0_.logradouro as logradou9_11_,
+        pessoa0_.numero as numero10_11_,
+        pessoa0_.uf as uf11_11_,
+        pessoa0_.nome as nome12_11_,
+        pessoa0_.situacao_ativa as situaca13_11_,
+        pessoa0_.telefone as telefon14_11_,
+        pessoa0_1_.data_validade_certificacao as data_val1_7_,
+        pessoa0_1_.nivel_certificacao as nivel_ce2_7_,
+        pessoa0_1_.num_credenciamento as num_cred3_7_,
+        pessoa0_1_.qtd_expedicoes_concluidas as qtd_expe4_7_,
+        pessoa0_2_.area_principal_pesquisa as area_pri1_10_,
+        pessoa0_2_.num_registro_institucional as num_regi2_10_,
+        pessoa0_2_.titulacao as titulaca3_10_,
+        pessoa0_2_.valor_diario_bolsa as valor_di4_10_,
+        case 
+            when pessoa0_1_.id is not null then 1 
+            when pessoa0_2_.id is not null then 2 
+            when pessoa0_.id is not null then 0 
+        end as clazz_ 
+    from
+        tb_pessoa pessoa0_ 
+    left outer join
+        tb_guia_espeleologico pessoa0_1_ 
+            on pessoa0_.id=pessoa0_1_.id 
+    left outer join
+        tb_pesquisador pessoa0_2_ 
+            on pessoa0_.id=pessoa0_2_.id
+[seed] Pessoa já possui registros — pulando.
+Hibernate: 
+    select
+        pesquisado0_.id as id1_11_,
+        pesquisado0_1_.cpf as cpf2_11_,
+        pesquisado0_1_.data_nascimento as data_nas3_11_,
+        pesquisado0_1_.email as email4_11_,
+        pesquisado0_1_.bairro as bairro5_11_,
+        pesquisado0_1_.cep as cep6_11_,
+        pesquisado0_1_.cidade as cidade7_11_,
+        pesquisado0_1_.complemento as compleme8_11_,
+        pesquisado0_1_.logradouro as logradou9_11_,
+        pesquisado0_1_.numero as numero10_11_,
+        pesquisado0_1_.uf as uf11_11_,
+        pesquisado0_1_.nome as nome12_11_,
+        pesquisado0_1_.situacao_ativa as situaca13_11_,
+        pesquisado0_1_.telefone as telefon14_11_,
+        pesquisado0_.area_principal_pesquisa as area_pri1_10_,
+        pesquisado0_.num_registro_institucional as num_regi2_10_,
+        pesquisado0_.titulacao as titulaca3_10_,
+        pesquisado0_.valor_diario_bolsa as valor_di4_10_ 
+    from
+        tb_pesquisador pesquisado0_ 
+    inner join
+        tb_pessoa pesquisado0_1_ 
+            on pesquisado0_.id=pesquisado0_1_.id
+[seed] Pesquisador já possui registros — pulando.
+Hibernate: 
+    select
+        guiaespele0_.id as id1_11_,
+        guiaespele0_1_.cpf as cpf2_11_,
+        guiaespele0_1_.data_nascimento as data_nas3_11_,
+        guiaespele0_1_.email as email4_11_,
+        guiaespele0_1_.bairro as bairro5_11_,
+        guiaespele0_1_.cep as cep6_11_,
+        guiaespele0_1_.cidade as cidade7_11_,
+        guiaespele0_1_.complemento as compleme8_11_,
+        guiaespele0_1_.logradouro as logradou9_11_,
+        guiaespele0_1_.numero as numero10_11_,
+        guiaespele0_1_.uf as uf11_11_,
+        guiaespele0_1_.nome as nome12_11_,
+        guiaespele0_1_.situacao_ativa as situaca13_11_,
+        guiaespele0_1_.telefone as telefon14_11_,
+        guiaespele0_.data_validade_certificacao as data_val1_7_,
+        guiaespele0_.nivel_certificacao as nivel_ce2_7_,
+        guiaespele0_.num_credenciamento as num_cred3_7_,
+        guiaespele0_.qtd_expedicoes_concluidas as qtd_expe4_7_ 
+    from
+        tb_guia_espeleologico guiaespele0_ 
+    inner join
+        tb_pessoa guiaespele0_1_ 
+            on guiaespele0_.id=guiaespele0_1_.id
+[seed] GuiaEspeleologico já possui registros — pulando.
+Hibernate: 
+    select
+        caverna0_.id as id1_2_,
+        caverna0_.acesso_atualmente_permitido as acesso_a2_2_,
+        caverna0_.altitude as altitude3_2_,
+        caverna0_.cod_cadastro_ambiental as cod_cada4_2_,
+        caverna0_.datum_geodesico as datum_ge5_2_,
+        caverna0_.latitude as latitude6_2_,
+        caverna0_.longitude as longitud7_2_,
+        caverna0_.data_ultima_inspecao as data_ult8_2_,
+        caverna0_.extensao as extensao9_2_,
+        caverna0_.municipio as municip10_2_,
+        caverna0_.nome_oficial as nome_of11_2_,
+        caverna0_.uf as uf12_2_ 
+    from
+        tb_caverna caverna0_
+[seed] Caverna já possui registros — pulando.
+Hibernate: 
+    select
+        setor0_.id as id1_15_,
+        setor0_.caverna_id as caverna_9_15_,
+        setor0_.condicao_corrente as condicao2_15_,
+        setor0_.denominacao as denomina3_15_,
+        setor0_.descricao as descrica4_15_,
+        setor0_.extensao_aproximada as extensao5_15_,
+        setor0_.nivel_estimado_dificuldade as nivel_es6_15_,
+        setor0_.profundidade_maxima as profundi7_15_,
+        setor0_.risco_inundacao as risco_in8_15_ 
+    from
+        tb_setor setor0_
+[seed] Setor já possui registros — pulando.
+Hibernate: 
+    select
+        planosegur0_.id as id1_12_,
+        planosegur0_.mapa_rota as mapa_rot2_12_,
+        planosegur0_.necessidade_equipe_medica as necessid3_12_,
+        planosegur0_.datum_geodesico as datum_ge4_12_,
+        planosegur0_.latitude as latitude5_12_,
+        planosegur0_.longitude as longitud6_12_,
+        planosegur0_.telefone_emergencia as telefone7_12_,
+        planosegur0_.tempo_max_sem_comunicacao_min as tempo_ma8_12_ 
+    from
+        tb_plano_seguranca planosegur0_
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_0_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_0_,
+        expedicao0_.caverna_id as caverna12_5_0_,
+        expedicao0_.codigo as codigo3_5_0_,
+        expedicao0_.custo_realizado as custo_re4_5_0_,
+        expedicao0_.inicio_previsto as inicio_p5_5_0_,
+        expedicao0_.objetivo as objetivo6_5_0_,
+        expedicao0_.orcamento_aprovado as orcament7_5_0_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_0_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_0_,
+        expedicao0_.situacao as situacao9_5_0_,
+        expedicao0_.termino_previsto as termino10_5_0_,
+        expedicao0_.titulo as titulo11_5_0_ 
+    from
+        tb_expedicao expedicao0_ 
+    where
+        expedicao0_.plano_seguranca_id=?
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_0_,
+        relatorio0_.arquivo_completo as arquivo_2_14_0_,
+        relatorio0_.dt_submissao as dt_submi3_14_0_,
+        relatorio0_.expedicao_id as expedica9_14_0_,
+        relatorio0_.numero_paginas as numero_p4_14_0_,
+        relatorio0_.publicacao_autorizada as publicac5_14_0_,
+        relatorio0_.resumo as resumo6_14_0_,
+        relatorio0_.situacao as situacao7_14_0_,
+        relatorio0_.titulo as titulo8_14_0_ 
+    from
+        tb_relatorio relatorio0_ 
+    where
+        relatorio0_.expedicao_id=?
+[seed] Plano de Segurança já possui registros — pulando.
+Hibernate: 
+    select
+        expedicao0_.id as id1_5_,
+        expedicao0_.cancelamento_emergencial as cancelam2_5_,
+        expedicao0_.caverna_id as caverna12_5_,
+        expedicao0_.codigo as codigo3_5_,
+        expedicao0_.custo_realizado as custo_re4_5_,
+        expedicao0_.inicio_previsto as inicio_p5_5_,
+        expedicao0_.objetivo as objetivo6_5_,
+        expedicao0_.orcamento_aprovado as orcament7_5_,
+        expedicao0_.plano_seguranca_id as plano_s13_5_,
+        expedicao0_.qtd_max_participantes as qtd_max_8_5_,
+        expedicao0_.situacao as situacao9_5_,
+        expedicao0_.termino_previsto as termino10_5_,
+        expedicao0_.titulo as titulo11_5_ 
+    from
+        tb_expedicao expedicao0_
+[seed] Expedição já possui registros — pulando.
+[seed] Associações Expedição-Setor criadas.
+Hibernate: 
+    select
+        autorizaca0_.id as id1_1_,
+        autorizaca0_.arquivo_pdf_assinado as arquivo_2_1_,
+        autorizaca0_.data_emissao as data_emi3_1_,
+        autorizaca0_.expedicao_id as expedica9_1_,
+        autorizaca0_.num as num4_1_,
+        autorizaca0_.observacoes as observac5_1_,
+        autorizaca0_.orgao_emissor as orgao_em6_1_,
+        autorizaca0_.situacao as situacao7_1_,
+        autorizaca0_.validade as validade8_1_ 
+    from
+        tb_autorizacao_ambiental autorizaca0_
+[seed] Autorização Ambiental já possui registros — pulando.
+Hibernate: 
+    select
+        relatorio0_.id as id1_14_,
+        relatorio0_.arquivo_completo as arquivo_2_14_,
+        relatorio0_.dt_submissao as dt_submi3_14_,
+        relatorio0_.expedicao_id as expedica9_14_,
+        relatorio0_.numero_paginas as numero_p4_14_,
+        relatorio0_.publicacao_autorizada as publicac5_14_,
+        relatorio0_.resumo as resumo6_14_,
+        relatorio0_.situacao as situacao7_14_,
+        relatorio0_.titulo as titulo8_14_ 
+    from
+        tb_relatorio relatorio0_
+set. 27, 2026 8:44:26 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop
+INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/furna_db]
+[[1;33mWARNING[m] 
+[1;31mjava.lang.IndexOutOfBoundsException[m: [1;31mIndex 0 out of bounds for length 0[m
+    [1mat[m jdk.internal.util.Preconditions.outOfBounds ([1mPreconditions.java:100[m)
+    [1mat[m jdk.internal.util.Preconditions.outOfBoundsCheckIndex ([1mPreconditions.java:106[m)
+    [1mat[m jdk.internal.util.Preconditions.checkIndex ([1mPreconditions.java:302[m)
+    [1mat[m java.util.Objects.checkIndex ([1mObjects.java:365[m)
+    [1mat[m java.util.ArrayList.get ([1mArrayList.java:428[m)
+    [1mat[m com.furnadelampiao.seed.DatabaseSeeder.seedRelatorios ([1mDatabaseSeeder.java:1218[m)
+    [1mat[m com.furnadelampiao.seed.DatabaseSeeder.seedAll ([1mDatabaseSeeder.java:88[m)
+    [1mat[m com.furnadelampiao.seed.SeedRunner.main ([1mSeedRunner.java:119[m)
+    [1mat[m jdk.internal.reflect.DirectMethodHandleAccessor.invoke ([1mDirectMethodHandleAccessor.java:104[m)
+    [1mat[m java.lang.reflect.Method.invoke ([1mMethod.java:565[m)
+    [1mat[m org.codehaus.mojo.exec.AbstractExecJavaBase.executeMainMethod ([1mAbstractExecJavaBase.java:402[m)
+    [1mat[m org.codehaus.mojo.exec.ExecJavaMojo.executeMainMethod ([1mExecJavaMojo.java:142[m)
+    [1mat[m org.codehaus.mojo.exec.AbstractExecJavaBase.doExecClassLoader ([1mAbstractExecJavaBase.java:377[m)
+    [1mat[m org.codehaus.mojo.exec.AbstractExecJavaBase.lambda$execute$0 ([1mAbstractExecJavaBase.java:287[m)
+    [1mat[m java.lang.Thread.run ([1mThread.java:1474[m)
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  2.730 s
+[[1;34mINFO[m] Finished at: 2026-09-27T20:44:26-03:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.codehaus.mojo:exec-maven-plugin:3.6.4:java[m [1m(default-cli)[m on project [36mfurna-de-lampiao[m: [1;31mAn exception occurred while executing the Java class. Index 0 out of bounds for length 0[m -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+make: *** [Makefile:14: seed] Error 1
