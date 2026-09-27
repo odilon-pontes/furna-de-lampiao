@@ -43,6 +43,8 @@ public class SeedRunner {
                         AutorizacaoAmbientalRepository autorizacaoAmbientalRepository = new AutorizacaoAmbientalRepositoryJpa(
                                         em);
 
+                        RelatorioRepository relatorioRepository = new RelatorioRepositoryJpa(em);
+
                         PessoaService pessoaService = new PessoaService(em, pessoaRepository);
 
                         PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
@@ -95,6 +97,8 @@ public class SeedRunner {
                                         em,
                                         autorizacaoAmbientalRepository);
 
+                        RelatorioService relatorioService = new RelatorioService(em, relatorioRepository);
+
                         DatabaseSeeder seeder = new DatabaseSeeder(
                                         pessoaService,
                                         pesquisadorService,
@@ -108,7 +112,9 @@ public class SeedRunner {
                                         planoSegurancaService,
                                         movimentacaoService,
                                         amostraService,
-                                        autorizacaoAmbientalService);
+                                        autorizacaoAmbientalService,
+                                        relatorioService
+                        );
 
                         seeder.seedAll();
 

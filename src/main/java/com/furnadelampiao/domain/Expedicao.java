@@ -71,4 +71,10 @@ public class Expedicao {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tb_expedicao_setor", joinColumns = @JoinColumn(name = "expedicao_id"), inverseJoinColumns = @JoinColumn(name = "setor_id"))
     private List<Setor> setoresVisitados = new ArrayList<>();
+
+    @OneToOne(
+            mappedBy = "expedicao",
+            fetch = FetchType.LAZY
+    )
+    private Relatorio relatorio;
 }
