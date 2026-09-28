@@ -12,16 +12,19 @@
         <class>com.furnadelampiao.domain.Pessoa</class>
         <class>com.furnadelampiao.domain.Pesquisador</class>
         <class>com.furnadelampiao.domain.GuiaEspeleologico</class>
+        <class>com.furnadelampiao.domain.Endereco</class>
         <class>com.furnadelampiao.domain.Caverna</class>
-        <class>com.furnadelampiao.domain.Expedicao</class>
         <class>com.furnadelampiao.domain.Setor</class>
-        <class>com.furnadelampiao.domain.Equipamento</class>
+        <class>com.furnadelampiao.domain.Localizacao</class>
+        <class>com.furnadelampiao.domain.Expedicao</class>
         <class>com.furnadelampiao.domain.PlanoSeguranca</class>
-        <class>com.furnadelampiao.domain.Relatorio</class>
+        <class>com.furnadelampiao.domain.AutorizacaoAmbiental</class>
         <class>com.furnadelampiao.domain.Participacao</class>
-        <class>com.furnadelampiao.domain.ColetaCientifica</class>
+        <class>com.furnadelampiao.domain.Equipamento</class>
         <class>com.furnadelampiao.domain.Movimentacao</class>
+        <class>com.furnadelampiao.domain.ColetaCientifica</class>
         <class>com.furnadelampiao.domain.Amostra</class>
+        <class>com.furnadelampiao.domain.Relatorio</class>
 
         <properties>
             <!-- Conexão apontando para o Docker na porta 5432 -->
