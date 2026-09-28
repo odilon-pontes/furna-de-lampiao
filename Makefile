@@ -13,3 +13,6 @@ db-logs:
 seed:
 	mvn compile exec:java "-Dexec.mainClass=com.furnadelampiao.seed.SeedRunner"
 
+test:
+	mvn test
+
