@@ -33,6 +33,13 @@ class SetorRepositoryJpaTest {
     void iniciarTeste() {
         entityManager = emf.createEntityManager();
         repository = new SetorRepositoryJpa(entityManager);
+
+        entityManager.getTransaction().begin();
+
+        entityManager.createQuery("DELETE FROM Setor").executeUpdate();
+        entityManager.createQuery("DELETE FROM Caverna").executeUpdate();
+
+        entityManager.getTransaction().commit();
     }
 
     @AfterEach
@@ -50,10 +57,67 @@ class SetorRepositoryJpaTest {
     }
 
     @Test
+    void deveSalvarSetor() {
+
+        Caverna caverna = criarCaverna("Caverna Salvar");
+        Setor setor = criarSetor(
+                "Setor A",
+                NivelDificuldadeSetor.BAIXO
+        );
+
+        caverna.adicionarSetor(setor);
+
+        entityManager.getTransaction().begin();
+
+        entityManager.persist(caverna);
+
+        entityManager.getTransaction().commit();
+
+        assertNotNull(setor.getId());
+
+        Setor setorBanco =
+                entityManager.find(Setor.class, setor.getId());
+
+        assertNotNull(setorBanco);
+        assertEquals("Setor A", setorBanco.getDenominacao());
+    }
+
+    @Test
+    void deveBuscarSetorPorId() {
+
+        Caverna caverna = criarCaverna("Caverna Busca");
+        Setor setor = criarSetor(
+                "Setor A",
+                NivelDificuldadeSetor.MODERADO
+        );
+
+        caverna.adicionarSetor(setor);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(caverna);
+        entityManager.getTransaction().commit();
+
+        Setor resultado =
+                repository.buscarPorId(setor.getId());
+
+        assertNotNull(resultado);
+        assertEquals(setor.getId(), resultado.getId());
+        assertEquals("Setor A", resultado.getDenominacao());
+    }
+
+    @Test
+    void deveRetornarNullAoBuscarSetorInexistente() {
+
+        Setor resultado =
+                repository.buscarPorId(999999L);
+
+        assertNull(resultado);
+    }
+
+    @Test
     void deveListarTodosOsSetores() {
 
-        // Arrange
-        Caverna caverna = criarCaverna("Caverna Teste");
+        Caverna caverna = criarCaverna("Caverna Lista");
 
         Setor setor1 = criarSetor(
                 "Setor A",
@@ -69,22 +133,18 @@ class SetorRepositoryJpaTest {
         caverna.adicionarSetor(setor2);
 
         entityManager.getTransaction().begin();
-
         entityManager.persist(caverna);
-
         entityManager.getTransaction().commit();
 
-        // Act
-        List<Setor> setores = repository.listarTodos();
+        List<Setor> setores =
+                repository.listarTodos();
 
-        // Assert
         assertEquals(2, setores.size());
     }
 
     @Test
     void deveListarSetoresPorCaverna() {
 
-        // Arrange
         Caverna caverna1 = criarCaverna("Caverna 1");
         Caverna caverna2 = criarCaverna("Caverna 2");
 
@@ -114,27 +174,48 @@ class SetorRepositoryJpaTest {
 
         entityManager.getTransaction().commit();
 
-        // Act
         List<Setor> setores =
-                repository.listarPorCaverna(caverna1.getId());
+                repository.listarPorCaverna(
+                        caverna1.getId()
+                );
 
-        // Assert
         assertEquals(2, setores.size());
 
         assertTrue(
                 setores.stream()
-                        .allMatch(s ->
-                                s.getCaverna().getId()
+                        .allMatch(
+                                s -> s.getCaverna()
+                                        .getId()
                                         .equals(caverna1.getId())
                         )
         );
     }
 
     @Test
+    void deveRetornarListaVaziaParaCavernaSemSetores() {
+
+        Caverna caverna = criarCaverna(
+                "Caverna Sem Setores"
+        );
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(caverna);
+        entityManager.getTransaction().commit();
+
+        List<Setor> setores =
+                repository.listarPorCaverna(
+                        caverna.getId()
+                );
+
+        assertTrue(setores.isEmpty());
+    }
+
+    @Test
     void deveListarSetoresPorNivelDeDificuldade() {
 
-        // Arrange
-        Caverna caverna = criarCaverna("Caverna Teste 2");
+        Caverna caverna = criarCaverna(
+                "Caverna Dificuldade"
+        );
 
         Setor setor1 = criarSetor(
                 "Setor Fácil 1",
@@ -156,47 +237,173 @@ class SetorRepositoryJpaTest {
         caverna.adicionarSetor(setor3);
 
         entityManager.getTransaction().begin();
-
         entityManager.persist(caverna);
-
         entityManager.getTransaction().commit();
 
-        // Act
         List<Setor> setores =
                 repository.listarPorNivelDificuldade(
                         NivelDificuldadeSetor.BAIXO
                 );
 
-        // Assert
         assertEquals(2, setores.size());
 
         assertTrue(
                 setores.stream()
-                        .allMatch(s ->
-                                s.getNivelEstimadoDificuldade()
+                        .allMatch(
+                                s -> s.getNivelEstimadoDificuldade()
                                         == NivelDificuldadeSetor.BAIXO
                         )
         );
     }
 
+    @Test
+    void deveRetornarListaVaziaParaNivelSemSetores() {
+
+        Caverna caverna = criarCaverna(
+                "Caverna Sem Nivel"
+        );
+
+        Setor setor = criarSetor(
+                "Setor Alto",
+                NivelDificuldadeSetor.ALTO
+        );
+
+        caverna.adicionarSetor(setor);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(caverna);
+        entityManager.getTransaction().commit();
+
+        List<Setor> setores =
+                repository.listarPorNivelDificuldade(
+                        NivelDificuldadeSetor.BAIXO
+                );
+
+        assertTrue(setores.isEmpty());
+    }
+
+    @Test
+    void deveAtualizarSetor() {
+
+        Caverna caverna = criarCaverna(
+                "Caverna Atualizacao"
+        );
+
+        Setor setor = criarSetor(
+                "Nome Antigo",
+                NivelDificuldadeSetor.BAIXO
+        );
+
+        caverna.adicionarSetor(setor);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(caverna);
+        entityManager.getTransaction().commit();
+
+        Long id = setor.getId();
+
+        setor.setDenominacao("Nome Novo");
+        setor.setNivelEstimadoDificuldade(
+                NivelDificuldadeSetor.ALTO
+        );
+
+        entityManager.getTransaction().begin();
+
+        repository.atualizar(setor);
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Setor atualizado =
+                repository.buscarPorId(id);
+
+        assertNotNull(atualizado);
+        assertEquals(
+                "Nome Novo",
+                atualizado.getDenominacao()
+        );
+        assertEquals(
+                NivelDificuldadeSetor.ALTO,
+                atualizado.getNivelEstimadoDificuldade()
+        );
+    }
+
+    @Test
+    void deveRemoverSetorPorId() {
+
+        Caverna caverna = criarCaverna(
+                "Caverna Remocao"
+        );
+
+        Setor setor = criarSetor(
+                "Setor Remover",
+                NivelDificuldadeSetor.BAIXO
+        );
+
+        caverna.adicionarSetor(setor);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(caverna);
+        entityManager.getTransaction().commit();
+
+        Long id = setor.getId();
+
+        entityManager.getTransaction().begin();
+
+        repository.removerPorId(id);
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Setor resultado =
+                null;
+
+        assertNull(resultado);
+    }
+
+    @Test
+    void deveIgnorarRemocaoDeSetorInexistente() {
+
+        assertDoesNotThrow(() -> {
+
+            entityManager.getTransaction().begin();
+
+            repository.removerPorId(999999L);
+
+            entityManager.getTransaction().commit();
+        });
+    }
+
     private Caverna criarCaverna(String nome) {
+
         return Caverna.builder()
                 .nomeOficial(nome)
                 .codCadastroAmbiental("TESTE-" + nome)
                 .municipio("João Pessoa")
                 .uf(UnidadeFederativa.PB)
-                .coordenadas(new Localizacao(new BigDecimal(222.222), new BigDecimal(333.333), "datum_geodesico" ))
+                .coordenadas(
+                        new Localizacao(
+                                new BigDecimal("222.222"),
+                                new BigDecimal("333.333"),
+                                "datum_geodesico"
+                        )
+                )
                 .build();
     }
 
     private Setor criarSetor(
             String denominacao,
-            NivelDificuldadeSetor nivel) {
+            NivelDificuldadeSetor nivel
+    ) {
 
         return Setor.builder()
                 .denominacao(denominacao)
                 .nivelEstimadoDificuldade(nivel)
-                .condicaoCorrente(CondicaoSetor.EM_MONITORAMENTO)
+                .condicaoCorrente(
+                        CondicaoSetor.EM_MONITORAMENTO
+                )
                 .build();
     }
 }

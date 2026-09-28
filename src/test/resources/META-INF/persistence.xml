@@ -22,6 +22,10 @@
         <class>com.furnadelampiao.domain.PlanoSeguranca</class>
         <class>com.furnadelampiao.domain.AutorizacaoAmbiental</class>
         <class>com.furnadelampiao.domain.Relatorio</class>
+        <class>com.furnadelampiao.domain.Participacao</class>
+        <class>com.furnadelampiao.domain.ColetaCientifica</class>
+        <class>com.furnadelampiao.domain.Movimentacao</class>
+        <class>com.furnadelampiao.domain.Amostra</class>
 
         <properties>
 
