@@ -8,7 +8,6 @@
             http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd"
         version="2.2">
 
-    <!-- ==================== AMOSTRA ==================== -->
     <named-query name="Amostra.listarTodos">
         <query>
             SELECT a
@@ -32,7 +31,6 @@
         </query>
     </named-query>
 
-    <!-- ==================== AUTORIZACAO AMBIENTAL ==================== -->
     <named-query name="AutorizacaoAmbiental.listarTodos">
         <query>
             SELECT a
@@ -50,7 +48,6 @@
         </query>
     </named-query>
 
-    <!-- ==================== CAVENA ==================== -->
     <named-query name="Caverna.listarTodos">
         <query>
             SELECT c
@@ -81,8 +78,6 @@
             WHERE c.acessoAtualmentePermitido = true
         </query>
     </named-query>
-
-    <!-- ==================== COLETA CIENTIFICA ==================== -->
 
     <named-query name="ColetaCientifica.buscarPorPesquisadorId">
         <query>
@@ -139,8 +134,6 @@
         </query>
     </named-query>
 
-    <!-- ==================== EQUIPAMENTO ==================== -->
-
     <named-query name="Equipamento.listarTodos">
         <query>
             SELECT e
@@ -172,7 +165,6 @@
         </query>
     </named-query>
 
-    <!-- ==================== EXPEDICAO ==================== -->
     <named-query name="Expedicao.listarTodos">
         <query>
             SELECT e
@@ -222,7 +214,6 @@
         </query>
     </named-query>
 
-    <!-- ==================== GUIA ESPELEOLÓGICO ==================== -->
     <named-query name="GuiaEspeleologico.listarTodos">
         <query>
             SELECT g
@@ -245,8 +236,6 @@
             WHERE g.dataValidadeCertificacao &lt; CURRENT_DATE
         </query>
     </named-query>
-
-    <!-- ==================== MOVIMENTACAO ==================== -->
 
     <named-query name="Movimentacao.buscarPorPessoaId">
         <query>
@@ -288,8 +277,6 @@
         </query>
     </named-query>
 
-    <!-- ==================== PARTICIPACAO ==================== -->
-
     <named-query name="Participacao.buscarPorPessoaId">
         <query>
             SELECT p
@@ -312,8 +299,6 @@
             FROM Participacao p
         </query>
     </named-query>
-
-    <!-- ==================== PESQUISADOR ==================== -->
 
     <named-query name="Pesquisador.listarTodos">
         <query>
@@ -338,8 +323,6 @@
         </query>
     </named-query>
 
-    <!-- ==================== PESSOA ==================== -->
-
     <named-query name="Pessoa.listarTodos">
         <query>
             SELECT p
@@ -347,16 +330,12 @@
         </query>
     </named-query>
 
-    <!-- ==================== PLANO SEGURANCA ==================== -->
-
     <named-query name="PlanoSeguranca.listarTodos">
         <query>
             SELECT p
             FROM PlanoSeguranca p
         </query>
     </named-query>
-
-    <!-- ==================== RELATORIO ==================== -->
 
     <named-query name="Relatorio.buscarPorExpedicaoId">
         <query>
@@ -380,8 +359,6 @@
             WHERE r.id = :id
         </query>
     </named-query>
-
-    <!-- ==================== SETOR ==================== -->
 
     <named-query name="Setor.listarTodos">
         <query>
