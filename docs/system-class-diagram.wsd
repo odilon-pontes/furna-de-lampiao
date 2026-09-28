@@ -7,41 +7,41 @@ class Pessoa {
     - dataNasc: LocalDate
     - email: String
     - telefone: String
-    - situacaoAtiva: boolean
+    - situacaoAtiva: Boolean
     - endereco: Endereco
 }
 
 class Endereco <<Embeddable>> {
     - logradouro: String
-    - numero: int
+    - numero: String
     - complemento: String
     - bairro: String
     - cidade: String
-    - uf: Enum
+    - uf: UnidadeFederativa
     - cep: String
 }
 
 class Pesquisador {
     - numRegistroInstitucional: String
     - areaPrincipalPesquisa: String
-    - titulacao: Enum
+    - titulacao: Titulacao
     - valorDiarioBolsa: BigDecimal
 }
 
 class GuiaEspeleologico {
     - numCredenciamento: String
-    - nivelCertificacao: Enum
+    - nivelCertificacao: NivelCertificacao
     - dataValidadeCertificacao: LocalDate
-    - qtdExpedicoesConcluidas: int
+    - qtdExpedicoesConcluidas: Integer
 }
 
 class Participacao {
     - id: Long
-    - papel: PapelParticipante
+    - papelParticipante: PapelParticipante
     - dataConfirmacao: LocalDate
     - valorDiaria: BigDecimal
-    - qtdPrevistaDias: int
-    - presencaConfirmada: boolean
+    - qtdPrevistaDias: Integer
+    - presencaConfirmada: Boolean
     - observacoes: String
 }
 
@@ -50,12 +50,12 @@ class Caverna {
     - nomeOficial: String
     - codCadastroAmbiental: String
     - municipio: String
-    - uf: Enum
+    - uf: UnidadeFederativa
     - coordenadas: Localizacao
     - altitude: BigDecimal
     - extensao: BigDecimal
     - dataUltimaInspecao: LocalDate
-    - acessoAtualmentePermitido: boolean
+    - acessoAtualmentePermitido: Boolean
 }
 
 class Localizacao <<Embeddable>> {
@@ -72,7 +72,7 @@ class Setor {
     - extensaoAproximada: BigDecimal
     - descricao: String
     - riscoInundacao: BigDecimal
-    - condicaoCorrente: Enum
+    - condicaoCorrente: CondicaoSetor
 }
 
 class Expedicao {
@@ -84,24 +84,24 @@ class Expedicao {
     - terminoPrevisto: LocalDateTime
     - orcamentoAprovado: BigDecimal
     - custoRealizado: BigDecimal
-    - qtdMaxParticipantes: int
+    - qtdMaxParticipantes: Integer
     - situacao: SituacaoExpedicao
-    - cancelamentoEmergencial: boolean
+    - cancelamentoEmergencial: Boolean
 }
 
 class PlanoSeguranca {
     - id: Long
     - procedimentosEvacuacao: List<String>
     - pontoExternoEncontro: Localizacao
-    - tempoMaxSemComunicacao: int
+    - tempoMaxSemComunicacao: Integer
     - telefoneEmergencia: String
-    - necessidadeEquipeMedica: boolean
+    - necessidadeEquipeMedica: Boolean
     - mapaRota: byte[]
 }
 
 class AutorizacaoAmbiental {
     - id: Long
-    - num: int
+    - num: Integer
     - orgaoEmissor: String
     - dataEmissao: LocalDate
     - validade: LocalDate
@@ -119,24 +119,24 @@ class Equipamento {
     - valorAquisicao: BigDecimal
     - dataCompra: LocalDate
     - dataUltimaManutencao: LocalDate
-    - situacaoOperacional: SituacaoOperacionalEquipamento
-    - indicacaoCalibracao: boolean
+    - situacaoOperacional: SituacaoOperacional
+    - indicacaoCalibracao: Boolean
 }
 
 class Movimentacao {
     - id: Long
-    - datahoraRetirada: LocalDateTime
-    - previsao: LocalDate
+    - dataHoraRetirada: LocalDateTime
+    - dataPrevisaoDevolucao: LocalDate
     - dataDevolucao: LocalDate
-    - estadoSaida: Enum
-    - estadoRetorno: Enum
+    - estadoSaida: EstadoSaida
+    - estadoRetorno: EstadoRetorno
     - custoAvaria: BigDecimal
 }
 
 class ColetaCientifica {
     - id: Long
-    - dataHora: LocalDateTime
-    - metodoEmpregado: Enum
+    - dataHoraColeta: LocalDateTime
+    - metodoEmpregado: MetodoEmpregado
     - descricaoPonto: String
     - temperatura: BigDecimal
     - umidadeRelativa: BigDecimal
@@ -148,12 +148,12 @@ class ColetaCientifica {
 class Amostra {
     - id: Long
     - codCampo: String
-    - categoria: CategoriaAmostra
+    - categoriaAmostra: CategoriaAmostra
     - volume: BigDecimal
-    - unidadeMedida: Enum
-    - dataAcondicionamento: LocalDate
-    - condicaoConservacao: CondicaoConservacao
-    - indicacaoMaterialPerigoso: boolean
+    - unidadeMedida: UnidadeMedida
+    - dataAcondicionamento: LocalDateTime
+    - condicaoAmostra: CondicaoConservacaoAmostra
+    - indicacaoMaterialPerigoso: Boolean
     - fotografia: byte[]
     - observacoes: String
 }
@@ -162,11 +162,11 @@ class Relatorio {
     - id: Long
     - titulo: String
     - resumo: String
-    - dataSubmissao: LocalDate
-    - numPaginas: int
-    - situacaoAprovacao: SituacaoRelatorio
+    - dataSubmissao: LocalDateTime
+    - numeroTotalPaginas: Integer
+    - situacaoRelatorioFinal: SituacaoRelatorioFinal
     - arquivoCompleto: byte[]
-    - indicacaoPublicacaoAutorizada: boolean
+    - publicacaoAutorizada: Boolean
 }
 
 enum SituacaoExpedicao {
@@ -184,11 +184,20 @@ enum NivelDificuldadeSetor {
     EXTREMO
 }
 
+enum CondicaoSetor {
+    DISPONIVEL
+    INTERDITADO
+    EM_MONITORAMENTO
+    INACESSIVEL
+}
+
 enum PapelParticipante {
-    COORDENADOR
     PESQUISADOR
-    GUIA
-    APOIO_LOGISTICO
+    GUIA_ESPELEOLOGICO
+    COORDENADOR
+    FOTOGRAFO
+    TECNICO
+    AUXILIAR
 }
 
 enum SituacaoAutorizacao {
@@ -198,19 +207,47 @@ enum SituacaoAutorizacao {
     NEGADA
 }
 
-enum SituacaoOperacionalEquipamento {
+enum SituacaoOperacional {
     DISPONIVEL
     EM_USO
     EM_MANUTENCAO
-    INATIVO
+    DANIFICADO
+    INDISPONIVEL
 }
 
 enum TipoEquipamento {
-    ILUMINACAO
-    PROTECAO
-    MEDICAO
-    COMUNICACAO
-    COLETA
+    CAMERA
+    GPS
+    LANTERNA
+    CAPACETE
+    CORDA
+    DETECTOR_DE_GASES
+    OUTRO
+}
+
+enum EstadoSaida {
+    PENDENTE
+    REALIZADA
+    CANCELADA
+}
+
+enum EstadoRetorno {
+    PENDENTE
+    DEVOLVIDO
+    ATRASADO
+    DANIFICADO
+}
+
+enum MetodoEmpregado {
+    COLETA_MANUAL
+    ARMADILHA
+    REDE_DE_NEVOA
+    CAPTURA_DIRETA
+    AMOSTRAGEM_DE_SOLO
+    AMOSTRAGEM_DE_AGUA
+    ARMADILHA_FOTOGRAFICA
+    OBSERVACAO_DIRETA
+    OUTRO
 }
 
 enum SituacaoValidacaoColeta {
@@ -220,23 +257,84 @@ enum SituacaoValidacaoColeta {
 }
 
 enum CategoriaAmostra {
-    ROCHA
-    AGUA
-    SEDIMENTO
+    MINERAL
     BIOLOGICA
+    GEOLOGICA
+    ARQUEOLOGICA
+    PALEONTOLOGICA
+    OUTRA
 }
 
-enum CondicaoConservacao {
-    ADEQUADA
-    COMPROMETIDA
-    DESCARTADA
+enum UnidadeMedida {
+    UNIDADE
+    QUILOGRAMA
+    GRAMA
+    LITRO
+    MILILITRO
+    METRO
+    CENTIMETRO
+    METRO_QUADRADO
+    METRO_CUBICO
 }
 
-enum SituacaoRelatorio {
+enum CondicaoConservacaoAmostra {
+    EXCELENTE
+    BOA
+    REGULAR
+    RUIM
+    DANIFICADA
+}
+
+enum SituacaoRelatorioFinal {
     EM_ELABORACAO
     SUBMETIDO
+    EM_ANALISE
     APROVADO
     REJEITADO
+}
+
+enum Titulacao {
+    GRADUACAO
+    ESPECIALIZACAO
+    MESTRADO
+    DOUTORADO
+    POS_DOUTORADO
+}
+
+enum NivelCertificacao {
+    NIVEL_I
+    NIVEL_II
+    NIVEL_III
+}
+
+enum UnidadeFederativa {
+    AC
+    AL
+    AP
+    AM
+    BA
+    CE
+    DF
+    ES
+    GO
+    MA
+    MT
+    MS
+    MG
+    PA
+    PB
+    PR
+    PE
+    PI
+    RJ
+    RN
+    RS
+    RO
+    RR
+    SC
+    SP
+    SE
+    TO
 }
 
 Pessoa <|-- Pesquisador
@@ -259,16 +357,26 @@ Pesquisador "1" --> "0..*" ColetaCientifica : responsável >
 ColetaCientifica "1" --> "0..*" Amostra
 Expedicao "1" --> "0..1" Relatorio
 Caverna "1" *-- "1" Localizacao
+PlanoSeguranca "1" *-- "1" Localizacao
 
+Endereco --> UnidadeFederativa
+Caverna --> UnidadeFederativa
 Setor --> NivelDificuldadeSetor
+Setor --> CondicaoSetor
 Expedicao --> SituacaoExpedicao
 AutorizacaoAmbiental --> SituacaoAutorizacao
 Participacao --> PapelParticipante
 Equipamento --> TipoEquipamento
-Equipamento --> SituacaoOperacionalEquipamento
+Equipamento --> SituacaoOperacional
+Movimentacao --> EstadoSaida
+Movimentacao --> EstadoRetorno
+ColetaCientifica --> MetodoEmpregado
 ColetaCientifica --> SituacaoValidacaoColeta
 Amostra --> CategoriaAmostra
-Amostra --> CondicaoConservacao
-Relatorio --> SituacaoRelatorio
+Amostra --> UnidadeMedida
+Amostra --> CondicaoConservacaoAmostra
+Relatorio --> SituacaoRelatorioFinal
+Pesquisador --> Titulacao
+GuiaEspeleologico --> NivelCertificacao
 
 @enduml
