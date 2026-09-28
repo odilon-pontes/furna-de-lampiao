@@ -6,6 +6,7 @@ import com.furnadelampiao.infra.TransacaoExecutor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import javax.persistence.NoResultException;
 
 public class RelatorioService {
 
@@ -29,10 +30,10 @@ public class RelatorioService {
                     "A expedição do relatório é obrigatória.");
         }
 
-        Relatorio existente = relatorioRepository.buscarPorExpedicaoId(
+        Long idExistente = relatorioRepository.buscarIdPorExpedicaoId(
                 relatorio.getExpedicao().getId());
 
-        if (existente != null) {
+        if (idExistente != null) {
             throw new IllegalArgumentException(
                     "A expedição já possui um relatório.");
         }
@@ -89,11 +90,11 @@ public class RelatorioService {
                     "A expedição do relatório é obrigatória.");
         }
 
-        Relatorio relatorioDaExpedicao = relatorioRepository.buscarPorExpedicaoId(
+        Long idDaExpedicao = relatorioRepository.buscarIdPorExpedicaoId(
                 relatorio.getExpedicao().getId());
 
-        if (relatorioDaExpedicao != null
-                && !relatorioDaExpedicao.getId().equals(relatorio.getId())) {
+        if (idDaExpedicao != null
+                && !idDaExpedicao.equals(relatorio.getId())) {
 
             throw new IllegalArgumentException(
                     "A expedição já possui outro relatório.");
@@ -126,14 +127,11 @@ public class RelatorioService {
                     "O ID do relatório é obrigatório.");
         }
 
-        Relatorio relatorio = relatorioRepository.buscarPorId(id);
-
-        if (relatorio == null) {
-            throw new IllegalArgumentException(
-                    "Relatório não encontrado.");
+        try {
+            return relatorioRepository.buscarArquivoPorRelatorioId(id);
+        } catch (NoResultException e) {
+            throw new IllegalArgumentException("Relatório não encontrado.");
         }
-
-        return relatorio.getArquivoCompleto();
     }
 
     private void validar(Relatorio relatorio) {

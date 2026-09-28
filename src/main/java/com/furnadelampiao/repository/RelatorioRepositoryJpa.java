@@ -28,11 +28,10 @@ public class RelatorioRepositoryJpa implements RelatorioRepository {
     public Relatorio buscarPorExpedicaoId(Long expedicaoId) {
         try {
             return entityManager.createQuery(
-                            "SELECT r " +
-                                    "FROM Relatorio r " +
-                                    "WHERE r.expedicao.id = :expedicaoId",
-                            Relatorio.class
-                    )
+                    "SELECT r " +
+                            "FROM Relatorio r " +
+                            "WHERE r.expedicao.id = :expedicaoId",
+                    Relatorio.class)
                     .setParameter("expedicaoId", expedicaoId)
                     .getSingleResult();
 
@@ -45,8 +44,7 @@ public class RelatorioRepositoryJpa implements RelatorioRepository {
     public List<Relatorio> listarTodos() {
         return entityManager.createQuery(
                 "SELECT r FROM Relatorio r",
-                Relatorio.class
-        ).getResultList();
+                Relatorio.class).getResultList();
     }
 
     @Override
@@ -63,15 +61,27 @@ public class RelatorioRepositoryJpa implements RelatorioRepository {
         }
     }
 
+    @Override
     public byte[] buscarArquivoPorRelatorioId(Long id) {
 
         return entityManager.createQuery(
-                        "SELECT r.arquivoCompleto " +
-                                "FROM Relatorio r " +
-                                "WHERE r.id = :id",
-                        byte[].class
-                )
+                "SELECT r.arquivoCompleto " +
+                        "FROM Relatorio r " +
+                        "WHERE r.id = :id",
+                byte[].class)
                 .setParameter("id", id)
                 .getSingleResult();
+    }
+
+    @Override
+    public Long buscarIdPorExpedicaoId(Long expedicaoId) {
+        List<Long> ids = entityManager
+                .createQuery(
+                        "SELECT r.id FROM Relatorio r WHERE r.expedicao.id = :expedicaoId",
+                        Long.class)
+                .setParameter("expedicaoId", expedicaoId)
+                .getResultList();
+
+        return ids.isEmpty() ? null : ids.get(0);
     }
 }

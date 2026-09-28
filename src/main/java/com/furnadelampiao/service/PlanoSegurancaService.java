@@ -36,6 +36,13 @@ public class PlanoSegurancaService {
         return repository.buscarPorId(id);
     }
 
+    public byte[] buscarMapaRota(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID não pode ser nulo.");
+        }
+        return repository.buscarMapaRotaPorId(id);
+    }
+
     public List<PlanoSeguranca> listarTodos() {
         return repository.listarTodos();
     }

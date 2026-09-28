@@ -23,7 +23,7 @@ public class ParticipacaoRepositoryJpa implements ParticipacaoRepository{
         return entityManager
                 .createQuery(
                 "SELECT p FROM Participacao p "+
-                        "WHERE p.pessoa_id = :id",
+                        "WHERE p.pessoa.id = :id",
                         Participacao.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -34,7 +34,7 @@ public class ParticipacaoRepositoryJpa implements ParticipacaoRepository{
         return entityManager
                 .createQuery(
                         "SELECT p FROM Participacao p "+
-                                "WHERE p.expedicao_id = :id",
+                                "WHERE p.expedicao.id = :id",
                         Participacao.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -49,7 +49,7 @@ public class ParticipacaoRepositoryJpa implements ParticipacaoRepository{
     @Override
     public List<Participacao> listarTodos() {
         return entityManager
-                .createQuery("SELECT p FROM Participacao",
+                .createQuery("SELECT p FROM Participacao p",
                         Participacao.class)
                 .getResultList();
     }

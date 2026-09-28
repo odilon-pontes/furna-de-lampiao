@@ -4,6 +4,7 @@ import com.furnadelampiao.domain.PlanoSeguranca;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import javax.persistence.NoResultException;
 
 public class PlanoSegurancaRepositoryJpa implements PlanoSegurancaRepository {
 
@@ -39,11 +40,24 @@ public class PlanoSegurancaRepositoryJpa implements PlanoSegurancaRepository {
 
     @Override
     public void removerPorId(Long id) {
-        PlanoSeguranca planoSeguranca =
-                entityManager.find(PlanoSeguranca.class, id);
+        PlanoSeguranca planoSeguranca = entityManager.find(PlanoSeguranca.class, id);
 
         if (planoSeguranca != null) {
             entityManager.remove(planoSeguranca);
+        }
+    }
+
+    @Override
+    public byte[] buscarMapaRotaPorId(Long id) {
+        try {
+            return entityManager
+                    .createQuery(
+                            "SELECT p.mapaRota FROM PlanoSeguranca p WHERE p.id = :id",
+                            byte[].class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         }
     }
 }
