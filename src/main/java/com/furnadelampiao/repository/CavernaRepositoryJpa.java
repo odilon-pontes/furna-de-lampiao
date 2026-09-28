@@ -28,8 +28,8 @@ public class CavernaRepositoryJpa implements CavernaRepository {
     @Override
     public List<Caverna> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM Caverna c",
+                .createNamedQuery(
+                        "Caverna.listarTodos",
                         Caverna.class)
                 .getResultList();
     }
@@ -38,9 +38,8 @@ public class CavernaRepositoryJpa implements CavernaRepository {
     public Caverna buscarPorCodCadastroAmbiental(String codCadastroAmbiental) {
         try {
             return entityManager
-                    .createQuery(
-                            "SELECT c FROM Caverna c " +
-                                    "WHERE c.codCadastroAmbiental = :codigo",
+                    .createNamedQuery(
+                            "Caverna.buscarPorCodCadastroAmbiental",
                             Caverna.class)
                     .setParameter("codigo", codCadastroAmbiental)
                     .getSingleResult();
@@ -52,8 +51,8 @@ public class CavernaRepositoryJpa implements CavernaRepository {
     @Override
     public List<Caverna> listarPorUf(UnidadeFederativa uf) {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM Caverna c WHERE c.uf = :uf",
+                .createNamedQuery(
+                        "Caverna.listarPorUf",
                         Caverna.class)
                 .setParameter("uf", uf)
                 .getResultList();
@@ -62,9 +61,8 @@ public class CavernaRepositoryJpa implements CavernaRepository {
     @Override
     public List<Caverna> listarComAcessoPermitido() {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM Caverna c " +
-                                "WHERE c.acessoAtualmentePermitido = true",
+                .createNamedQuery(
+                        "Caverna.listarComAcessoPermitido",
                         Caverna.class)
                 .getResultList();
     }

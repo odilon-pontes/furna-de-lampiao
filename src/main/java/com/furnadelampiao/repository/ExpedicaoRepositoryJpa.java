@@ -32,8 +32,8 @@ public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
     @Override
     public List<Expedicao> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Expedicao e",
+                .createNamedQuery(
+                        "Expedicao.listarTodos",
                         Expedicao.class)
                 .getResultList();
     }
@@ -42,9 +42,8 @@ public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
     public Expedicao buscarPorCodigo(String codigo) {
         try {
             return entityManager
-                    .createQuery(
-                            "SELECT e FROM Expedicao e " +
-                                    "WHERE e.codigo = :codigo",
+                    .createNamedQuery(
+                            "Expedicao.buscarPorCodigo",
                             Expedicao.class)
                     .setParameter("codigo", codigo)
                     .getSingleResult();
@@ -56,9 +55,8 @@ public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
     @Override
     public List<Expedicao> listarPorCaverna(Long cavernaId) {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Expedicao e " +
-                                "WHERE e.caverna.id = :cavernaId",
+                .createNamedQuery(
+                        "Expedicao.listarPorCaverna",
                         Expedicao.class)
                 .setParameter("cavernaId", cavernaId)
                 .getResultList();
@@ -67,9 +65,8 @@ public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
     @Override
     public List<Expedicao> listarPorSituacao(SituacaoExpedicao situacao) {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Expedicao e " +
-                                "WHERE e.situacao = :situacao",
+                .createNamedQuery(
+                        "Expedicao.listarPorSituacao",
                         Expedicao.class)
                 .setParameter("situacao", situacao)
                 .getResultList();
@@ -97,15 +94,8 @@ public class ExpedicaoRepositoryJpa implements ExpedicaoRepository {
         LocalDateTime fimDoDia = fim.atTime(LocalTime.MAX);
 
         return entityManager
-                .createQuery(
-                        "SELECT new com.furnadelampiao.dto.ExpedicaoResumoDTO(" +
-                                "e.codigo, e.titulo, e.caverna.nomeOficial, " +
-                                "e.inicioPrevisto, e.terminoPrevisto, e.situacao) " +
-                                "FROM Expedicao e " +
-                                "WHERE e.inicioPrevisto <= :fimDoDia " +
-                                "AND e.terminoPrevisto >= :inicioDoDia " +
-                                "AND e.situacao = :situacao " +
-                                "ORDER BY e.inicioPrevisto",
+                .createNamedQuery(
+                        "Expedicao.listarResumoPorPeriodoESituacao",
                         ExpedicaoResumoDTO.class)
                 .setParameter("inicioDoDia", inicioDoDia)
                 .setParameter("fimDoDia", fimDoDia)

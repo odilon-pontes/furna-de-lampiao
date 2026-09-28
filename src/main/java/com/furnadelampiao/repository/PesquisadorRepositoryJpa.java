@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 public class PesquisadorRepositoryJpa implements PesquisadorRepository {
+
     private final EntityManager entityManager;
 
     public PesquisadorRepositoryJpa(EntityManager entityManager) {
@@ -20,36 +21,44 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
 
     @Override
     public Pesquisador buscarPorId(Long id) {
-        return entityManager.find(Pesquisador.class, id);
+        return entityManager.find(
+                Pesquisador.class,
+                id
+        );
     }
 
     @Override
     public List<Pesquisador> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT p FROM Pesquisador p",
-                        Pesquisador.class)
+                .createNamedQuery(
+                        "Pesquisador.listarTodos",
+                        Pesquisador.class
+                )
                 .getResultList();
     }
 
     @Override
-    public List<Pesquisador> buscarPorTitulacao(Titulacao titulacao) {
+    public List<Pesquisador> buscarPorTitulacao(
+            Titulacao titulacao) {
+
         return entityManager
-                .createQuery(
-                        "SELECT p FROM Pesquisador p " +
-                                "WHERE p.titulacao = :titulacao",
-                        Pesquisador.class)
+                .createNamedQuery(
+                        "Pesquisador.buscarPorTitulacao",
+                        Pesquisador.class
+                )
                 .setParameter("titulacao", titulacao)
                 .getResultList();
     }
 
     @Override
-    public List<Pesquisador> buscarPorAreaPesquisa(String area) {
+    public List<Pesquisador> buscarPorAreaPesquisa(
+            String area) {
+
         return entityManager
-                .createQuery(
-                        "SELECT p FROM Pesquisador p " +
-                                "WHERE p.areaPrincipalPesquisa = :area",
-                        Pesquisador.class)
+                .createNamedQuery(
+                        "Pesquisador.buscarPorAreaPesquisa",
+                        Pesquisador.class
+                )
                 .setParameter("area", area)
                 .getResultList();
     }
@@ -61,11 +70,14 @@ public class PesquisadorRepositoryJpa implements PesquisadorRepository {
 
     @Override
     public void removerPorId(Long id) {
-        Pesquisador pesquisador = entityManager.find(Pesquisador.class, id);
+        Pesquisador pesquisador =
+                entityManager.find(
+                        Pesquisador.class,
+                        id
+                );
 
         if (pesquisador != null) {
             entityManager.remove(pesquisador);
         }
     }
-
 }

@@ -21,16 +21,18 @@ public class RelatorioRepositoryJpa implements RelatorioRepository {
 
     @Override
     public Relatorio buscarPorId(Long id) {
-        return entityManager.find(Relatorio.class, id);
+        return entityManager.find(
+                Relatorio.class,
+                id
+        );
     }
 
     @Override
     public Relatorio buscarPorExpedicaoId(Long expedicaoId) {
         try {
-            return entityManager.createQuery(
-                            "SELECT r " +
-                                    "FROM Relatorio r " +
-                                    "WHERE r.expedicao.id = :expedicaoId",
+            return entityManager
+                    .createNamedQuery(
+                            "Relatorio.buscarPorExpedicaoId",
                             Relatorio.class
                     )
                     .setParameter("expedicaoId", expedicaoId)
@@ -43,10 +45,12 @@ public class RelatorioRepositoryJpa implements RelatorioRepository {
 
     @Override
     public List<Relatorio> listarTodos() {
-        return entityManager.createQuery(
-                "SELECT r FROM Relatorio r",
-                Relatorio.class
-        ).getResultList();
+        return entityManager
+                .createNamedQuery(
+                        "Relatorio.listarTodos",
+                        Relatorio.class
+                )
+                .getResultList();
     }
 
     @Override
@@ -56,19 +60,22 @@ public class RelatorioRepositoryJpa implements RelatorioRepository {
 
     @Override
     public void removerPorId(Long id) {
-        Relatorio relatorio = entityManager.find(Relatorio.class, id);
+        Relatorio relatorio =
+                entityManager.find(
+                        Relatorio.class,
+                        id
+                );
 
         if (relatorio != null) {
             entityManager.remove(relatorio);
         }
     }
 
+    @Override
     public byte[] buscarArquivoPorRelatorioId(Long id) {
-
-        return entityManager.createQuery(
-                        "SELECT r.arquivoCompleto " +
-                                "FROM Relatorio r " +
-                                "WHERE r.id = :id",
+        return entityManager
+                .createNamedQuery(
+                        "Relatorio.buscarArquivoPorRelatorioId",
                         byte[].class
                 )
                 .setParameter("id", id)

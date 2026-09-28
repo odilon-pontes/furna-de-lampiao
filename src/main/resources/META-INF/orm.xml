@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd"
+        version="2.2">
+
+    <!-- ==================== AMOSTRA ==================== -->
+    <named-query name="Amostra.listarTodos">
+        <query>
+            SELECT a
+            FROM Amostra a
+        </query>
+    </named-query>
+
+    <named-query name="Amostra.buscarPorColetaCientificaId">
+        <query>
+            SELECT a
+            FROM Amostra a
+            WHERE a.coletaCientifica.id = :coletaId
+        </query>
+    </named-query>
+
+    <named-query name="Amostra.buscarPorCodigoCampo">
+        <query>
+            SELECT a
+            FROM Amostra a
+            WHERE a.codCampo = :codCampo
+        </query>
+    </named-query>
+
+    <!-- ==================== AUTORIZACAO AMBIENTAL ==================== -->
+    <named-query name="AutorizacaoAmbiental.listarTodos">
+        <query>
+            SELECT a
+            FROM AutorizacaoAmbiental a
+        </query>
+    </named-query>
+
+    <named-query name="AutorizacaoAmbiental.contarVigentesPorExpedicao">
+        <query>
+            SELECT COUNT(a)
+            FROM AutorizacaoAmbiental a
+            WHERE a.expedicao.id = :expedicaoId
+            AND a.situacao = :situacao
+            AND (:autorizacaoId IS NULL OR a.id &lt;&gt; :autorizacaoId)
+        </query>
+    </named-query>
+
+    <!-- ==================== CAVENA ==================== -->
+    <named-query name="Caverna.listarTodos">
+        <query>
+            SELECT c
+            FROM Caverna c
+        </query>
+    </named-query>
+
+    <named-query name="Caverna.buscarPorCodCadastroAmbiental">
+        <query>
+            SELECT c
+            FROM Caverna c
+            WHERE c.codCadastroAmbiental = :codigo
+        </query>
+    </named-query>
+
+    <named-query name="Caverna.listarPorUf">
+        <query>
+            SELECT c
+            FROM Caverna c
+            WHERE c.uf = :uf
+        </query>
+    </named-query>
+
+    <named-query name="Caverna.listarComAcessoPermitido">
+        <query>
+            SELECT c
+            FROM Caverna c
+            WHERE c.acessoAtualmentePermitido = true
+        </query>
+    </named-query>
+
+    <!-- ==================== COLETA CIENTIFICA ==================== -->
+
+    <named-query name="ColetaCientifica.buscarPorPesquisadorId">
+        <query>
+            SELECT c
+            FROM ColetaCientifica c
+            WHERE c.pesquisador.id = :id
+        </query>
+    </named-query>
+
+    <named-query name="ColetaCientifica.buscarPorExpedicaoId">
+        <query>
+            SELECT c
+            FROM ColetaCientifica c
+            WHERE c.expedicao.id = :id
+        </query>
+    </named-query>
+
+    <named-query name="ColetaCientifica.buscarPorSetorId">
+        <query>
+            SELECT c
+            FROM ColetaCientifica c
+            WHERE c.setor.id = :id
+        </query>
+    </named-query>
+
+    <named-query name="ColetaCientifica.buscarPorSituacaoValidacao">
+        <query>
+            SELECT c
+            FROM ColetaCientifica c
+            WHERE c.situacaoValidacao = :situacao
+        </query>
+    </named-query>
+
+    <named-query name="ColetaCientifica.buscarPorMetodoEmpregado">
+        <query>
+            SELECT c
+            FROM ColetaCientifica c
+            WHERE c.metodoEmpregado = :metodo
+        </query>
+    </named-query>
+
+    <named-query name="ColetaCientifica.buscarPorPeriodo">
+        <query>
+            SELECT c
+            FROM ColetaCientifica c
+            WHERE c.dataHoraColeta BETWEEN :inicio AND :fim
+        </query>
+    </named-query>
+
+    <named-query name="ColetaCientifica.listarTodos">
+        <query>
+            SELECT c
+            FROM ColetaCientifica c
+        </query>
+    </named-query>
+
+    <!-- ==================== EQUIPAMENTO ==================== -->
+
+    <named-query name="Equipamento.listarTodos">
+        <query>
+            SELECT e
+            FROM Equipamento e
+        </query>
+    </named-query>
+
+    <named-query name="Equipamento.buscarPorCodPatrimonial">
+        <query>
+            SELECT e
+            FROM Equipamento e
+            WHERE e.codPatrimonial = :codPatrimonial
+        </query>
+    </named-query>
+
+    <named-query name="Equipamento.listarPorTipo">
+        <query>
+            SELECT e
+            FROM Equipamento e
+            WHERE e.tipo = :tipo
+        </query>
+    </named-query>
+
+    <named-query name="Equipamento.listarPorSituacaoOperacional">
+        <query>
+            SELECT e
+            FROM Equipamento e
+            WHERE e.situacaoOperacional = :situacao
+        </query>
+    </named-query>
+
+    <!-- ==================== EXPEDICAO ==================== -->
+    <named-query name="Expedicao.listarTodos">
+        <query>
+            SELECT e
+            FROM Expedicao e
+        </query>
+    </named-query>
+
+    <named-query name="Expedicao.buscarPorCodigo">
+        <query>
+            SELECT e
+            FROM Expedicao e
+            WHERE e.codigo = :codigo
+        </query>
+    </named-query>
+
+    <named-query name="Expedicao.listarPorCaverna">
+        <query>
+            SELECT e
+            FROM Expedicao e
+            WHERE e.caverna.id = :cavernaId
+        </query>
+    </named-query>
+
+    <named-query name="Expedicao.listarPorSituacao">
+        <query>
+            SELECT e
+            FROM Expedicao e
+            WHERE e.situacao = :situacao
+        </query>
+    </named-query>
+
+    <named-query name="Expedicao.listarResumoPorPeriodoESituacao">
+        <query>
+            SELECT new com.furnadelampiao.dto.ExpedicaoResumoDTO(
+            e.codigo,
+            e.titulo,
+            e.caverna.nomeOficial,
+            e.inicioPrevisto,
+            e.terminoPrevisto,
+            e.situacao
+            )
+            FROM Expedicao e
+            WHERE e.inicioPrevisto &lt;= :fimDoDia
+            AND e.terminoPrevisto &gt;= :inicioDoDia
+            AND e.situacao = :situacao
+            ORDER BY e.inicioPrevisto
+        </query>
+    </named-query>
+
+    <!-- ==================== GUIA ESPELEOLÓGICO ==================== -->
+    <named-query name="GuiaEspeleologico.listarTodos">
+        <query>
+            SELECT g
+            FROM GuiaEspeleologico g
+        </query>
+    </named-query>
+
+    <named-query name="GuiaEspeleologico.buscarPorNivelCertificacao">
+        <query>
+            SELECT g
+            FROM GuiaEspeleologico g
+            WHERE g.nivelCertificacao = :nivel
+        </query>
+    </named-query>
+
+    <named-query name="GuiaEspeleologico.listarCertificacoesVencidas">
+        <query>
+            SELECT g
+            FROM GuiaEspeleologico g
+            WHERE g.dataValidadeCertificacao &lt; CURRENT_DATE
+        </query>
+    </named-query>
+
+    <!-- ==================== MOVIMENTACAO ==================== -->
+
+    <named-query name="Movimentacao.buscarPorPessoaId">
+        <query>
+            SELECT m
+            FROM Movimentacao m
+            WHERE m.pessoa.id = :id
+        </query>
+    </named-query>
+
+    <named-query name="Movimentacao.buscarPorExpedicaoId">
+        <query>
+            SELECT m
+            FROM Movimentacao m
+            WHERE m.expedicao.id = :id
+        </query>
+    </named-query>
+
+    <named-query name="Movimentacao.buscarPorEquipamentoId">
+        <query>
+            SELECT m
+            FROM Movimentacao m
+            WHERE m.equipamento.id = :id
+        </query>
+    </named-query>
+
+    <named-query name="Movimentacao.existeMovimentacaoAtivaPorEquipamentoId">
+        <query>
+            SELECT COUNT(m)
+            FROM Movimentacao m
+            WHERE m.equipamento.id = :id
+            AND m.dataDevolucao IS NULL
+        </query>
+    </named-query>
+
+    <named-query name="Movimentacao.listarTodos">
+        <query>
+            SELECT m
+            FROM Movimentacao m
+        </query>
+    </named-query>
+
+    <!-- ==================== PARTICIPACAO ==================== -->
+
+    <named-query name="Participacao.buscarPorPessoaId">
+        <query>
+            SELECT p
+            FROM Participacao p
+            WHERE p.pessoa.id = :id
+        </query>
+    </named-query>
+
+    <named-query name="Participacao.buscarPorExpedicaoId">
+        <query>
+            SELECT p
+            FROM Participacao p
+            WHERE p.expedicao.id = :id
+        </query>
+    </named-query>
+
+    <named-query name="Participacao.listarTodos">
+        <query>
+            SELECT p
+            FROM Participacao p
+        </query>
+    </named-query>
+
+    <!-- ==================== PESQUISADOR ==================== -->
+
+    <named-query name="Pesquisador.listarTodos">
+        <query>
+            SELECT p
+            FROM Pesquisador p
+        </query>
+    </named-query>
+
+    <named-query name="Pesquisador.buscarPorTitulacao">
+        <query>
+            SELECT p
+            FROM Pesquisador p
+            WHERE p.titulacao = :titulacao
+        </query>
+    </named-query>
+
+    <named-query name="Pesquisador.buscarPorAreaPesquisa">
+        <query>
+            SELECT p
+            FROM Pesquisador p
+            WHERE p.areaPrincipalPesquisa = :area
+        </query>
+    </named-query>
+
+    <!-- ==================== PESSOA ==================== -->
+
+    <named-query name="Pessoa.listarTodos">
+        <query>
+            SELECT p
+            FROM Pessoa p
+        </query>
+    </named-query>
+
+    <!-- ==================== PLANO SEGURANCA ==================== -->
+
+    <named-query name="PlanoSeguranca.listarTodos">
+        <query>
+            SELECT p
+            FROM PlanoSeguranca p
+        </query>
+    </named-query>
+
+    <!-- ==================== RELATORIO ==================== -->
+
+    <named-query name="Relatorio.buscarPorExpedicaoId">
+        <query>
+            SELECT r
+            FROM Relatorio r
+            WHERE r.expedicao.id = :expedicaoId
+        </query>
+    </named-query>
+
+    <named-query name="Relatorio.listarTodos">
+        <query>
+            SELECT r
+            FROM Relatorio r
+        </query>
+    </named-query>
+
+    <named-query name="Relatorio.buscarArquivoPorRelatorioId">
+        <query>
+            SELECT r.arquivoCompleto
+            FROM Relatorio r
+            WHERE r.id = :id
+        </query>
+    </named-query>
+
+    <!-- ==================== SETOR ==================== -->
+
+    <named-query name="Setor.listarTodos">
+        <query>
+            SELECT s
+            FROM Setor s
+        </query>
+    </named-query>
+
+    <named-query name="Setor.listarPorCaverna">
+        <query>
+            SELECT s
+            FROM Setor s
+            WHERE s.caverna.id = :cavernaId
+        </query>
+    </named-query>
+
+    <named-query name="Setor.listarPorNivelDificuldade">
+        <query>
+            SELECT s
+            FROM Setor s
+            WHERE s.nivelEstimadoDificuldade = :nivel
+        </query>
+    </named-query>
+
+</entity-mappings>
