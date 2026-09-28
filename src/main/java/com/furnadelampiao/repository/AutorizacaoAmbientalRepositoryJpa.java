@@ -5,6 +5,7 @@ import com.furnadelampiao.enums.SituacaoAutorizacao;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import javax.persistence.NoResultException;
 
 public class AutorizacaoAmbientalRepositoryJpa
         implements AutorizacaoAmbientalRepository {
@@ -61,5 +62,19 @@ public class AutorizacaoAmbientalRepositoryJpa
                 .setParameter("situacao", SituacaoAutorizacao.VIGENTE)
                 .setParameter("autorizacaoId", autorizacaoId)
                 .getSingleResult();
+    }
+
+    @Override
+    public byte[] buscarArquivoPdfPorId(Long id) {
+        try {
+            return entityManager
+                    .createQuery(
+                            "SELECT a.arquivoPdfAssinado FROM AutorizacaoAmbiental a WHERE a.id = :id",
+                            byte[].class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

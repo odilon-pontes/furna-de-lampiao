@@ -45,6 +45,16 @@ public class EquipamentoService {
         return repository.buscarPorId(id);
     }
 
+    public List<Equipamento> listarDisponiveisEntre(LocalDate inicio, LocalDate fim) {
+        if (inicio == null || fim == null) {
+            throw new IllegalArgumentException("Período (início e fim) é obrigatório.");
+        }
+        if (fim.isBefore(inicio)) {
+            throw new IllegalArgumentException("Data final do período não pode ser anterior à inicial.");
+        }
+        return repository.listarDisponiveisEntre(inicio, fim);
+    }
+
     public List<Equipamento> listarTodos() {
         return repository.listarTodos();
     }

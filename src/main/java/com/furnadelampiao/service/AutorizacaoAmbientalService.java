@@ -47,6 +47,13 @@ public class AutorizacaoAmbientalService {
         return repository.buscarPorId(id);
     }
 
+    public byte[] buscarArquivoPdf(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID não pode ser nulo.");
+        }
+        return repository.buscarArquivoPdfPorId(id);
+    }
+
     public List<AutorizacaoAmbiental> listarTodos() {
         return repository.listarTodos();
     }

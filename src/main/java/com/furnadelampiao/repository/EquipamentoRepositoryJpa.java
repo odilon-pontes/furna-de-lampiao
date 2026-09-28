@@ -7,6 +7,9 @@ import com.furnadelampiao.enums.TipoEquipamento;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Arrays;
 
 public class EquipamentoRepositoryJpa implements EquipamentoRepository {
 
@@ -81,5 +84,27 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
         if (equipamento != null) {
             entityManager.remove(equipamento);
         }
+    }
+
+    @Override
+    public List<Equipamento> listarDisponiveisEntre(LocalDate inicio, LocalDate fim) {
+        return entityManager
+                .createQuery(
+                        "SELECT e FROM Equipamento e " +
+                                "WHERE e.situacaoOperacional NOT IN :indisponiveis " +
+                                "AND NOT EXISTS (" +
+                                "SELECT 1 FROM Movimentacao m " +
+                                "WHERE m.equipamento = e " +
+                                "AND m.dataHoraRetirada <= :fimDoDia " +
+                                "AND COALESCE(m.dataDevolucao, m.dataPrevisaoDevolucao) >= :inicio) " +
+                                "ORDER BY e.nome",
+                        Equipamento.class)
+                .setParameter("indisponiveis", Arrays.asList(
+                        SituacaoOperacional.EM_MANUTENCAO,
+                        SituacaoOperacional.DANIFICADO,
+                        SituacaoOperacional.INDISPONIVEL))
+                .setParameter("fimDoDia", fim.atTime(LocalTime.MAX))
+                .setParameter("inicio", inicio)
+                .getResultList();
     }
 }

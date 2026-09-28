@@ -11,6 +11,7 @@ import com.furnadelampiao.domain.Setor;
 import com.furnadelampiao.enums.SituacaoExpedicao;
 import com.furnadelampiao.infra.TransacaoExecutor;
 import com.furnadelampiao.dto.ExpedicaoResumoDTO;
+import com.furnadelampiao.dto.ExpedicaoDetalheDTO;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -61,6 +62,13 @@ public class ExpedicaoService {
             throw new IllegalArgumentException("ID não pode ser nulo.");
         }
         return repository.buscarPorId(id);
+    }
+
+    public ExpedicaoDetalheDTO buscarDetalhesPorId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID não pode ser nulo.");
+        }
+        return repository.buscarDetalhesPorId(id);
     }
 
     public List<Expedicao> listarTodos() {
@@ -250,7 +258,7 @@ public class ExpedicaoService {
                     "A data de término prevista deve ser posterior à data de início prevista.");
         }
 
-        if (expedicao.getQtdMaxParticipantes() == null || expedicao.getQtdMaxParticipantes() <= 0) { 
+        if (expedicao.getQtdMaxParticipantes() == null || expedicao.getQtdMaxParticipantes() <= 0) {
             throw new IllegalArgumentException(
                     "Quantidade máxima de participantes deve ser maior que zero.");
         }
