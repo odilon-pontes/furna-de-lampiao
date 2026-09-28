@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_coleta_cientifica")
@@ -57,5 +58,11 @@ public class ColetaCientifica {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "setor_id", nullable = false)
     private Setor setor;
+
+    @OneToMany(
+            mappedBy = "coletaCientifica",
+            fetch = FetchType.LAZY
+    )
+    private List<Amostra> amostras;
 
 }
