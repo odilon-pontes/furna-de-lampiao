@@ -3,6 +3,7 @@ package com.furnadelampiao.service;
 import com.furnadelampiao.repository.PesquisadorRepository;
 import com.furnadelampiao.domain.Pesquisador;
 import com.furnadelampiao.enums.Titulacao;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -19,41 +20,15 @@ public class PesquisadorService {
 
     public void cadastrar(Pesquisador pesquisador) {
         validarPesquisador(pesquisador);
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.salvar(pesquisador);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw e;
-        }
-
+        TransacaoExecutor.executar(entityManager, () -> repository.salvar(pesquisador));
     }
 
     public void atualizar(Pesquisador pesquisador) {
         validarPesquisador(pesquisador);
-
         if (pesquisador.getId() == null) {
-            throw new IllegalArgumentException(
-                    "Pesquisador deve possuir ID para ser atualizado");
+            throw new IllegalArgumentException("Pesquisador deve possuir ID para ser atualizado");
         }
-
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.atualizar(pesquisador);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> repository.atualizar(pesquisador));
     }
 
     public List<Pesquisador> listarTodos() {
@@ -67,17 +42,16 @@ public class PesquisadorService {
     public List<Pesquisador> buscarPorTitulacao(Titulacao titulacao) {
         return repository.buscarPorTitulacao(titulacao);
     }
+
     private void validarPesquisador(Pesquisador pesquisador) {
         if (pesquisador == null) {
             throw new IllegalArgumentException(
-                    "Pesquisador não pode ser nulo."
-            );
+                    "Pesquisador não pode ser nulo.");
         }
 
-        if (pesquisador.getNome() == null || pesquisador.getNome().isBlank()){
+        if (pesquisador.getNome() == null || pesquisador.getNome().isBlank()) {
             throw new IllegalArgumentException(
-                    "Nome de pesquisador é obrigatório."
-            );
+                    "Nome de pesquisador é obrigatório.");
         }
 
         if (pesquisador.getNumRegistroInstitucional() == null ||

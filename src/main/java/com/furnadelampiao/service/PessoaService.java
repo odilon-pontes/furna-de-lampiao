@@ -2,6 +2,7 @@ package com.furnadelampiao.service;
 
 import com.furnadelampiao.repository.PessoaRepository;
 import com.furnadelampiao.domain.Pessoa;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -17,20 +18,7 @@ public class PessoaService {
 
     public void salvar(Pessoa p) {
         validarPessoa(p);
-
-        try {
-            entityManager.getTransaction().begin();
-
-            pessoaRepository.salvar(p);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw e;
-        }
-
+        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.salvar(p));
     }
 
     public Pessoa buscarPorId(Long id) {
@@ -46,45 +34,17 @@ public class PessoaService {
 
     public void atualizar(Pessoa p) {
         validarPessoa(p);
-
         if (p.getId() == null) {
-            throw new IllegalArgumentException(
-                    "Pessoa precisa de ID para ser atualizada.");
+            throw new IllegalArgumentException("Pessoa precisa de ID para ser atualizada.");
         }
-
-        try {
-            entityManager.getTransaction().begin();
-
-            pessoaRepository.atualizar(p);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw e;
-        }
-
+        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.atualizar(p));
     }
 
     public void removerPorId(Long id) {
         if (id == null) {
-            throw new IllegalArgumentException(
-                    "ID não pode ser nulo.");
+            throw new IllegalArgumentException("ID não pode ser nulo.");
         }
-
-        try {
-            entityManager.getTransaction().begin();
-
-            pessoaRepository.removerPorId(id);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> pessoaRepository.removerPorId(id));
     }
 
     private void validarPessoa(Pessoa p) {

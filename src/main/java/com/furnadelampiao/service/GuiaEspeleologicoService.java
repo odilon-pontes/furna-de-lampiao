@@ -3,6 +3,7 @@ package com.furnadelampiao.service;
 import com.furnadelampiao.domain.GuiaEspeleologico;
 import com.furnadelampiao.enums.NivelCertificacao;
 import com.furnadelampiao.repository.GuiaEspeleologicoRepository;
+import com.furnadelampiao.infra.TransacaoExecutor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -18,41 +19,15 @@ public class GuiaEspeleologicoService {
 
     public void cadastrar(GuiaEspeleologico guia) {
         validarGuia(guia);
-
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.salvar(guia);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> repository.salvar(guia));
     }
 
     public void atualizar(GuiaEspeleologico guia) {
         validarGuia(guia);
-
         if (guia.getId() == null) {
-            throw new IllegalArgumentException(
-                    "Guia espeleológico deve possuir ID para ser atualizado");
+            throw new IllegalArgumentException("Guia espeleológico deve possuir ID para ser atualizado");
         }
-
-        try {
-            entityManager.getTransaction().begin();
-
-            repository.atualizar(guia);
-
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw e;
-        }
+        TransacaoExecutor.executar(entityManager, () -> repository.atualizar(guia));
     }
 
     public List<GuiaEspeleologico> listarTodos() {
@@ -67,18 +42,15 @@ public class GuiaEspeleologicoService {
         return repository.listarCertificacoesVencidas();
     }
 
-
     private void validarGuia(GuiaEspeleologico guia) {
         if (guia == null) {
             throw new IllegalArgumentException(
                     "Guia espeleológico não pode ser nulo");
         }
 
-
-        if (guia.getNome() == null || guia.getNome().isBlank()){
+        if (guia.getNome() == null || guia.getNome().isBlank()) {
             throw new IllegalArgumentException(
-                    "Nome do guia espeleológico  é obrigatório."
-            );
+                    "Nome do guia espeleológico  é obrigatório.");
         }
 
         if (guia.getNumCredenciamento() == null ||
