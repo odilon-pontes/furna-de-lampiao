@@ -1,10 +1,9 @@
 package com.furnadelampiao.enums;
 
 public enum SituacaoRelatorioFinal {
-    PENDENTE,
+    EM_ELABORACAO,
+    SUBMETIDO,
     EM_ANALISE,
-    APROVADA,
-    NEGADA,
-    EXPIRADA,
-    CANCELADA
+    APROVADO,
+    REJEITADO
 }

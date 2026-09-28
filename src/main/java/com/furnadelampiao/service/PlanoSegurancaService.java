@@ -36,6 +36,13 @@ public class PlanoSegurancaService {
         return repository.buscarPorId(id);
     }
 
+    public byte[] buscarMapaRota(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID não pode ser nulo.");
+        }
+        return repository.buscarMapaRotaPorId(id);
+    }
+
     public List<PlanoSeguranca> listarTodos() {
         return repository.listarTodos();
     }
@@ -79,6 +86,14 @@ public class PlanoSegurancaService {
                 || planoSeguranca.getTelefoneEmergencia().isBlank()) {
             throw new IllegalArgumentException(
                     "Telefone de emergência é obrigatório.");
+        }
+
+        if (planoSeguranca.getPontoExternoEncontro() == null) {
+            throw new IllegalArgumentException("Ponto externo de encontro é obrigatório.");
+        }
+
+        if (planoSeguranca.getNecessidadeEquipeMedica() == null) {
+            planoSeguranca.setNecessidadeEquipeMedica(false);
         }
     }
 }

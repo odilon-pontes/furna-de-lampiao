@@ -24,14 +24,14 @@ public class Equipamento {
     @Column(name = "cod_patrimonial", nullable = false, unique = true, length = 30)
     private String codPatrimonial;
 
-    @Column(name = "nome", nullable = false, length = 100)
+    @Column(name = "nome", nullable = false, length = 50)
     private String nome;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo", nullable = false, length = 30)
     private TipoEquipamento tipo;
 
-    @Column(name = "fabricante", length = 100)
+    @Column(name = "fabricante", length = 50)
     private String fabricante;
 
     @Column(name = "valor_aquisicao", precision = 12, scale = 2)
@@ -49,5 +49,5 @@ public class Equipamento {
 
     @Builder.Default
     @Column(name = "indicacao_calibracao", nullable = false)
-    private boolean indicacaoCalibracao = false;
+    private Boolean indicacaoCalibracao = false;
 }

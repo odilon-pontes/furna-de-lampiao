@@ -10,10 +10,13 @@ import com.furnadelampiao.domain.PlanoSeguranca;
 import com.furnadelampiao.domain.Setor;
 import com.furnadelampiao.enums.SituacaoExpedicao;
 import com.furnadelampiao.infra.TransacaoExecutor;
+import com.furnadelampiao.dto.ExpedicaoResumoDTO;
+import com.furnadelampiao.dto.ExpedicaoDetalheDTO;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
+import java.time.LocalDate;
 
 public class ExpedicaoService {
 
@@ -61,6 +64,13 @@ public class ExpedicaoService {
         return repository.buscarPorId(id);
     }
 
+    public ExpedicaoDetalheDTO buscarDetalhesPorId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID não pode ser nulo.");
+        }
+        return repository.buscarDetalhesPorId(id);
+    }
+
     public List<Expedicao> listarTodos() {
         return repository.listarTodos();
     }
@@ -77,6 +87,22 @@ public class ExpedicaoService {
             throw new IllegalArgumentException("Situação não pode ser nula.");
         }
         return repository.listarPorSituacao(situacao);
+    }
+
+    public List<ExpedicaoResumoDTO> listarResumoPorPeriodoESituacao(
+            LocalDate inicio, LocalDate fim, SituacaoExpedicao situacao) {
+
+        if (inicio == null || fim == null) {
+            throw new IllegalArgumentException("Período (início e fim) é obrigatório.");
+        }
+        if (fim.isBefore(inicio)) {
+            throw new IllegalArgumentException("Data final do período não pode ser anterior à inicial.");
+        }
+        if (situacao == null) {
+            throw new IllegalArgumentException("Situação é obrigatória.");
+        }
+
+        return repository.listarResumoPorPeriodoESituacao(inicio, fim, situacao);
     }
 
     public void atualizar(Expedicao expedicao) {
@@ -232,7 +258,7 @@ public class ExpedicaoService {
                     "A data de término prevista deve ser posterior à data de início prevista.");
         }
 
-        if (expedicao.getQtdMaxParticipantes() <= 0) {
+        if (expedicao.getQtdMaxParticipantes() == null || expedicao.getQtdMaxParticipantes() <= 0) {
             throw new IllegalArgumentException(
                     "Quantidade máxima de participantes deve ser maior que zero.");
         }
@@ -247,6 +273,10 @@ public class ExpedicaoService {
                 && expedicao.getCustoRealizado().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException(
                     "Custo realizado não pode ser negativo.");
+        }
+
+        if (expedicao.getCancelamentoEmergencial() == null) {
+            expedicao.setCancelamentoEmergencial(false);
         }
     }
 }

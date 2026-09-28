@@ -47,6 +47,13 @@ public class AutorizacaoAmbientalService {
         return repository.buscarPorId(id);
     }
 
+    public byte[] buscarArquivoPdf(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID não pode ser nulo.");
+        }
+        return repository.buscarArquivoPdfPorId(id);
+    }
+
     public List<AutorizacaoAmbiental> listarTodos() {
         return repository.listarTodos();
     }
@@ -94,6 +101,10 @@ public class AutorizacaoAmbientalService {
                 || autorizacao.getOrgaoEmissor().isBlank()) {
             throw new IllegalArgumentException(
                     "Órgão emissor é obrigatório.");
+        }
+
+        if (autorizacao.getNum() == null) {
+            throw new IllegalArgumentException("Número da autorização é obrigatório.");
         }
 
         if (autorizacao.getDataEmissao() == null) {

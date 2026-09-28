@@ -45,6 +45,16 @@ public class EquipamentoService {
         return repository.buscarPorId(id);
     }
 
+    public List<Equipamento> listarDisponiveisEntre(LocalDate inicio, LocalDate fim) {
+        if (inicio == null || fim == null) {
+            throw new IllegalArgumentException("Período (início e fim) é obrigatório.");
+        }
+        if (fim.isBefore(inicio)) {
+            throw new IllegalArgumentException("Data final do período não pode ser anterior à inicial.");
+        }
+        return repository.listarDisponiveisEntre(inicio, fim);
+    }
+
     public List<Equipamento> listarTodos() {
         return repository.listarTodos();
     }
@@ -115,6 +125,10 @@ public class EquipamentoService {
         if (equipamento.getValorAquisicao() != null
                 && equipamento.getValorAquisicao().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Valor de aquisição não pode ser negativo.");
+        }
+
+        if (equipamento.getIndicacaoCalibracao() == null) {
+            equipamento.setIndicacaoCalibracao(false);
         }
     }
 }

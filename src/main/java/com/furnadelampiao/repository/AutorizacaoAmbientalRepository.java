@@ -6,4 +6,6 @@ public interface AutorizacaoAmbientalRepository
         extends Repository<AutorizacaoAmbiental, Long> {
 
     long contarVigentesPorExpedicao(Long expedicaoId, Long autorizacaoId);
+
+    byte[] buscarArquivoPdfPorId(Long id);
 }

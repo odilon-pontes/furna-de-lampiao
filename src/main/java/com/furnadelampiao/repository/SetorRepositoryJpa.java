@@ -21,36 +21,42 @@ public class SetorRepositoryJpa implements SetorRepository {
 
     @Override
     public Setor buscarPorId(Long id) {
-        return entityManager.find(Setor.class, id);
+        return entityManager.find(
+                Setor.class,
+                id
+        );
     }
 
     @Override
     public List<Setor> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT s FROM Setor s",
-                        Setor.class)
+                .createNamedQuery(
+                        "Setor.listarTodos",
+                        Setor.class
+                )
                 .getResultList();
     }
 
     @Override
     public List<Setor> listarPorCaverna(Long cavernaId) {
         return entityManager
-                .createQuery(
-                        "SELECT s FROM Setor s " +
-                                "WHERE s.caverna.id = :cavernaId",
-                        Setor.class)
+                .createNamedQuery(
+                        "Setor.listarPorCaverna",
+                        Setor.class
+                )
                 .setParameter("cavernaId", cavernaId)
                 .getResultList();
     }
 
     @Override
-    public List<Setor> listarPorNivelDificuldade(NivelDificuldadeSetor nivel) {
+    public List<Setor> listarPorNivelDificuldade(
+            NivelDificuldadeSetor nivel) {
+
         return entityManager
-                .createQuery(
-                        "SELECT s FROM Setor s " +
-                                "WHERE s.nivelEstimadoDificuldade = :nivel",
-                        Setor.class)
+                .createNamedQuery(
+                        "Setor.listarPorNivelDificuldade",
+                        Setor.class
+                )
                 .setParameter("nivel", nivel)
                 .getResultList();
     }
@@ -62,7 +68,11 @@ public class SetorRepositoryJpa implements SetorRepository {
 
     @Override
     public void removerPorId(Long id) {
-        Setor setor = entityManager.find(Setor.class, id);
+        Setor setor =
+                entityManager.find(
+                        Setor.class,
+                        id
+                );
 
         if (setor != null) {
             entityManager.remove(setor);

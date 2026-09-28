@@ -1,0 +1,1 @@
+CREATE DATABASE furna_test_db;

@@ -28,8 +28,8 @@ public class GuiaEspeleologicoRepositoryJpa
     @Override
     public List<GuiaEspeleologico> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT g FROM GuiaEspeleologico g",
+                .createNamedQuery(
+                        "GuiaEspeleologico.listarTodos",
                         GuiaEspeleologico.class)
                 .getResultList();
     }
@@ -39,9 +39,8 @@ public class GuiaEspeleologicoRepositoryJpa
             NivelCertificacao nivel) {
 
         return entityManager
-                .createQuery(
-                        "SELECT g FROM GuiaEspeleologico g " +
-                                "WHERE g.nivelCertificacao = :nivel",
+                .createNamedQuery(
+                        "GuiaEspeleologico.buscarPorNivelCertificacao",
                         GuiaEspeleologico.class)
                 .setParameter("nivel", nivel)
                 .getResultList();
@@ -51,9 +50,8 @@ public class GuiaEspeleologicoRepositoryJpa
     public List<GuiaEspeleologico> listarCertificacoesVencidas() {
 
         return entityManager
-                .createQuery(
-                        "SELECT g FROM GuiaEspeleologico g " +
-                                "WHERE g.dataValidadeCertificacao < CURRENT_DATE",
+                .createNamedQuery(
+                        "GuiaEspeleologico.listarCertificacoesVencidas",
                         GuiaEspeleologico.class)
                 .getResultList();
     }

@@ -90,5 +90,13 @@ public class CavernaService {
         if (caverna.getUf() == null) {
             throw new IllegalArgumentException("UF da caverna é obrigatória.");
         }
+
+        if (caverna.getCoordenadas() == null) {
+            throw new IllegalArgumentException("Coordenadas da caverna são obrigatórias.");
+        }
+
+        if (caverna.getAcessoAtualmentePermitido() == null) {
+            caverna.setAcessoAtualmentePermitido(false);
+        }
     }
 }

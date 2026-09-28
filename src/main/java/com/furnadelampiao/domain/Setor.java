@@ -20,7 +20,7 @@ public class Setor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "denominacao", nullable = false, length = 100)
+    @Column(name = "denominacao", nullable = false, length = 50)
     private String denominacao;
 
     @Enumerated(EnumType.STRING)

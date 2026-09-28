@@ -28,6 +28,7 @@ public class DatabaseSeeder {
         private final MovimentacaoService movimentacaoService;
         private final AmostraService amostraService;
         private final AutorizacaoAmbientalService autorizacaoAmbientalService;
+        private final RelatorioService relatorioService;
 
         private final List<Pessoa> pessoas = new ArrayList<>();
         private final List<Pesquisador> pesquisadores = new ArrayList<>();
@@ -42,6 +43,7 @@ public class DatabaseSeeder {
         private final List<Movimentacao> movimentacoes = new ArrayList<>();
         private final List<Amostra> amostras = new ArrayList<>();
         private final List<AutorizacaoAmbiental> autorizacoesAmbientais = new ArrayList<>();
+        private final List<Relatorio> relatorios = new ArrayList<>();
 
         public DatabaseSeeder(PessoaService pessoaService,
                         PesquisadorService pesquisadorService,
@@ -52,13 +54,11 @@ public class DatabaseSeeder {
                         ParticipacaoService participacaoService,
                         ColetaCientificaService coletaCientificaService,
                         EquipamentoService equipamentoService,
-                        PlanoSegurancaService planoSegurancaService, 
-                        MovimentacaoService movimentacaoService,
-                        AmostraService amostraService
-                ) {
                         PlanoSegurancaService planoSegurancaService,
                         MovimentacaoService movimentacaoService,
-                        AutorizacaoAmbientalService autorizacaoAmbientalService) {
+                        AmostraService amostraService,
+                        AutorizacaoAmbientalService autorizacaoAmbientalService,
+                        RelatorioService relatorioService) {
                 this.pessoaService = pessoaService;
                 this.pesquisadorService = pesquisadorService;
                 this.guiaEspeleologicoService = guiaEspeleologicoService;
@@ -71,8 +71,8 @@ public class DatabaseSeeder {
                 this.planoSegurancaService = planoSegurancaService;
                 this.movimentacaoService = movimentacaoService;
                 this.amostraService = amostraService;
-
                 this.autorizacaoAmbientalService = autorizacaoAmbientalService;
+                this.relatorioService = relatorioService;
         }
 
         public void seedAll() {
@@ -85,6 +85,7 @@ public class DatabaseSeeder {
                 seedExpedicoes();
                 seedExpedicaoSetores();
                 seedAutorizacoesAmbientais();
+                seedRelatorios();
                 seedParticipacoes();
                 seedColetas();
                 seedEquipamentos();
@@ -1196,6 +1197,151 @@ public class DatabaseSeeder {
                 System.out.println("[seed] 6 registros de Autorização Ambiental criados.");
         }
 
+        private void seedRelatorios() {
+
+                List<Relatorio> registros = relatorioService.listarTodos();
+
+                if (!registros.isEmpty()) {
+                        relatorios.addAll(registros);
+                        System.out.println("[seed] Relatórios já existem — carregados do banco.");
+                        return;
+                }
+
+                Relatorio r1 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Caverna do Diabo")
+                        .resumo("Relatório final contendo os resultados da exploração e levantamento da caverna.")
+                        .dataSubmissao(LocalDateTime.of(2026, 1, 20, 14, 30))
+                        .numeroTotalPaginas(25)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.APROVADO)
+                        .arquivoCompleto("Relatório fictício da Expedição 1".getBytes())
+                        .publicacaoAutorizada(true)
+                        .expedicao(expedicoes.get(0))
+                        .build();
+
+                Relatorio r2 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Gruta Azul")
+                        .resumo("Descrição das atividades realizadas durante a exploração da Gruta Azul.")
+                        .dataSubmissao(LocalDateTime.of(2026, 2, 5, 10, 15))
+                        .numeroTotalPaginas(18)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.SUBMETIDO)
+                        .arquivoCompleto("Relatório fictício da Expedição 2".getBytes())
+                        .publicacaoAutorizada(false)
+                        .expedicao(expedicoes.get(1))
+                        .build();
+
+                Relatorio r3 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Serra Branca")
+                        .resumo("Resultados do levantamento topográfico e ambiental realizado na região.")
+                        .dataSubmissao(LocalDateTime.of(2026, 2, 18, 16, 0))
+                        .numeroTotalPaginas(32)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.APROVADO)
+                        .arquivoCompleto("Relatório fictício da Expedição 3".getBytes())
+                        .publicacaoAutorizada(true)
+                        .expedicao(expedicoes.get(2))
+                        .build();
+
+                Relatorio r4 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Pedra Furada")
+                        .resumo("Registro das atividades de campo e dos dados coletados durante a expedição.")
+                        .dataSubmissao(LocalDateTime.of(2026, 3, 3, 9, 45))
+                        .numeroTotalPaginas(21)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.REJEITADO)
+                        .arquivoCompleto("Relatório fictício da Expedição 4".getBytes())
+                        .publicacaoAutorizada(false)
+                        .expedicao(expedicoes.get(3))
+                        .build();
+
+                Relatorio r5 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Caverna Encantada")
+                        .resumo("Relatório contendo observações ambientais e registros fotográficos da expedição.")
+                        .dataSubmissao(LocalDateTime.of(2026, 3, 17, 11, 20))
+                        .numeroTotalPaginas(40)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.APROVADO)
+                        .arquivoCompleto("Relatório fictício da Expedição 5".getBytes())
+                        .publicacaoAutorizada(true)
+                        .expedicao(expedicoes.get(4))
+                        .build();
+
+                Relatorio r6 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Gruta das Pedras")
+                        .resumo("Resultados da exploração e análise das formações geológicas encontradas.")
+                        .dataSubmissao(LocalDateTime.of(2026, 4, 2, 13, 10))
+                        .numeroTotalPaginas(27)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.SUBMETIDO)
+                        .arquivoCompleto("Relatório fictício da Expedição 6".getBytes())
+                        .publicacaoAutorizada(false)
+                        .expedicao(expedicoes.get(5))
+                        .build();
+
+                Relatorio r7 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Vale Profundo")
+                        .resumo("Documentação das atividades realizadas e dos resultados obtidos em campo.")
+                        .dataSubmissao(LocalDateTime.of(2026, 4, 21, 15, 30))
+                        .numeroTotalPaginas(35)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.EM_ANALISE)
+                        .arquivoCompleto("Relatório fictício da Expedição 7".getBytes())
+                        .publicacaoAutorizada(true)
+                        .expedicao(expedicoes.get(6))
+                        .build();
+
+                Relatorio r8 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Caverna Escura")
+                        .resumo("Relatório técnico sobre a exploração e caracterização da caverna.")
+                        .dataSubmissao(LocalDateTime.of(2026, 5, 8, 8, 50))
+                        .numeroTotalPaginas(22)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.EM_ANALISE)
+                        .arquivoCompleto("Relatório fictício da Expedição 8".getBytes())
+                        .publicacaoAutorizada(false)
+                        .expedicao(expedicoes.get(7))
+                        .build();
+
+                Relatorio r9 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Serra do Cruzeiro")
+                        .resumo("Resultados do estudo geológico e ambiental realizado durante a expedição.")
+                        .dataSubmissao(LocalDateTime.of(2026, 5, 26, 10, 40))
+                        .numeroTotalPaginas(31)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.EM_ELABORACAO)
+                        .arquivoCompleto("Relatório fictício da Expedição 9".getBytes())
+                        .publicacaoAutorizada(true)
+                        .expedicao(expedicoes.get(8))
+                        .build();
+
+                Relatorio r10 = Relatorio.builder()
+                        .titulo("Relatório da Expedição Gruta do Lampião")
+                        .resumo("Relatório final com os resultados da exploração e das análises realizadas.")
+                        .dataSubmissao(LocalDateTime.of(2026, 6, 12, 17, 15))
+                        .numeroTotalPaginas(45)
+                        .situacaoRelatorioFinal(SituacaoRelatorioFinal.APROVADO)
+                        .arquivoCompleto("Relatório fictício da Expedição 10".getBytes())
+                        .publicacaoAutorizada(true)
+                        .expedicao(expedicoes.get(9))
+                        .build();
+
+                relatorioService.cadastrar(r1);
+                relatorioService.cadastrar(r2);
+                relatorioService.cadastrar(r3);
+                relatorioService.cadastrar(r4);
+                relatorioService.cadastrar(r5);
+                relatorioService.cadastrar(r6);
+                relatorioService.cadastrar(r7);
+                relatorioService.cadastrar(r8);
+                relatorioService.cadastrar(r9);
+                relatorioService.cadastrar(r10);
+
+                relatorios.add(r1);
+                relatorios.add(r2);
+                relatorios.add(r3);
+                relatorios.add(r4);
+                relatorios.add(r5);
+                relatorios.add(r6);
+                relatorios.add(r7);
+                relatorios.add(r8);
+                relatorios.add(r9);
+                relatorios.add(r10);
+
+                System.out.println("[seed] 10 registros de Relatório criados.");
+        }
+
         private void seedParticipacoes() {
                 participacoes.add(
                                 Participacao.builder()
@@ -1750,166 +1896,151 @@ public class DatabaseSeeder {
 
                 if (!amostraService.listarTodos().isEmpty()) {
                         System.out.println(
-                                "[seed] Amostra já possui registros — pulando."
-                        );
+                                        "[seed] Amostra já possui registros — pulando.");
                         return;
                 }
 
                 if (coletas.isEmpty()) {
                         throw new IllegalStateException(
-                                "Não existem coletas científicas para associar às amostras."
-                        );
+                                        "Não existem coletas científicas para associar às amostras.");
                 }
 
-
+                amostras.add(Amostra.builder()
+                                .codCampo("AM-001")
+                                .categoriaAmostra(CategoriaAmostra.GEOLOGICA)
+                                .volume(new BigDecimal("250.00"))
+                                .unidadeMedida(UnidadeMedida.MILILITRO)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 1, 9, 0))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra de água coletada na entrada da caverna.")
+                                .coletaCientifica(coletas.get(0))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-001")
-                        .categoriaAmostra(CategoriaAmostra.GEOLOGICA)
-                        .volume(new BigDecimal("250.00"))
-                        .unidadeMedida(UnidadeMedida.MILILITRO)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 1, 9, 0
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra de água coletada na entrada da caverna.")
-                        .coletaCientifica(coletas.get(0))
-                        .build());
+                                .codCampo("AM-002")
+                                .categoriaAmostra(CategoriaAmostra.MINERAL)
+                                .volume(new BigDecimal("500.00"))
+                                .unidadeMedida(UnidadeMedida.MILILITRO)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 1, 9, 30))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.REGULAR)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra de água coletada em região subterrânea.")
+                                .coletaCientifica(coletas.get(0))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-002")
-                        .categoriaAmostra(CategoriaAmostra.MINERAL)
-                        .volume(new BigDecimal("500.00"))
-                        .unidadeMedida(UnidadeMedida.MILILITRO)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 1, 9, 30
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.REGULAR)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra de água coletada em região subterrânea.")
-                        .coletaCientifica(coletas.get(0))
-                        .build());
+                                .codCampo("AM-003")
+                                .categoriaAmostra(CategoriaAmostra.ARQUEOLOGICA)
+                                .volume(new BigDecimal("150.00"))
+                                .unidadeMedida(UnidadeMedida.UNIDADE)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 2, 10, 0))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.DANIFICADA)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra de sedimento do interior da caverna.")
+                                .coletaCientifica(coletas.get(1))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-003")
-                        .categoriaAmostra(CategoriaAmostra.ARQUEOLOGICA)
-                        .volume(new BigDecimal("150.00"))
-                        .unidadeMedida(UnidadeMedida.UNIDADE)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 2, 10, 0
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.DANIFICADA)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra de sedimento do interior da caverna.")
-                        .coletaCientifica(coletas.get(1))
-                        .build());
+                                .codCampo("AM-004")
+                                .categoriaAmostra(CategoriaAmostra.GEOLOGICA)
+                                .volume(new BigDecimal("75.00"))
+                                .unidadeMedida(UnidadeMedida.LITRO)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 2, 10, 30))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra de solo para análise laboratorial.")
+                                .coletaCientifica(coletas.get(1))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-004")
-                        .categoriaAmostra(CategoriaAmostra.GEOLOGICA)
-                        .volume(new BigDecimal("75.00"))
-                        .unidadeMedida(UnidadeMedida.LITRO)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 2, 10, 30
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra de solo para análise laboratorial.")
-                        .coletaCientifica(coletas.get(1))
-                        .build());
+                                .codCampo("AM-005")
+                                .categoriaAmostra(CategoriaAmostra.OUTRA)
+                                .volume(new BigDecimal("100.00"))
+                                .unidadeMedida(UnidadeMedida.MILILITRO)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 3, 8, 0))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.REGULAR)
+                                .indicacaoMaterialPerigoso(true)
+                                .observacoes("Amostra identificada com possível material perigoso.")
+                                .coletaCientifica(coletas.get(2))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-005")
-                        .categoriaAmostra(CategoriaAmostra.OUTRA)
-                        .volume(new BigDecimal("100.00"))
-                        .unidadeMedida(UnidadeMedida.MILILITRO)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 3, 8, 0
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.REGULAR)
-                        .indicacaoMaterailPerigoso(true)
-                        .observacoes("Amostra identificada com possível material perigoso.")
-                        .coletaCientifica(coletas.get(2))
-                        .build());
+                                .codCampo("AM-006")
+                                .categoriaAmostra(CategoriaAmostra.BIOLOGICA)
+                                .volume(new BigDecimal("300.00"))
+                                .unidadeMedida(UnidadeMedida.MILILITRO)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 3, 8, 30))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.BOA)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra de água para análise química.")
+                                .coletaCientifica(coletas.get(2))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-006")
-                        .categoriaAmostra(CategoriaAmostra.BIOLOGICA)
-                        .volume(new BigDecimal("300.00"))
-                        .unidadeMedida(UnidadeMedida.MILILITRO)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 3, 8, 30
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.BOA)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra de água para análise química.")
-                        .coletaCientifica(coletas.get(2))
-                        .build());
+                                .codCampo("AM-007")
+                                .categoriaAmostra(CategoriaAmostra.OUTRA)
+                                .volume(new BigDecimal("200.00"))
+                                .unidadeMedida(UnidadeMedida.QUILOGRAMA)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 4, 11, 0))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.DANIFICADA)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra mineral coletada em formação rochosa.")
+                                .coletaCientifica(coletas.get(3))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-007")
-                        .categoriaAmostra(CategoriaAmostra.OUTRA)
-                        .volume(new BigDecimal("200.00"))
-                        .unidadeMedida(UnidadeMedida.QUILOGRAMA)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 4, 11, 0
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.DANIFICADA)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra mineral coletada em formação rochosa.")
-                        .coletaCientifica(coletas.get(3))
-                        .build());
+                                .codCampo("AM-008")
+                                .categoriaAmostra(CategoriaAmostra.ARQUEOLOGICA)
+                                .volume(new BigDecimal("50.00"))
+                                .unidadeMedida(UnidadeMedida.MILILITRO)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 4, 11, 30))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra líquida para avaliação microbiológica.")
+                                .coletaCientifica(coletas.get(3))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-008")
-                        .categoriaAmostra(CategoriaAmostra.ARQUEOLOGICA)
-                        .volume(new BigDecimal("50.00"))
-                        .unidadeMedida(UnidadeMedida.MILILITRO)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 4, 11, 30
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.EXCELENTE)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra líquida para avaliação microbiológica.")
-                        .coletaCientifica(coletas.get(3))
-                        .build());
+                                .codCampo("AM-009")
+                                .categoriaAmostra(CategoriaAmostra.MINERAL)
+                                .volume(new BigDecimal("125.00"))
+                                .unidadeMedida(UnidadeMedida.METRO)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 5, 13, 0))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.RUIM)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra de material orgânico.")
+                                .coletaCientifica(coletas.get(4))
+                                .build());
 
                 amostras.add(Amostra.builder()
-                        .codCampo("AM-009")
-                        .categoriaAmostra(CategoriaAmostra.MINERAL)
-                        .volume(new BigDecimal("125.00"))
-                        .unidadeMedida(UnidadeMedida.METRO)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 5, 13, 0
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.RUIM)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra de material orgânico.")
-                        .coletaCientifica(coletas.get(4))
-                        .build());
-
-                amostras.add(Amostra.builder()
-                        .codCampo("AM-010")
-                        .categoriaAmostra(CategoriaAmostra.BIOLOGICA)
-                        .volume(new BigDecimal("400.00"))
-                        .unidadeMedida(UnidadeMedida.MILILITRO)
-                        .dataAcondicionamento(LocalDateTime.of(
-                                2026, 8, 5, 13, 30
-                        ))
-                        .condicaoAmostra(CondicaoConservacaoAmostra.BOA)
-                        .indicacaoMaterailPerigoso(false)
-                        .observacoes("Amostra de água coletada para comparação.")
-                        .coletaCientifica(coletas.get(4))
-                        .build());
+                                .codCampo("AM-010")
+                                .categoriaAmostra(CategoriaAmostra.BIOLOGICA)
+                                .volume(new BigDecimal("400.00"))
+                                .unidadeMedida(UnidadeMedida.MILILITRO)
+                                .dataAcondicionamento(LocalDateTime.of(
+                                                2026, 8, 5, 13, 30))
+                                .condicaoAmostra(CondicaoConservacaoAmostra.BOA)
+                                .indicacaoMaterialPerigoso(false)
+                                .observacoes("Amostra de água coletada para comparação.")
+                                .coletaCientifica(coletas.get(4))
+                                .build());
 
                 for (Amostra amostra : amostras) {
                         amostraService.cadastrar(amostra);
                 }
 
                 System.out.println(
-                        "[seed] " + amostras.size() + " registros de Amostra criados."
-                );
+                                "[seed] " + amostras.size() + " registros de Amostra criados.");
         }
 
         private Endereco endereco(String logradouro, String numero, String complemento,

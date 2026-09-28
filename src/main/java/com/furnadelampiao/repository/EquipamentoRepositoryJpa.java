@@ -7,6 +7,9 @@ import com.furnadelampiao.enums.TipoEquipamento;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Arrays;
 
 public class EquipamentoRepositoryJpa implements EquipamentoRepository {
 
@@ -29,8 +32,8 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
     @Override
     public List<Equipamento> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Equipamento e",
+                .createNamedQuery(
+                        "Equipamento.listarTodos",
                         Equipamento.class)
                 .getResultList();
     }
@@ -39,9 +42,8 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
     public Equipamento buscarPorCodPatrimonial(String codPatrimonial) {
         try {
             return entityManager
-                    .createQuery(
-                            "SELECT e FROM Equipamento e " +
-                                    "WHERE e.codPatrimonial = :codPatrimonial",
+                    .createNamedQuery(
+                            "Equipamento.buscarPorCodPatrimonial",
                             Equipamento.class)
                     .setParameter("codPatrimonial", codPatrimonial)
                     .getSingleResult();
@@ -53,9 +55,8 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
     @Override
     public List<Equipamento> listarPorTipo(TipoEquipamento tipo) {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Equipamento e " +
-                                "WHERE e.tipo = :tipo",
+                .createNamedQuery(
+                        "Equipamento.listarPorTipo",
                         Equipamento.class)
                 .setParameter("tipo", tipo)
                 .getResultList();
@@ -64,9 +65,8 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
     @Override
     public List<Equipamento> listarPorSituacaoOperacional(SituacaoOperacional situacao) {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Equipamento e " +
-                                "WHERE e.situacaoOperacional = :situacao",
+                .createNamedQuery(
+                        "Equipamento.listarPorSituacaoOperacional",
                         Equipamento.class)
                 .setParameter("situacao", situacao)
                 .getResultList();
@@ -84,5 +84,27 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
         if (equipamento != null) {
             entityManager.remove(equipamento);
         }
+    }
+
+    @Override
+    public List<Equipamento> listarDisponiveisEntre(LocalDate inicio, LocalDate fim) {
+        return entityManager
+                .createQuery(
+                        "SELECT e FROM Equipamento e " +
+                                "WHERE e.situacaoOperacional NOT IN :indisponiveis " +
+                                "AND NOT EXISTS (" +
+                                "SELECT 1 FROM Movimentacao m " +
+                                "WHERE m.equipamento = e " +
+                                "AND m.dataHoraRetirada <= :fimDoDia " +
+                                "AND COALESCE(m.dataDevolucao, m.dataPrevisaoDevolucao) >= :inicio) " +
+                                "ORDER BY e.nome",
+                        Equipamento.class)
+                .setParameter("indisponiveis", Arrays.asList(
+                        SituacaoOperacional.EM_MANUTENCAO,
+                        SituacaoOperacional.DANIFICADO,
+                        SituacaoOperacional.INDISPONIVEL))
+                .setParameter("fimDoDia", fim.atTime(LocalTime.MAX))
+                .setParameter("inicio", inicio)
+                .getResultList();
     }
 }

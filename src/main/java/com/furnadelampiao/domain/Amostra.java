@@ -21,7 +21,7 @@ public class Amostra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cod_campo", nullable = false, unique = true)
+    @Column(name = "cod_campo", nullable = false, unique = true, length = 30)
     private String codCampo;
 
     @Enumerated(EnumType.STRING)
@@ -44,9 +44,11 @@ public class Amostra {
 
     @Builder.Default
     @Column(name = "indicacao_material_perigoso", nullable = false)
-    private Boolean indicacaoMaterailPerigoso = false;
+    private Boolean indicacaoMaterialPerigoso = false;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "fotografia")
     private byte[] fotografia;
 
     @Column(columnDefinition = "TEXT")
