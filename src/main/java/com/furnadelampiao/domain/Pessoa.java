@@ -19,7 +19,7 @@ public class Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 50)
     private String nome;
 
     @Column(nullable = false, unique = true, length = 11)
@@ -28,7 +28,7 @@ public class Pessoa {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNasc;
 
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(nullable = false, unique = true, length = 50)
     private String email;
 
     @Column(length = 20)

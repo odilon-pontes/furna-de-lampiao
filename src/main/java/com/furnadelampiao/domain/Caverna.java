@@ -22,13 +22,13 @@ public class Caverna {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Column(name = "nome_oficial", nullable = false, length = 150)
+        @Column(name = "nome_oficial", nullable = false, length = 50)
         private String nomeOficial;
 
-        @Column(name = "cod_cadastro_ambiental", nullable = false, length = 50)
+        @Column(name = "cod_cadastro_ambiental", nullable = false, length = 30)
         private String codCadastroAmbiental;
 
-        @Column(name = "municipio", nullable = false, length = 100)
+        @Column(name = "municipio", nullable = false, length = 50)
         private String municipio;
 
         @Enumerated(EnumType.STRING)

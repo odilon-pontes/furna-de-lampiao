@@ -22,7 +22,7 @@ public class AutorizacaoAmbiental {
     @Column(name = "num", nullable = false)
     private Integer num;
 
-    @Column(name = "orgao_emissor", nullable = false, length = 200)
+    @Column(name = "orgao_emissor", nullable = false, length = 50)
     private String orgaoEmissor;
 
     @Column(name = "data_emissao", nullable = false)
@@ -35,7 +35,7 @@ public class AutorizacaoAmbiental {
     @Column(name = "situacao", nullable = false, length = 20)
     private SituacaoAutorizacao situacao;
 
-    @Column(name = "observacoes", length = 1000)
+    @Column(name = "observacoes", length = 500)
     private String observacoes;
 
     @Lob

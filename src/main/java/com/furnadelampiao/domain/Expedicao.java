@@ -26,7 +26,7 @@ public class Expedicao {
     @Column(name = "codigo", nullable = false, length = 30)
     private String codigo;
 
-    @Column(name = "titulo", nullable = false, length = 150)
+    @Column(name = "titulo", nullable = false, length = 50)
     private String titulo;
 
     @Column(name = "objetivo", length = 500)
