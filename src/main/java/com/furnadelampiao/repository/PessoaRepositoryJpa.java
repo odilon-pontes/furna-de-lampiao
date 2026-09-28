@@ -20,13 +20,19 @@ public class PessoaRepositoryJpa implements PessoaRepository {
 
     @Override
     public Pessoa buscarPorId(Long id) {
-        return entityManager.find(Pessoa.class, id);
+        return entityManager.find(
+                Pessoa.class,
+                id
+        );
     }
 
     @Override
     public List<Pessoa> listarTodos() {
         return entityManager
-                .createQuery("SELECT p FROM Pessoa p", Pessoa.class)
+                .createNamedQuery(
+                        "Pessoa.listarTodos",
+                        Pessoa.class
+                )
                 .getResultList();
     }
 
@@ -37,8 +43,10 @@ public class PessoaRepositoryJpa implements PessoaRepository {
 
     @Override
     public void removerPorId(Long id) {
-
-        Pessoa p = entityManager.find(Pessoa.class, id);
+        Pessoa p = entityManager.find(
+                Pessoa.class,
+                id
+        );
 
         if (p != null) {
             entityManager.remove(p);

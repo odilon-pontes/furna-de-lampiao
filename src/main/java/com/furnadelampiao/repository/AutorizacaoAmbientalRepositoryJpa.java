@@ -28,8 +28,8 @@ public class AutorizacaoAmbientalRepositoryJpa
     @Override
     public List<AutorizacaoAmbiental> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT a FROM AutorizacaoAmbiental a",
+                .createNamedQuery(
+                        "AutorizacaoAmbiental.listarTodos",
                         AutorizacaoAmbiental.class)
                 .getResultList();
     }
@@ -54,12 +54,8 @@ public class AutorizacaoAmbientalRepositoryJpa
             Long autorizacaoId) {
 
         return entityManager
-                .createQuery(
-                        "SELECT COUNT(a) " +
-                                "FROM AutorizacaoAmbiental a " +
-                                "WHERE a.expedicao.id = :expedicaoId " +
-                                "AND a.situacao = :situacao " +
-                                "AND (:autorizacaoId IS NULL OR a.id <> :autorizacaoId)",
+                .createNamedQuery(
+                        "AutorizacaoAmbiental.contarVigentesPorExpedicao",
                         Long.class)
                 .setParameter("expedicaoId", expedicaoId)
                 .setParameter("situacao", SituacaoAutorizacao.VIGENTE)

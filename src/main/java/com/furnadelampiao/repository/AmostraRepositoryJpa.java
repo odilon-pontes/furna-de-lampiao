@@ -26,8 +26,8 @@ public class AmostraRepositoryJpa implements AmostraRepository {
 
     @Override
     public List<Amostra> listarTodos() {
-        return entityManager.createQuery(
-                "SELECT a FROM Amostra a",
+        return entityManager.createNamedQuery(
+                "Amostra.listarTodos",
                 Amostra.class
         ).getResultList();
     }
@@ -50,10 +50,8 @@ public class AmostraRepositoryJpa implements AmostraRepository {
     public List<Amostra> buscarPorColetaCientificaId(
             Long coletaCientificaId) {
 
-        return entityManager.createQuery(
-                        "SELECT a " +
-                                "FROM Amostra a " +
-                                "WHERE a.coletaCientifica.id = :coletaId",
+        return entityManager.createNamedQuery(
+                        "Amostra.buscarPorColetaCientificaId",
                         Amostra.class
                 )
                 .setParameter("coletaId", coletaCientificaId)
@@ -64,10 +62,8 @@ public class AmostraRepositoryJpa implements AmostraRepository {
     public Amostra buscarPorCodigoCampo(String codCampo) {
 
         try {
-            return entityManager.createQuery(
-                            "SELECT a " +
-                                    "FROM Amostra a " +
-                                    "WHERE a.codCampo = :codCampo",
+            return entityManager.createNamedQuery(
+                            "Amostra.buscarPorCodigoCampo",
                             Amostra.class
                     )
                     .setParameter("codCampo", codCampo)

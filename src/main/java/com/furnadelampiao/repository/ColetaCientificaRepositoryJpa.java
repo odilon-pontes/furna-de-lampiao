@@ -23,9 +23,8 @@ public class ColetaCientificaRepositoryJpa implements ColetaCientificaRepository
     @Override
     public List<ColetaCientifica> buscarPorPesquisadorId(Long id) {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM ColetaCientifica c "+
-                                "WHERE c.pesquisador.id = :id",
+                .createNamedQuery(
+                        "ColetaCientifica.buscarPorPesquisadorId",
                         ColetaCientifica.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -34,9 +33,8 @@ public class ColetaCientificaRepositoryJpa implements ColetaCientificaRepository
     @Override
     public List<ColetaCientifica> buscarPorExpedicaoId(Long id) {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM ColetaCientifica c "+
-                                "WHERE c.expedicao.id = :id",
+                .createNamedQuery(
+                        "ColetaCientifica.buscarPorExpedicaoId",
                         ColetaCientifica.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -45,9 +43,8 @@ public class ColetaCientificaRepositoryJpa implements ColetaCientificaRepository
     @Override
     public List<ColetaCientifica> buscarPorSetorId(Long id) {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM ColetaCientifica c "+
-                                "WHERE c.setor.id = :id",
+                .createNamedQuery(
+                        "ColetaCientifica.buscarPorSetorId",
                         ColetaCientifica.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -56,9 +53,8 @@ public class ColetaCientificaRepositoryJpa implements ColetaCientificaRepository
     @Override
     public List<ColetaCientifica> buscarPorSituacaoValidacao(SituacaoValidacaoColeta situacao) {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM ColetaCientifica c "+
-                                "WHERE c.situacaoValidacao = :situacao",
+                .createNamedQuery(
+                        "ColetaCientifica.buscarPorSituacaoValidacao",
                         ColetaCientifica.class)
                 .setParameter("situacao", situacao)
                 .getResultList();
@@ -67,9 +63,8 @@ public class ColetaCientificaRepositoryJpa implements ColetaCientificaRepository
     @Override
     public List<ColetaCientifica> buscarPorMetodoEmpregado(MetodoEmpregado metodo) {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM ColetaCientifica c "+
-                                "WHERE c.metodoEmpregado = :metodo",
+                .createNamedQuery(
+                        "ColetaCientifica.buscarPorMetodoEmpregado",
                         ColetaCientifica.class)
                 .setParameter("metodo", metodo)
                 .getResultList();
@@ -78,9 +73,8 @@ public class ColetaCientificaRepositoryJpa implements ColetaCientificaRepository
     @Override
     public List<ColetaCientifica> buscarPorPeriodo(LocalDateTime inicio, LocalDateTime fim) {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM ColetaCientifica c "+
-                                "WHERE c.dataHoraColeta BETWEEN :inicio AND :fim",
+                .createNamedQuery(
+                        "ColetaCientifica.buscarPorPeriodo",
                         ColetaCientifica.class)
                 .setParameter("inicio", inicio)
                 .setParameter("fim", fim)
@@ -96,8 +90,8 @@ public class ColetaCientificaRepositoryJpa implements ColetaCientificaRepository
     @Override
     public List<ColetaCientifica> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT c FROM ColetaCientifica c ",
+                .createNamedQuery(
+                        "ColetaCientifica.listarTodos",
                         ColetaCientifica.class)
                 .getResultList();
     }
