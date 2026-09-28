@@ -32,8 +32,8 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
     @Override
     public List<Equipamento> listarTodos() {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Equipamento e",
+                .createNamedQuery(
+                        "Equipamento.listarTodos",
                         Equipamento.class)
                 .getResultList();
     }
@@ -42,9 +42,8 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
     public Equipamento buscarPorCodPatrimonial(String codPatrimonial) {
         try {
             return entityManager
-                    .createQuery(
-                            "SELECT e FROM Equipamento e " +
-                                    "WHERE e.codPatrimonial = :codPatrimonial",
+                    .createNamedQuery(
+                            "Equipamento.buscarPorCodPatrimonial",
                             Equipamento.class)
                     .setParameter("codPatrimonial", codPatrimonial)
                     .getSingleResult();
@@ -56,9 +55,8 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
     @Override
     public List<Equipamento> listarPorTipo(TipoEquipamento tipo) {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Equipamento e " +
-                                "WHERE e.tipo = :tipo",
+                .createNamedQuery(
+                        "Equipamento.listarPorTipo",
                         Equipamento.class)
                 .setParameter("tipo", tipo)
                 .getResultList();
@@ -67,9 +65,8 @@ public class EquipamentoRepositoryJpa implements EquipamentoRepository {
     @Override
     public List<Equipamento> listarPorSituacaoOperacional(SituacaoOperacional situacao) {
         return entityManager
-                .createQuery(
-                        "SELECT e FROM Equipamento e " +
-                                "WHERE e.situacaoOperacional = :situacao",
+                .createNamedQuery(
+                        "Equipamento.listarPorSituacaoOperacional",
                         Equipamento.class)
                 .setParameter("situacao", situacao)
                 .getResultList();

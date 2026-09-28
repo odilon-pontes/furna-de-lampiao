@@ -1,12 +1,9 @@
 package com.furnadelampiao;
 
+import com.furnadelampiao.domain.Amostra;
 import com.furnadelampiao.domain.Pessoa;
-import com.furnadelampiao.repository.GuiaEspeleologicoRepository;
-import com.furnadelampiao.repository.GuiaEspeleologicoRepositoryJpa;
-import com.furnadelampiao.repository.PesquisadorRepository;
-import com.furnadelampiao.repository.PesquisadorRepositoryJpa;
-import com.furnadelampiao.repository.PessoaRepository;
-import com.furnadelampiao.repository.PessoaRepositoryJpa;
+import com.furnadelampiao.repository.*;
+import com.furnadelampiao.service.AmostraService;
 import com.furnadelampiao.service.GuiaEspeleologicoService;
 import com.furnadelampiao.service.PesquisadorService;
 import com.furnadelampiao.service.PessoaService;
@@ -26,6 +23,10 @@ public class Main {
 
         PessoaRepository pessoaRepository = new PessoaRepositoryJpa(em);
 
+        AmostraRepository amostraRepository = new AmostraRepositoryJpa(em);
+
+        AmostraService amostraService = new AmostraService(em, amostraRepository);
+
         PesquisadorRepository pesquisadorRepository = new PesquisadorRepositoryJpa(em);
 
         GuiaEspeleologicoRepository guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
@@ -42,6 +43,12 @@ public class Main {
 
         for (Pessoa p : pessoas) {
             System.out.println(p.getNome());
+        }
+
+        List<Amostra> amostras = amostraService.listarTodos();
+
+        for(Amostra a : amostras) {
+            System.out.println(a.getCodCampo());
         }
 
         em.close();
