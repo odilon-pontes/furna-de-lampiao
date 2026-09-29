@@ -46,6 +46,7 @@ public class ParticipacaoService {
         return repository.listarTodos();
     }
 
+
     public List<Participacao> buscarPorPessoaId(Long id) {
         return repository.buscarPorPessoaId(id);
     }
@@ -97,5 +98,15 @@ public class ParticipacaoService {
         if (participacao.getPresencaConfirmada() == null) {
             participacao.setPresencaConfirmada(false);
         }
+    }
+
+    public Participacao buscarPorId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(
+                    "ID não pode ser nulo."
+            );
+        }
+
+        return repository.buscarPorId(id);
     }
 }

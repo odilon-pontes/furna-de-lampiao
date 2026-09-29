@@ -1,9 +1,11 @@
-
 package com.furnadelampiao.view;
 
+import com.furnadelampiao.domain.Endereco;
 import com.furnadelampiao.domain.Pessoa;
+import com.furnadelampiao.enums.UnidadeFederativa;
 import com.furnadelampiao.service.PessoaService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,9 +14,9 @@ public class PessoaView {
     private final PessoaService service;
     private final Scanner scanner;
 
-    public PessoaView(PessoaService service) {
+    public PessoaView(PessoaService service, Scanner scanner) {
         this.service = service;
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
     public void menu() {
@@ -24,7 +26,7 @@ public class PessoaView {
             System.out.println("\n=== PESSOAS ===");
             System.out.println("1 - Cadastrar");
             System.out.println("2 - Buscar por ID");
-            System.out.println("3 - Listar todos");
+            System.out.println("3 - Listar todas");
             System.out.println("4 - Atualizar");
             System.out.println("5 - Remover");
             System.out.println("0 - Voltar");
@@ -73,8 +75,7 @@ public class PessoaView {
     }
 
     private void buscarPorId() {
-        System.out.print("\nID da pessoa: ");
-        Long id = Long.parseLong(scanner.nextLine());
+        Long id = lerLong("\nID da pessoa: ");
 
         Pessoa pessoa = service.buscarPorId(id);
 
@@ -102,17 +103,16 @@ public class PessoaView {
     private void atualizar() {
         System.out.println("\n=== ATUALIZAR PESSOA ===");
 
-        System.out.print("ID da pessoa: ");
-        Long id = Long.parseLong(scanner.nextLine());
+        Long id = lerLong("ID da pessoa: ");
 
-        Pessoa pessoaExistente = service.buscarPorId(id);
+        Pessoa existente = service.buscarPorId(id);
 
-        if (pessoaExistente == null) {
+        if (existente == null) {
             System.out.println("Pessoa não encontrada.");
             return;
         }
 
-        exibirPessoa(pessoaExistente);
+        exibirPessoa(existente);
 
         System.out.println("\nInforme os novos dados:");
 
@@ -127,8 +127,7 @@ public class PessoaView {
     private void removerPorId() {
         System.out.println("\n=== REMOVER PESSOA ===");
 
-        System.out.print("ID da pessoa: ");
-        Long id = Long.parseLong(scanner.nextLine());
+        Long id = lerLong("ID da pessoa: ");
 
         Pessoa pessoa = service.buscarPorId(id);
 
@@ -160,7 +159,8 @@ public class PessoaView {
         String cpf = scanner.nextLine();
 
         System.out.print("Data de nascimento (AAAA-MM-DD): ");
-        String dataNascimento = scanner.nextLine();
+        String dataTexto = scanner.nextLine();
+        LocalDate dataNasc = dataTexto.isBlank() ? null : LocalDate.parse(dataTexto);
 
         System.out.print("E-mail: ");
         String email = scanner.nextLine();
@@ -168,14 +168,71 @@ public class PessoaView {
         System.out.print("Telefone: ");
         String telefone = scanner.nextLine();
 
+        Endereco endereco = lerEndereco();
+
+        System.out.print("Situação ativa? (S/N, vazio = sim): ");
+        String situacaoTexto = scanner.nextLine();
+        Boolean situacaoAtiva = situacaoTexto.isBlank() ? null : situacaoTexto.equalsIgnoreCase("S");
+
         return Pessoa.builder()
                 .nome(nome)
                 .cpf(cpf)
-                .dataNasc(java.time.LocalDate.parse(dataNascimento))
+                .dataNasc(dataNasc)
                 .email(email)
                 .telefone(telefone)
-                .situacaoAtiva(true)
+                .endereco(endereco)
+                .situacaoAtiva(situacaoAtiva)
                 .build();
+    }
+
+    private Endereco lerEndereco() {
+        System.out.println("-- Endereço --");
+
+        System.out.print("Logradouro: ");
+        String logradouro = scanner.nextLine();
+
+        System.out.print("Número: ");
+        String numero = scanner.nextLine();
+
+        System.out.print("Complemento (opcional): ");
+        String complemento = scanner.nextLine();
+
+        System.out.print("Bairro: ");
+        String bairro = scanner.nextLine();
+
+        System.out.print("Cidade: ");
+        String cidade = scanner.nextLine();
+
+        UnidadeFederativa uf = lerUf();
+
+        System.out.print("CEP: ");
+        String cep = scanner.nextLine();
+
+        return new Endereco(logradouro, numero, complemento.isBlank() ? null : complemento, bairro, cidade, uf, cep);
+    }
+
+    private UnidadeFederativa lerUf() {
+        System.out.println("UFs disponíveis:");
+
+        UnidadeFederativa[] ufs = UnidadeFederativa.values();
+
+        for (int i = 0; i < ufs.length; i++) {
+            System.out.println(i + " - " + ufs[i]);
+        }
+
+        System.out.print("Escolha a UF: ");
+        int indice = Integer.parseInt(scanner.nextLine());
+
+        if (indice < 0 || indice >= ufs.length) {
+            throw new IllegalArgumentException("UF inválida.");
+        }
+
+        return ufs[indice];
+    }
+
+    private Long lerLong(String mensagem) {
+        System.out.print(mensagem);
+        return Long.parseLong(scanner.nextLine());
     }
 
     private void exibirPessoa(Pessoa pessoa) {

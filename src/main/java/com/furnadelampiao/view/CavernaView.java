@@ -1,4 +1,3 @@
-
 package com.furnadelampiao.view;
 
 import com.furnadelampiao.domain.Caverna;
@@ -16,9 +15,9 @@ public class CavernaView {
     private final CavernaService service;
     private final Scanner scanner;
 
-    public CavernaView(CavernaService service) {
+    public CavernaView(CavernaService service, Scanner scanner) {
         this.service = service;
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
     public void menu() {
@@ -36,9 +35,9 @@ public class CavernaView {
             System.out.println("0 - Voltar");
             System.out.print("Opção: ");
 
-            opcao = Integer.parseInt(scanner.nextLine());
-
             try {
+                opcao = Integer.parseInt(scanner.nextLine());
+
                 switch (opcao) {
                     case 1:
                         cadastrar();
@@ -66,11 +65,21 @@ public class CavernaView {
                         break;
                     default:
                         System.out.println("Opção inválida.");
+                        pressionarEnter();
                         break;
                 }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Digite uma opção válida.");
+                opcao = -1;
+                pressionarEnter();
+
             } catch (IllegalArgumentException e) {
                 System.out.println("Erro: " + e.getMessage());
+                opcao = -1;
+                pressionarEnter();
             }
+
         } while (opcao != 0);
     }
 
@@ -82,20 +91,26 @@ public class CavernaView {
         service.cadastrar(caverna);
 
         System.out.println("Caverna cadastrada com sucesso.");
+
+        pressionarEnter();
     }
 
     private void buscarPorId() {
         System.out.print("\nID da caverna: ");
+
         Long id = Long.parseLong(scanner.nextLine());
 
         Caverna caverna = service.buscarPorId(id);
 
         if (caverna == null) {
             System.out.println("Caverna não encontrada.");
+            pressionarEnter();
             return;
         }
 
         exibirCaverna(caverna);
+
+        pressionarEnter();
     }
 
     private void listarTodos() {
@@ -105,10 +120,13 @@ public class CavernaView {
 
         if (cavernas.isEmpty()) {
             System.out.println("Nenhuma caverna cadastrada.");
+            pressionarEnter();
             return;
         }
 
         cavernas.forEach(this::exibirCaverna);
+
+        pressionarEnter();
     }
 
     private void listarPorUf() {
@@ -119,36 +137,47 @@ public class CavernaView {
         List<Caverna> cavernas = service.listarPorUf(uf);
 
         if (cavernas.isEmpty()) {
-            System.out.println("Nenhuma caverna encontrada para a UF informada.");
+            System.out.println(
+                    "Nenhuma caverna encontrada para a UF informada.");
+            pressionarEnter();
             return;
         }
 
         cavernas.forEach(this::exibirCaverna);
+
+        pressionarEnter();
     }
 
     private void listarComAcessoPermitido() {
         System.out.println("\n=== CAVERNAS COM ACESSO PERMITIDO ===");
 
-        List<Caverna> cavernas = service.listarComAcessoPermitido();
+        List<Caverna> cavernas =
+                service.listarComAcessoPermitido();
 
         if (cavernas.isEmpty()) {
-            System.out.println("Nenhuma caverna com acesso permitido.");
+            System.out.println(
+                    "Nenhuma caverna com acesso permitido.");
+            pressionarEnter();
             return;
         }
 
         cavernas.forEach(this::exibirCaverna);
+
+        pressionarEnter();
     }
 
     private void atualizar() {
         System.out.println("\n=== ATUALIZAR CAVERNA ===");
 
         System.out.print("ID da caverna: ");
+
         Long id = Long.parseLong(scanner.nextLine());
 
         Caverna caverna = service.buscarPorId(id);
 
         if (caverna == null) {
             System.out.println("Caverna não encontrada.");
+            pressionarEnter();
             return;
         }
 
@@ -157,39 +186,48 @@ public class CavernaView {
         System.out.println("\nInforme os novos dados:");
 
         Caverna dados = lerDadosCaverna();
+
         dados.setId(id);
 
         service.atualizar(dados);
 
         System.out.println("Caverna atualizada com sucesso.");
+
+        pressionarEnter();
     }
 
     private void removerPorId() {
         System.out.println("\n=== REMOVER CAVERNA ===");
 
         System.out.print("ID da caverna: ");
+
         Long id = Long.parseLong(scanner.nextLine());
 
         Caverna caverna = service.buscarPorId(id);
 
         if (caverna == null) {
             System.out.println("Caverna não encontrada.");
+            pressionarEnter();
             return;
         }
 
         exibirCaverna(caverna);
 
         System.out.print("Confirma a remoção? (S/N): ");
+
         String confirmacao = scanner.nextLine();
 
         if (!confirmacao.equalsIgnoreCase("S")) {
             System.out.println("Operação cancelada.");
+            pressionarEnter();
             return;
         }
 
         service.removerPorId(id);
 
         System.out.println("Caverna removida com sucesso.");
+
+        pressionarEnter();
     }
 
     private Caverna lerDadosCaverna() {
@@ -205,36 +243,46 @@ public class CavernaView {
         UnidadeFederativa uf = lerUf();
 
         System.out.print("Latitude: ");
-        BigDecimal latitude = new BigDecimal(scanner.nextLine());
+        BigDecimal latitude =
+                new BigDecimal(scanner.nextLine().replace(",", "."));
 
         System.out.print("Longitude: ");
-        BigDecimal longitude = new BigDecimal(scanner.nextLine());
+        BigDecimal longitude =
+                new BigDecimal(scanner.nextLine().replace(",", "."));
 
         System.out.print("Datum geodésico: ");
         String datumGeodesico = scanner.nextLine();
 
         System.out.print("Altitude: ");
-        BigDecimal altitude = new BigDecimal(scanner.nextLine());
+        BigDecimal altitude =
+                new BigDecimal(scanner.nextLine().replace(",", "."));
 
         System.out.print("Extensão: ");
-        BigDecimal extensao = new BigDecimal(scanner.nextLine());
+        BigDecimal extensao =
+                new BigDecimal(scanner.nextLine().replace(",", "."));
 
-        System.out.print("Data da última inspeção (AAAA-MM-DD): ");
+        System.out.print(
+                "Data da última inspeção (AAAA-MM-DD): ");
+
         String dataTexto = scanner.nextLine();
 
-        LocalDate dataUltimaInspecao = dataTexto.isBlank()
-                ? null
-                : LocalDate.parse(dataTexto);
+        LocalDate dataUltimaInspecao =
+                dataTexto.isBlank()
+                        ? null
+                        : LocalDate.parse(dataTexto);
 
-        System.out.print("Acesso atualmente permitido? (S/N): ");
+        System.out.print(
+                "Acesso atualmente permitido? (S/N): ");
+
         boolean acessoPermitido =
                 scanner.nextLine().equalsIgnoreCase("S");
 
-        Localizacao coordenadas = Localizacao.builder()
-                .latitude(latitude)
-                .longitude(longitude)
-                .datumGeodesico(datumGeodesico)
-                .build();
+        Localizacao coordenadas =
+                Localizacao.builder()
+                        .latitude(latitude)
+                        .longitude(longitude)
+                        .datumGeodesico(datumGeodesico)
+                        .build();
 
         return Caverna.builder()
                 .nomeOficial(nomeOficial)
@@ -252,14 +300,17 @@ public class CavernaView {
     private UnidadeFederativa lerUf() {
         System.out.println("UFs disponíveis:");
 
-        UnidadeFederativa[] ufs = UnidadeFederativa.values();
+        UnidadeFederativa[] ufs =
+                UnidadeFederativa.values();
 
         for (int i = 0; i < ufs.length; i++) {
             System.out.println(i + " - " + ufs[i]);
         }
 
         System.out.print("Escolha a UF: ");
-        int indice = Integer.parseInt(scanner.nextLine());
+
+        int indice =
+                Integer.parseInt(scanner.nextLine());
 
         if (indice < 0 || indice >= ufs.length) {
             throw new IllegalArgumentException("UF inválida.");
@@ -270,22 +321,46 @@ public class CavernaView {
 
     private void exibirCaverna(Caverna caverna) {
         System.out.println("\n------------------------------");
+
         System.out.println("ID: " + caverna.getId());
-        System.out.println("Nome oficial: " + caverna.getNomeOficial());
-        System.out.println("Código ambiental: " + caverna.getCodCadastroAmbiental());
-        System.out.println("Município: " + caverna.getMunicipio());
+        System.out.println(
+                "Nome oficial: " + caverna.getNomeOficial());
+        System.out.println(
+                "Código ambiental: "
+                        + caverna.getCodCadastroAmbiental());
+        System.out.println(
+                "Município: " + caverna.getMunicipio());
         System.out.println("UF: " + caverna.getUf());
-        System.out.println("Altitude: " + caverna.getAltitude());
-        System.out.println("Extensão: " + caverna.getExtensao());
-        System.out.println("Última inspeção: " + caverna.getDataUltimaInspecao());
-        System.out.println("Acesso permitido: " + caverna.getAcessoAtualmentePermitido());
+        System.out.println(
+                "Altitude: " + caverna.getAltitude());
+        System.out.println(
+                "Extensão: " + caverna.getExtensao());
+        System.out.println(
+                "Última inspeção: "
+                        + caverna.getDataUltimaInspecao());
+        System.out.println(
+                "Acesso permitido: "
+                        + caverna.getAcessoAtualmentePermitido());
 
         if (caverna.getCoordenadas() != null) {
-            System.out.println("Latitude: " + caverna.getCoordenadas().getLatitude());
-            System.out.println("Longitude: " + caverna.getCoordenadas().getLongitude());
-            System.out.println("Datum geodésico: " + caverna.getCoordenadas().getDatumGeodesico());
+            System.out.println(
+                    "Latitude: "
+                            + caverna.getCoordenadas().getLatitude());
+            System.out.println(
+                    "Longitude: "
+                            + caverna.getCoordenadas().getLongitude());
+            System.out.println(
+                    "Datum geodésico: "
+                            + caverna.getCoordenadas()
+                            .getDatumGeodesico());
         }
 
         System.out.println("------------------------------");
+    }
+
+    private void pressionarEnter() {
+        System.out.println();
+        System.out.println("Pressione ENTER para continuar...");
+        scanner.nextLine();
     }
 }
