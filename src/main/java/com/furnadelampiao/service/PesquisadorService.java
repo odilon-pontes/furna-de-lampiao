@@ -77,4 +77,14 @@ public class PesquisadorService {
                     "Valor diário da bolsa não pode ser negativo");
         }
     }
+
+    public Pesquisador buscarPorId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(
+                    "ID não pode ser nulo."
+            );
+        }
+
+        return repository.buscarPorId(id);
+    }
 }
