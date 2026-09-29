@@ -1,57 +1,23 @@
-package com.furnadelampiao;
 
-import com.furnadelampiao.domain.Amostra;
-import com.furnadelampiao.domain.Pessoa;
+        package com.furnadelampiao;
+
 import com.furnadelampiao.repository.*;
-import com.furnadelampiao.service.AmostraService;
-import com.furnadelampiao.service.GuiaEspeleologicoService;
-import com.furnadelampiao.service.PesquisadorService;
-import com.furnadelampiao.service.PessoaService;
+import com.furnadelampiao.service.*;
+import com.furnadelampiao.view.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("furnaPU");
+        MenuView menuView = new MenuView(scanner);
 
-        EntityManager em = emf.createEntityManager();
+        menuView.menu();
 
-        PessoaRepository pessoaRepository = new PessoaRepositoryJpa(em);
-
-        AmostraRepository amostraRepository = new AmostraRepositoryJpa(em);
-
-        AmostraService amostraService = new AmostraService(em, amostraRepository);
-
-        PesquisadorRepository pesquisadorRepository = new PesquisadorRepositoryJpa(em);
-
-        GuiaEspeleologicoRepository guiaEspeleologicoRepository = new GuiaEspeleologicoRepositoryJpa(em);
-
-        PessoaService pessoaService = new PessoaService(em, pessoaRepository);
-
-        PesquisadorService pesquisadorService = new PesquisadorService(em, pesquisadorRepository);
-
-        GuiaEspeleologicoService guiaEspeleologicoService = new GuiaEspeleologicoService(
-                em,
-                guiaEspeleologicoRepository);
-
-        List<Pessoa> pessoas = pessoaService.listarTodos();
-
-        for (Pessoa p : pessoas) {
-            System.out.println(p.getNome());
-        }
-
-        List<Amostra> amostras = amostraService.listarTodos();
-
-        for(Amostra a : amostras) {
-            System.out.println(a.getCodCampo());
-        }
-
-        em.close();
-        emf.close();
     }
 }
